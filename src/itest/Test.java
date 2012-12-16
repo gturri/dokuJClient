@@ -16,6 +16,9 @@ public class Test {
 	private static String _url = "http://localhost/dokuwiki/lib/exe/xmlrpc.php";
 	private static String _user = "xmlrpcuser";
 	private static String _password = "xmlrpc";
+	private static String _wikiVersion = "Release 2012-10-13 \"Adora Belle\"";
+	private static String _wikiTitle = "test xmlrpc";
+	private static Integer _apiVersion = 7;
 
 	private DokuJClient _client;
 
@@ -26,13 +29,12 @@ public class Test {
 
 	@org.junit.Test
 	public void getVersion() throws Exception {
-		assertEquals("Release 2012-10-13 \"Adora Belle\"", _client.getVersion());
+		assertEquals(_wikiVersion, _client.getVersion());
 	}
 
 	@org.junit.Test
 	public void getXMLRPCAPIVersion() throws Exception {
-		Integer adoraBellAPIVersion = 7;
-		assertEquals(adoraBellAPIVersion, _client.getXMLRPCAPIVersion());
+		assertEquals(_apiVersion, _client.getXMLRPCAPIVersion());
 	}
 
 	@org.junit.Test
@@ -102,11 +104,11 @@ public class Test {
 	
 	@org.junit.Test
 	public void genericQueryWithoutParameters() throws XmlRpcException {
-		assertEquals("Release 2012-10-13 \"Adora Belle\"", _client.genericQuery("dokuwiki.getVersion"));		
+		assertEquals(_wikiVersion, _client.genericQuery("dokuwiki.getVersion"));		
 	}
 	
 	@org.junit.Test
 	public void getTitle() throws XmlRpcException {
-		assertEquals("test xmlrpc", _client.getTitle());		
+		assertEquals(_wikiTitle, _client.getTitle());		
 	}
 }
