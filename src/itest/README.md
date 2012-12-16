@@ -1,12 +1,8 @@
 Running integration tests
 =========================
 
-Tests will try to connect to an instance of Dokuwiki. To run tests you should:
-* Retrieve a version of [Adora Belle](www.splitbrain.org/_media/projects/dokuwiki/dokuwiki-2012-10-13.tgz)
-* Install it so that its xml-rpc interface is available at http://localhost/dokuwiki/lib/exe/xmlrpc.php, with the login "xmlrpcuser" and the password "xmlrpc".
-* Set the wiki title is "test xmlrpc"
-* Replace dokuwiki data/pages directory by the src/itest/data/pages one
-
-TODO
-====
-Simplify this installation. Eg: distribute relevant conf files, and a script to install everything
+Tests will try to connect to an instance of Dokuwiki.
+To set up such an instance you should run the installTestEnvironment.sh script.
+This script is meant to be run from src/itest (otherwise it may not find some file it needs)
+You may need to run it as root since it will try to write files in your server filesystem and
+give ownership to its user.

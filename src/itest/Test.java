@@ -13,7 +13,7 @@ import dw.DokuJClient;
 import dw.Page;
 
 public class Test {
-	private static String _url = "http://localhost/dokuwiki/lib/exe/xmlrpc.php";
+	private static String _url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";
 	private static String _user = "xmlrpcuser";
 	private static String _password = "xmlrpc";
 	private static String _wikiVersion = "Release 2012-10-13 \"Adora Belle\"";
