@@ -5,7 +5,7 @@ Java client for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrp
 
 Dependencies
 ============
-(Apache XML-RPC)[http://ws.apache.org/xmlrpc/download.html]
+[Apache XML-RPC](http://ws.apache.org/xmlrpc/download.html)
 
 More precisely:
   * ws-common-util.jar
