@@ -5,12 +5,14 @@ import static org.junit.Assert.*;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.xmlrpc.XmlRpcException;
 
 import dw.DokuJClient;
 import dw.Page;
+import dw.SearchResult;
 
 public class Test {
 	private static String _url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";
@@ -123,5 +125,17 @@ public class Test {
 		assertEquals(content1, _client.getPage(page));
 		_client.putPage(page, content2);
 		assertEquals(content2, _client.getPage(pageId));
+	}
+	
+	@org.junit.Test
+	public void search() throws Exception {
+		List<SearchResult> results = _client.search("amet");
+		
+		assertEquals(2, results.size());
+		
+		assertEquals("nssearch:page3", results.get(0).page().id());
+		assertEquals((Integer) 2, results.get(0).score());
+		assertEquals("nssearch:start", results.get(1).page().id());
+		assertEquals((Integer) 1, results.get(1).score());
 	}
 }

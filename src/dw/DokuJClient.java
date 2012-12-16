@@ -99,6 +99,26 @@ public class DokuJClient {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, attributes});
 	}
+
+	public List<SearchResult> search(String pattern) throws XmlRpcException{
+		List<SearchResult> searchResults = new ArrayList<SearchResult>();
+		
+		Object[] results = (Object[]) genericQuery("dokuwiki.search", pattern);
+		for(Object result : results){
+			@SuppressWarnings("unchecked")
+			Map<String, Object> mapResult = (Map<String, Object>) result;
+			String id = (String) mapResult.get("id");
+			Integer rev = (Integer) mapResult.get("rev");
+			Integer mtime = (Integer) mapResult.get("mtime");
+			Integer score = (Integer) mapResult.get("score");
+			String snippet = (String) mapResult.get("snippet");
+			Integer size = (Integer) mapResult.get("size");
+			Page page = new Page(id, rev, mtime, size);
+			SearchResult sr = new SearchResult(page, score, snippet);
+			searchResults.add(sr);
+		}
+		return searchResults;
+	}
 	
 	public Object genericQuery(String action, Object param) throws XmlRpcException{
 		return genericQuery(action, new Object[]{param});

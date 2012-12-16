@@ -3,7 +3,9 @@ serverFileSystemRoot=/var/www/
 #Owner of the files (to make sure the instance of dokuwiki can ediable its pages)
 serverFileSystemOwner=www-data
 #Shouldn't be changed since itests try to connect to this url
-destDir=$serverFileSystemRoot/dokuwikiITestsForXmlRpcClient
+baseUrl=http://localhost
+dirName=dokuwikiITestsForXmlRpcClient
+destDir=$serverFileSystemRoot/$dirName
 
 dwVersion=dokuwiki-2012-10-13
 installDir=tmpForInstallation
@@ -32,5 +34,11 @@ echo "Configuring the wiki"
 cp ../$relativeTestFileDir/conf/* $destDir/conf
 cp -r ../$relativeTestFileDir/data/pages/* $destDir/data/pages
 chown -R $serverFileSystemOwner $destDir
+
+echo "Running the indexer"
+wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:start
+wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page1
+wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page2
+wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page3
 
 echo Done. You may want to remove $installDir
