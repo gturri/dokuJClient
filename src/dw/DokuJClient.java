@@ -89,6 +89,17 @@ public class DokuJClient {
 		return genericQuery(action, params);
 	}
 	
+	public void putPage(Page page, String rawWikiText)throws XmlRpcException {
+		putPage(page.id(), rawWikiText);
+	}
+	
+	public void putPage(String pageId, String rawWikiText)throws XmlRpcException {
+		//TODO: check returned value (documentation says it's a boolean, but in practice it seems to be an int
+		//TODO: Let use summary and isMinor
+		Map<String, Object> attributes = new HashMap<String, Object>();
+		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, attributes});
+	}
+	
 	public Object genericQuery(String action, Object param) throws XmlRpcException{
 		return genericQuery(action, new Object[]{param});
 	}
