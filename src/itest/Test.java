@@ -111,4 +111,11 @@ public class Test {
 	public void getTitle() throws XmlRpcException {
 		assertEquals(_wikiTitle, _client.getTitle());		
 	}
+	
+	@org.junit.Test
+	public void getPage() throws XmlRpcException {
+		String content = _client.getPage("ns1:dummy");
+		String expectedContent = "dummy page inside ns1";
+		assertEquals(expectedContent, content);
+	}
 }

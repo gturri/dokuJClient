@@ -76,6 +76,10 @@ public class DokuJClient {
 		return (String) genericQuery("dokuwiki.getTitle");
 	}
 	
+	public String getPage(String pageId) throws XmlRpcException{
+		return (String) _client.execute("wiki.getPage", new Object[]{pageId});
+	}
+	
 	public Object genericQuery(String action) throws XmlRpcException {
 		Object[] params = new Object[]{};
 		return genericQuery(action, params);
