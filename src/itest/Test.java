@@ -104,4 +104,9 @@ public class Test {
 	public void genericQueryWithoutParameters() throws XmlRpcException {
 		assertEquals("Release 2012-10-13 \"Adora Belle\"", _client.genericQuery("dokuwiki.getVersion"));		
 	}
+	
+	@org.junit.Test
+	public void getTitle() throws XmlRpcException {
+		assertEquals("test xmlrpc", _client.getTitle());		
+	}
 }
