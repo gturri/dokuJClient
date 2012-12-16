@@ -114,8 +114,13 @@ public class Test {
 	
 	@org.junit.Test
 	public void getPage() throws XmlRpcException {
-		String content = _client.getPage("ns1:dummy");
+		String pageId = "ns1:dummy";
+		
 		String expectedContent = "dummy page inside ns1";
-		assertEquals(expectedContent, content);
+		assertEquals(expectedContent, _client.getPage(pageId));
+		
+		Page page = new Page(pageId);
+		assertEquals(expectedContent, _client.getPage(page));
+		
 	}
 }
