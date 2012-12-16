@@ -30,21 +30,15 @@ public class DokuJClient {
 	}
     
     public Integer getTime() throws XmlRpcException{
-    	Object[] params = new Object[]{};
-		Integer result = (Integer) _client.execute("dokuwiki.getTime", params);
-		return result;
+    	return (Integer) genericQuery("dokuwiki.getTime");
     }
     
     public Integer getXMLRPCAPIVersion() throws XmlRpcException{
-    	Object[] params = new Object[]{};
-		Integer result = (Integer) _client.execute("dokuwiki.getXMLRPCAPIVersion", params);
-		return result;
+		return (Integer) genericQuery("dokuwiki.getXMLRPCAPIVersion");
     }
     
 	public String getVersion() throws XmlRpcException{
-		Object[] params = new Object[]{};
-		String result = (String) _client.execute("dokuwiki.getVersion", params);
-		return result;
+		return (String) genericQuery("dokuwiki.getVersion");
 	}
 	
 	public Set<Page> getPages(String namespace) throws XmlRpcException{
