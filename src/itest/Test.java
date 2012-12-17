@@ -137,6 +137,22 @@ public class Test {
 		_client.putPage(page, content2);
 		assertEquals(content2, _client.getPage(pageId));
 	}
+
+	@org.junit.Test
+	public void appendPage() throws XmlRpcException {
+		String pageId = "ns1:dummy";
+		Page page = new Page(pageId);
+		String initialContent = "put page in a clean state.";
+		String append1 = "text appended.";
+		String append2 = "final text";
+		_client.putPage(pageId, initialContent);
+		
+		_client.appendPage(pageId, append1);
+		assertEquals(initialContent + append1, _client.getPage(page));
+		
+		_client.appendPage(page, append2);
+		assertEquals(initialContent + append1 + append2, _client.getPage(page));
+	}
 	
 	@org.junit.Test
 	public void search() throws Exception {

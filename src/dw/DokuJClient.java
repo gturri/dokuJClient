@@ -72,6 +72,17 @@ public class DokuJClient {
 		return (String) genericQuery("dokuwiki.getTitle");
 	}
 	
+	public void appendPage(Page page, String rawWikiText) throws XmlRpcException{
+		appendPage(page.id(), rawWikiText);
+	}
+	
+    public void appendPage(String pageId, String rawWikiText) throws XmlRpcException{
+		//TODO: check returned value
+    	//TODO: Let use summary and isMinor
+		Map<String, Object> attributes = new HashMap<String, Object>();
+		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, attributes});
+	}
+	
 	public String getPage(Page page) throws XmlRpcException{
 		return getPage(page.id());
 	}
@@ -121,6 +132,11 @@ public class DokuJClient {
 	}
 	
 	public Object genericQuery(String action, Object[] params) throws XmlRpcException{
-		return _client.execute(action, params);
+		try {
+			return _client.execute(action, params);
+		} catch (XmlRpcException e){
+			System.out.println(e.toString());
+			throw e;
+		}
 	}
 }
