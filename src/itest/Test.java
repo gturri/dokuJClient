@@ -41,17 +41,27 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void getTime() throws Exception {
-		int currentServerTime = _client.getTime();
-		Thread.sleep(3000);
-		int futureServerTime = _client.getTime();
-
-		// We should expect that futureServerTime = currentServerTime + 3
-		// but it could easily be +2 or +3 because it's rounded to second,
-		// and I don't want he test to fail just because we have latency
-		// on the network
-		assertTrue(futureServerTime >= currentServerTime + 2);
-		assertTrue(futureServerTime < currentServerTime + 10);
+	public void time() throws Exception {
+		//We proceed as follow to avoid having to use Sleep:
+		// * edit a page to update its modification time and retrieve it
+		// * retrieve server time
+		// * edit the page again and retrieve
+		// * make sure times are consistent
+		Page page = _client.getPages("singlePage").get(0);
+		_client.putPage(page, "text before (time test)");
+		
+		page = _client.getPages("singlePage").get(0);
+		Integer timeBefore = page.mtime();
+		
+		Integer serverTime = _client.getTime();
+		
+		_client.putPage(page, "text after (time test)");
+		page = _client.getPages("singlePage").get(0);
+		Integer timeAfter = page.mtime();
+		
+		assertTrue(0 < timeBefore);
+		assertTrue(timeBefore <= serverTime);
+		assertTrue(serverTime <= timeAfter);		
 	}
 
 	@org.junit.Test
