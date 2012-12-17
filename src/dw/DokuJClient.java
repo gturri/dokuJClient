@@ -4,10 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.xmlrpc.*;
 import org.apache.xmlrpc.client.XmlRpcClient;
@@ -41,14 +39,12 @@ public class DokuJClient {
 		return (String) genericQuery("dokuwiki.getVersion");
 	}
 	
-	public Set<Page> getPages(String namespace) throws XmlRpcException{
+	public List<Page> getPages(String namespace) throws XmlRpcException{
 		return getPages(namespace, new HashMap<String, Object>());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Set<Page> getPages(String namespace, Map<String, Object> options) throws XmlRpcException{
-		Set<Page> res = null;
-
+	public List<Page> getPages(String namespace, Map<String, Object> options) throws XmlRpcException{
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
@@ -60,7 +56,7 @@ public class DokuJClient {
 			resList.add((HashMap<String, Object>) o);
 		}
 
-		res = new HashSet<Page>();
+		List<Page> res = new ArrayList<Page>();
 		for ( HashMap<String, Object> pageData : resList){
 			Page page = new Page((String) pageData.get("id"),
 					(Integer) pageData.get("rev"),

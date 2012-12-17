@@ -3,6 +3,7 @@ package itest;
 import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -55,11 +56,11 @@ public class Test {
 
 	@org.junit.Test
 	public void getPageListInAFlatNamespace() throws Exception {
-		Set<String> expectedPages = new HashSet<String>();
+		List<String> expectedPages = new ArrayList<String>();
 		expectedPages.add("ns1:start");
 		expectedPages.add("ns1:dummy");
 
-		Set<Page> actualPages = _client.getPages("ns1");
+		List<Page> actualPages = _client.getPages("ns1");
 
 		assertEquals(expectedPages.size(), actualPages.size());
 		for (Page page : actualPages) {
@@ -76,7 +77,7 @@ public class Test {
 		expectedPages.add("nswithanotherns:otherns:page");
 
 		HashMap<String, Object> options = new HashMap<String, Object>();
-		Set<Page> actualPages = _client.getPages("nswithanotherns", options);
+		List<Page> actualPages = _client.getPages("nswithanotherns", options);
 
 		assertEquals(expectedPages.size(), actualPages.size());
 		for (Page page : actualPages) {
