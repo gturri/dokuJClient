@@ -71,7 +71,23 @@ public class DokuJClient {
 		return res;
 	}
 	
-	public String getTitle() throws DokuException {
+	public void lock(String pageId) throws DokuException{
+		List<String> pageIds = new ArrayList<String>();
+		pageIds.add(pageId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lock", pageIds);
+		genericQuery("dokuwiki.setLocks", params);
+	}
+	
+	public void unlock(String pageId) throws DokuException{
+		List<String> pageIds = new ArrayList<String>();
+		pageIds.add(pageId);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("unlock", pageIds);
+		genericQuery("dokuwiki.setLocks", params);
+	}
+	
+	public String getTitle() throws DokuException{
 		return (String) genericQuery("dokuwiki.getTitle");
 	}
 	

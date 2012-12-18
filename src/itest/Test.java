@@ -12,6 +12,7 @@ import java.util.Set;
 import dw.DokuJClient;
 import dw.Page;
 import dw.SearchResult;
+import dw.exception.DokuException;
 
 public class Test {
 	private static String _url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";
@@ -106,6 +107,31 @@ public class Test {
 		}
 	}
 
+	@org.junit.Test
+	public void iCanPlayWihLockToAllowYouToWriteOrNot() throws Exception{
+		String pageId  = "ns1:start";
+		String initialContent = _client.getPage(pageId);
+		String addedContent = "added";
+		
+		_client.lock(pageId);
+		
+		//Make sure you can't write
+		DokuJClient otherClient = new DokuJClient(_url, "writeruser", "writer");
+		try {
+			otherClient.appendPage(pageId, addedContent);
+		} catch (DokuException e){
+			
+		}
+		String currentContent = _client.getPage(pageId);
+		assertEquals(initialContent, currentContent);
+		
+		//Now check I can remove my lock and let you write
+		_client.unlock("ns1:start");
+		otherClient.appendPage(pageId, addedContent);
+		currentContent = _client.getPage(pageId);
+		assertEquals(initialContent + addedContent, currentContent);
+	}
+	
 	@org.junit.Test
 	public void genericQueryWithParameters() throws Exception {
 		Object[] params = new Object[] { "ns1:start" };
