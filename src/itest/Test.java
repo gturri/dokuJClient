@@ -132,6 +132,30 @@ public class Test {
 		assertEquals(initialContent + addedContent, currentContent);
 	}
 	
+	//This doesn't really test the client, but it documents Dokuwiki's behavior,
+	//hence it documents a non-intuitive behavior of the client
+	@org.junit.Test
+	public void iUnlockAutomaticallyWhenIWrite() throws Exception {
+		String pageId  = "ns1:start";
+		String initialContent = "init";
+		String addedContent1 = "added1";
+		String addedContent2 = "added2";
+		
+		//Get a known state
+		_client.putPage(pageId, initialContent);
+		
+		_client.lock(pageId);
+		
+		//Now I write to let Dokuwiki unlock the page
+		_client.appendPage(pageId, addedContent1);
+		
+		//And I make sure everyone may now write
+		DokuJClient otherClient = new DokuJClient(_url, "writeruser", "writer");
+		otherClient.appendPage(pageId, addedContent2);
+		String currentContent = _client.getPage(pageId);
+		assertEquals(initialContent + addedContent1 + addedContent2, currentContent);
+	}
+	
 	@org.junit.Test
 	public void genericQueryWithParameters() throws Exception {
 		Object[] params = new Object[] { "ns1:start" };
