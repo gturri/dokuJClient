@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xmlrpc.XmlRpcException;
-
 import dw.DokuJClient;
 import dw.Page;
 import dw.SearchResult;
@@ -109,24 +107,24 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void genericQueryWithParameters() throws XmlRpcException {
+	public void genericQueryWithParameters() throws Exception {
 		Object[] params = new Object[] { "ns1:start" };
 		//255 because we make the query as an admin
 		assertEquals(255, _client.genericQuery("wiki.aclCheck", params));
 	}
 	
 	@org.junit.Test
-	public void genericQueryWithoutParameters() throws XmlRpcException {
+	public void genericQueryWithoutParameters() throws Exception {
 		assertEquals(_wikiVersion, _client.genericQuery("dokuwiki.getVersion"));		
 	}
 	
 	@org.junit.Test
-	public void getTitle() throws XmlRpcException {
+	public void getTitle() throws Exception {
 		assertEquals(_wikiTitle, _client.getTitle());		
 	}
 	
 	@org.junit.Test
-	public void putAndGetPage() throws XmlRpcException {
+	public void putAndGetPage() throws Exception {
 		String pageId = "ns1:dummy";
 		Page page = new Page(pageId);
 		String content1 = "content1";
@@ -139,7 +137,7 @@ public class Test {
 	}
 
 	@org.junit.Test
-	public void appendPage() throws XmlRpcException {
+	public void appendPage() throws Exception {
 		String pageId = "ns1:dummy";
 		Page page = new Page(pageId);
 		String initialContent = "put page in a clean state.";
