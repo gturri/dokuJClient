@@ -102,27 +102,15 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void iCanPlayWihLockToAllowYouToWriteOrNot() throws Exception{
-		String pageId  = "ns1:start";
-		String initialContent = _client.getPage(pageId);
-		String addedContent = "added";
-		
+		String pageId  = "ns1:start";		
 		_client.lock(pageId);
 		
 		//Make sure you can't write
 		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
-		try {
-			otherClient.appendPage(pageId, addedContent);
-		} catch (DokuException e){
-			
-		}
-		String currentContent = _client.getPage(pageId);
-		assertEquals(initialContent, currentContent);
-		
-		//Now check I can remove my lock and let you write
+		TestHelper.assertPageIsLockForMe(pageId, otherClient);
+				
 		_client.unlock("ns1:start");
-		otherClient.appendPage(pageId, addedContent);
-		currentContent = _client.getPage(pageId);
-		assertEquals(initialContent + addedContent, currentContent);
+		TestHelper.assertPageIsUnlockForMe(pageId, otherClient);
 	}
 	
 	//This doesn't really test the client, but it documents Dokuwiki's behavior,
