@@ -12,30 +12,24 @@ import java.util.Set;
 import dw.DokuJClient;
 import dw.Page;
 import dw.SearchResult;
+import dw.exception.DokuException;
 
-public class Test {
-	private static String _url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";
-	private static String _user = "xmlrpcuser";
-	private static String _password = "xmlrpc";
-	private static String _wikiVersion = "Release 2012-10-13 \"Adora Belle\"";
-	private static String _wikiTitle = "test xmlrpc";
-	private static Integer _apiVersion = 7;
-
+public class T_XmlRpcQueries {
 	private DokuJClient _client;
 
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
-		_client = new DokuJClient(_url, _user, _password);
+		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 	}
 
 	@org.junit.Test
 	public void getVersion() throws Exception {
-		assertEquals(_wikiVersion, _client.getVersion());
+		assertEquals(TestParams.wikiVersion, _client.getVersion());
 	}
 
 	@org.junit.Test
 	public void getXMLRPCAPIVersion() throws Exception {
-		assertEquals(_apiVersion, _client.getXMLRPCAPIVersion());
+		assertEquals(TestParams.apiVersion, _client.getXMLRPCAPIVersion());
 	}
 
 	@org.junit.Test
@@ -107,6 +101,55 @@ public class Test {
 	}
 
 	@org.junit.Test
+	public void iCanPlayWihLockToAllowYouToWriteOrNot() throws Exception{
+		String pageId  = "ns1:start";
+		String initialContent = _client.getPage(pageId);
+		String addedContent = "added";
+		
+		_client.lock(pageId);
+		
+		//Make sure you can't write
+		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+		try {
+			otherClient.appendPage(pageId, addedContent);
+		} catch (DokuException e){
+			
+		}
+		String currentContent = _client.getPage(pageId);
+		assertEquals(initialContent, currentContent);
+		
+		//Now check I can remove my lock and let you write
+		_client.unlock("ns1:start");
+		otherClient.appendPage(pageId, addedContent);
+		currentContent = _client.getPage(pageId);
+		assertEquals(initialContent + addedContent, currentContent);
+	}
+	
+	//This doesn't really test the client, but it documents Dokuwiki's behavior,
+	//hence it documents a non-intuitive behavior of the client
+	@org.junit.Test
+	public void iUnlockAutomaticallyWhenIWrite() throws Exception {
+		String pageId  = "ns1:start";
+		String initialContent = "init";
+		String addedContent1 = "added1";
+		String addedContent2 = "added2";
+		
+		//Get a known state
+		_client.putPage(pageId, initialContent);
+		
+		_client.lock(pageId);
+		
+		//Now I write to let Dokuwiki unlock the page
+		_client.appendPage(pageId, addedContent1);
+		
+		//And I make sure everyone may now write
+		DokuJClient otherClient = new DokuJClient(TestParams.url, "writeruser", "writer");
+		otherClient.appendPage(pageId, addedContent2);
+		String currentContent = _client.getPage(pageId);
+		assertEquals(initialContent + addedContent1 + addedContent2, currentContent);
+	}
+	
+	@org.junit.Test
 	public void genericQueryWithParameters() throws Exception {
 		Object[] params = new Object[] { "ns1:start" };
 		//255 because we make the query as an admin
@@ -115,12 +158,12 @@ public class Test {
 	
 	@org.junit.Test
 	public void genericQueryWithoutParameters() throws Exception {
-		assertEquals(_wikiVersion, _client.genericQuery("dokuwiki.getVersion"));		
+		assertEquals(TestParams.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));		
 	}
 	
 	@org.junit.Test
 	public void getTitle() throws Exception {
-		assertEquals(_wikiTitle, _client.getTitle());		
+		assertEquals(TestParams.wikiTitle, _client.getTitle());		
 	}
 	
 	@org.junit.Test
