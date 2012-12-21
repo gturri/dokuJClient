@@ -71,6 +71,10 @@ public class DokuJClient {
 		return res;
 	}
 	
+	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock){
+		
+	}
+	
 	public void lock(String pageId) throws DokuException{
 		List<String> pageIds = new ArrayList<String>();
 		pageIds.add(pageId);

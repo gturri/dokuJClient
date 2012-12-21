@@ -12,7 +12,6 @@ import java.util.Set;
 import dw.DokuJClient;
 import dw.Page;
 import dw.SearchResult;
-import dw.exception.DokuException;
 
 public class T_XmlRpcQueries {
 	private DokuJClient _client;
@@ -111,6 +110,37 @@ public class T_XmlRpcQueries {
 				
 		_client.unlock("ns1:start");
 		TestHelper.assertPageIsUnlockForMe(pageId, otherClient);
+	}
+	
+	@org.junit.Test
+	public void iCanLockOrUnlockSeveralPagesAtOnce() throws Exception{
+		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+
+		//1st round: lock some pages and unlock some already unlock pages
+		List<String> pagesToLock = new ArrayList<String>();
+		pagesToLock.add("ns2:p1");
+		pagesToLock.add("ns2:p2");
+		List<String> pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p3");
+		pagesToUnlock.add("ns2:p4");
+		
+		
+		_client.setLock(pagesToLock, pagesToUnlock);		
+		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
+		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
+
+		//2nd round: lock some pages, some of which are already lock. Play with unlock too
+		pagesToLock = new ArrayList<String>();
+		pagesToLock.add("ns2:p1");
+		pagesToLock.add("ns2:p3");
+		pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p2");
+		pagesToUnlock.add("ns2:p4");
+		
+		
+		_client.setLock(pagesToLock, pagesToUnlock);		
+		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
+		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
 	}
 	
 	//This doesn't really test the client, but it documents Dokuwiki's behavior,
