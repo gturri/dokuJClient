@@ -71,8 +71,11 @@ public class DokuJClient {
 		return res;
 	}
 	
-	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock){
-		
+	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("lock", pagesToLock);
+		params.put("unlock", pagesToUnlock);
+		genericQuery("dokuwiki.setLocks", params);
 	}
 	
 	public void lock(String pageId) throws DokuException{
