@@ -51,8 +51,8 @@ public class DokuJClient {
 		return res;
 	}
 	
-	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
-		_locker.setLock(pagesToLock, pagesToUnlock);
+	public LockResult setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
+		return _locker.setLock(pagesToLock, pagesToUnlock);
 	}
 	
 	public void lock(String pageId) throws DokuException{

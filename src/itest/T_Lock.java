@@ -1,19 +1,32 @@
 package itest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import dw.DokuJClient;
+import dw.LockResult;
 
 public class T_Lock {
 	private DokuJClient _client;
 
 	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public void setup() throws Exception {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		clean();
+	}
+	
+	@org.junit.After
+	public void clean() throws Exception {
+		List<String> pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p1");
+		pagesToUnlock.add("ns2:p2");
+		pagesToUnlock.add("ns2:p3");
+		pagesToUnlock.add("ns2:p4");
+		_client.setLock(null, pagesToUnlock);
 	}
 	
 	@org.junit.Test
@@ -82,5 +95,41 @@ public class T_Lock {
 		otherClient.appendPage(pageId, addedContent2);
 		String currentContent = _client.getPage(pageId);
 		assertEquals(initialContent + addedContent1 + addedContent2, currentContent);
+	}
+	
+	@org.junit.Test
+	public void lockResult() throws Exception {
+		Set<String> emptySet = new HashSet<String>();
+		
+		//1st round: lock some pages and unlock some already unlock pages
+		List<String> pagesToLock = new ArrayList<String>();
+		pagesToLock.add("ns2:p1");
+		pagesToLock.add("ns2:p2");
+		List<String> pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p3");
+		pagesToUnlock.add("ns2:p4");
+		
+		LockResult expected = new LockResult(new HashSet<String>(pagesToLock), emptySet, emptySet, emptySet);
+		LockResult actual = _client.setLock(pagesToLock, pagesToUnlock);
+		assertEquals(expected, actual);
+		
+		//2nd round: lock some pages, some of which are already lock. Play with unlock too
+		pagesToLock = new ArrayList<String>();
+		pagesToLock.add("ns2:p1");
+		pagesToLock.add("ns2:p3");
+		pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p2");
+		pagesToUnlock.add("ns2:p4");
+		
+		Set<String> locked = new HashSet<String>();
+		locked.add("ns2:p1");
+		locked.add("ns2:p3");
+		Set<String> unlocked = new HashSet<String>();
+		unlocked.add("ns2:p2");
+
+		expected = new LockResult(locked, emptySet, unlocked, emptySet);
+		actual = _client.setLock(pagesToLock, pagesToUnlock);
+		assertEquals(expected, actual);
+		
 	}
 }
