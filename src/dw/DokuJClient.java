@@ -55,12 +55,12 @@ public class DokuJClient {
 		return _locker.setLocks(pagesToLock, pagesToUnlock);
 	}
 	
-	public void lock(String pageId) throws DokuException{
-		_locker.lock(pageId);
+	public LockResult lock(String pageId) throws DokuException{
+		return _locker.lock(pageId);
 	}
 	
-	public void unlock(String pageId) throws DokuException{
-		_locker.unlock(pageId);
+	public LockResult unlock(String pageId) throws DokuException{
+		return _locker.unlock(pageId);
 	}
 	
 	public String getTitle() throws DokuException{

@@ -60,15 +60,15 @@ class Locker {
 		return result;
 	}
 	
-	public void lock(String pageId) throws DokuException{
+	public LockResult lock(String pageId) throws DokuException{
 		List<String> pageIds = new ArrayList<String>();
 		pageIds.add(pageId);
-		setLocks(pageIds, null);
+		return setLocks(pageIds, null);
 	}
 	
-	public void unlock(String pageId) throws DokuException{
+	public LockResult unlock(String pageId) throws DokuException{
 		List<String> pageIds = new ArrayList<String>();
 		pageIds.add(pageId);
-		setLocks(null, pageIds);
+		return setLocks(null, pageIds);
 	}
 }
