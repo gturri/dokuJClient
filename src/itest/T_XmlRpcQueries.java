@@ -25,6 +25,11 @@ public class T_XmlRpcQueries {
 	public void getVersion() throws Exception {
 		assertEquals(TestParams.wikiVersion, _client.getVersion());
 	}
+	
+	@org.junit.Test
+	public void getRPCVersionSupported() throws Exception {
+		assertEquals(TestParams.rpcVersionSupported, _client.getRPCVersionSupported());
+	}
 
 	@org.junit.Test
 	public void getXMLRPCAPIVersion() throws Exception {

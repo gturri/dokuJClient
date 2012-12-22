@@ -51,6 +51,10 @@ public class DokuJClient {
 		return res;
 	}
 	
+	public Integer getRPCVersionSupported() throws DokuException{
+		return (Integer) genericQuery("wiki.getRPCVersionSupported");
+	}
+	
 	public LockResult setLocks(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
 		return _locker.setLocks(pagesToLock, pagesToUnlock);
 	}
