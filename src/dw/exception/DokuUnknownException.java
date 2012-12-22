@@ -1,20 +1,15 @@
 package dw.exception;
 
-import org.apache.xmlrpc.XmlRpcException;
-
-@SuppressWarnings("serial")
 public class DokuUnknownException extends DokuException {
 
-	private XmlRpcException _innerException = null;
-	
-	public DokuUnknownException() {	}
+	private static final long serialVersionUID = -4230515595018490484L;
 
-	public DokuUnknownException(XmlRpcException e){
-		super(e.getMessage());
-		_innerException = e;
+	public DokuUnknownException(Throwable cause) {
+		super(cause);
 	}
-	
-	public XmlRpcException innerException(){
-		return _innerException;
+
+	public DokuUnknownException(String message, Throwable cause) {
+		super(message, cause);
 	}
+
 }

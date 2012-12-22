@@ -2,6 +2,8 @@ package dw.exception;
 
 public class DokuPageLockedException extends DokuException {
 
+	private static final long serialVersionUID = -6402957075601882399L;
+
 	public DokuPageLockedException() {	}
 
 	public DokuPageLockedException(String message) {
