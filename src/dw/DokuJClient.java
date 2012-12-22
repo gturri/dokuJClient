@@ -34,16 +34,15 @@ public class DokuJClient {
 	}
 	
 	public List<Page> getPages(String namespace) throws DokuException {
-		return getPages(namespace, new HashMap<String, Object>());
+		return getPages(namespace, null);
 	}
 	
 	public List<Page> getPages(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
-		Object result = null;
 		
-		result = genericQuery("dokuwiki.getPagelist", params.toArray());
+		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
 		List<Page> res = new ArrayList<Page>();
 		for(Object o : (Object[]) result ){
 			res.add(BuildPageFromResult(o));
