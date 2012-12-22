@@ -1,33 +1,24 @@
 package dw;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.xmlrpc.*;
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-
 import dw.exception.DokuException;
-import dw.exception.ExceptionConverter;
 
 public class DokuJClient {
-	private XmlRpcClient _client;
+	CoreClient _client;
+	Locker _locker;
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
 	}
 	
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
-    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-    	config.setServerURL(new URL(url));
-    	config.setBasicUserName(user);
-    	config.setBasicPassword(password);
-    	_client = new XmlRpcClient();
-    	_client.setConfig(config);
+    	_client = new CoreClient(url, user, password);
+    	_locker = new Locker(_client);
 	}
     
     public Integer getTime() throws DokuException{
@@ -43,51 +34,33 @@ public class DokuJClient {
 	}
 	
 	public List<Page> getPages(String namespace) throws DokuException {
-		return getPages(namespace, new HashMap<String, Object>());
+		return getPages(namespace, null);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<Page> getPages(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
-		Object result = null;
 		
-		result = genericQuery("dokuwiki.getPagelist", params.toArray());
-		List<HashMap<String, Object>> resList = new ArrayList<HashMap<String, Object>>();
-		for(Object o : (Object[]) result ){
-			resList.add((HashMap<String, Object>) o);
-		}
-
+		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
 		List<Page> res = new ArrayList<Page>();
-		for ( HashMap<String, Object> pageData : resList){
-			Page page = new Page((String) pageData.get("id"),
-					(Integer) pageData.get("rev"),
-					(Integer) pageData.get("mtime"),
-					(Integer) pageData.get("size"));
-			res.add(page);
+		for(Object o : (Object[]) result ){
+			res.add(BuildPageFromResult(o));
 		}
 
 		return res;
 	}
 	
 	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("lock", pagesToLock == null ? new ArrayList<String>() :pagesToLock);
-		params.put("unlock", pagesToUnlock == null ? new ArrayList<String>() : pagesToUnlock);
-		genericQuery("dokuwiki.setLocks", params);
+		_locker.setLock(pagesToLock, pagesToUnlock);
 	}
 	
 	public void lock(String pageId) throws DokuException{
-		List<String> pageIds = new ArrayList<String>();
-		pageIds.add(pageId);
-		setLock(pageIds, null);
+		_locker.lock(pageId);
 	}
 	
 	public void unlock(String pageId) throws DokuException{
-		List<String> pageIds = new ArrayList<String>();
-		pageIds.add(pageId);
-		setLock(null, pageIds);
+		_locker.unlock(pageId);
 	}
 	
 	public String getTitle() throws DokuException{
@@ -136,29 +109,33 @@ public class DokuJClient {
 		for(Object result : results){
 			@SuppressWarnings("unchecked")
 			Map<String, Object> mapResult = (Map<String, Object>) result;
-			String id = (String) mapResult.get("id");
-			Integer rev = (Integer) mapResult.get("rev");
-			Integer mtime = (Integer) mapResult.get("mtime");
 			Integer score = (Integer) mapResult.get("score");
 			String snippet = (String) mapResult.get("snippet");
-			Integer size = (Integer) mapResult.get("size");
-			Page page = new Page(id, rev, mtime, size);
+			Page page = BuildPageFromResult(mapResult);
 			SearchResult sr = new SearchResult(page, score, snippet);
 			searchResults.add(sr);
 		}
 		return searchResults;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private Page BuildPageFromResult(Object result){
+		return BuildPageFromResult((Map<String, Object>) result);
+	}
+	
+	private Page BuildPageFromResult(Map<String, Object> result){
+		String id = (String) result.get("id");
+		Integer rev = (Integer) result.get("rev");
+		Integer mtime = (Integer) result.get("mtime");
+		Integer size = (Integer) result.get("size");
+		return new Page(id, rev, mtime, size);
+	}
+	
 	public Object genericQuery(String action, Object param) throws DokuException{
-		return genericQuery(action, new Object[]{param});
+		return _client.genericQuery(action, param);
 	}
 	
 	public Object genericQuery(String action, Object[] params) throws DokuException{
-		try {
-			return _client.execute(action, params);
-		} catch (XmlRpcException e){
-			System.out.println(e.toString());
-			throw ExceptionConverter.Convert(e);
-		}
+		return _client.genericQuery(action, params);
 	}
 }
