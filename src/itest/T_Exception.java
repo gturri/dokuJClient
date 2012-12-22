@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 
 import dw.DokuJClient;
 import dw.exception.DokuPageLockedException;
+import dw.exception.DokuUnauthorizedException;
 
 public class T_Exception {
 	private static String _url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";
@@ -18,6 +19,12 @@ public class T_Exception {
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
 		_client = new DokuJClient(_url, _user, _password);
+	}
+	
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	public void unauthorized() throws Exception {
+		DokuJClient unauthorizedClient = new DokuJClient(TestParams.url, "wrongUser","wrongPwd");
+		unauthorizedClient.getTime();
 	}
 	
 	@org.junit.Test

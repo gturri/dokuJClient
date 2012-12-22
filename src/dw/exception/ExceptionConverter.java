@@ -8,6 +8,10 @@ public class ExceptionConverter {
 		if ( message.equals("The page is currently locked") ){
 			return new DokuPageLockedException(e);
 		}
+		
+		if ( message.equals("HTTP server returned unexpected status: Unauthorized")){
+			return new DokuUnauthorizedException(e);
+		}
 		return new DokuUnknownException(e);
 	}
 }
