@@ -1,0 +1,32 @@
+<project name="dokuJClient" default="jar">
+    <property name="lib.dir" value="/usr/share/java" />
+    <path id="classpath">
+       <pathelement location="${lib.dir}/ws-commons-util.jar" />
+       <pathelement location="${lib.dir}/xmlrpc-client.jar" />
+       <pathelement location="${lib.dir}/xmlrpc-common.jar" />
+    </path>
+
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete file="dokujclient.jar" />
+    </target>
+
+    <target name="compileClasses">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" />
+    </target>
+
+    <target name="jar" depends="compileClasses">
+      <jar destfile="dokujclient.jar" basedir="bin" excludesfile=".excludesfile" />
+    </target>
+
+    <target name="compileAll">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin" includeantruntime="false">
+          <classpath>
+            <path refid="classpath" />
+           <pathelement location="/usr/lib/eclipse/dropins/jdt/plugins/org.junit4/junit.jar" />
+          </classpath>
+        </javac>
+    </target>
+</project>
