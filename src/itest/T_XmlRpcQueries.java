@@ -15,15 +15,23 @@ import dw.SearchResult;
 
 public class T_XmlRpcQueries {
 	private DokuJClient _client;
+	private DokuJClient _clientWriter;
 
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 	}
 
 	@org.junit.Test
 	public void getVersion() throws Exception {
 		assertEquals(TestParams.wikiVersion, _client.getVersion());
+	}
+	
+	@org.junit.Test
+	public void aclCheck() throws Exception {
+		assertEquals((Integer) 255, _client.aclCheck("ns1:start"));
+		assertEquals((Integer) 8, _clientWriter.aclCheck("ns1:start"));
 	}
 	
 	@org.junit.Test

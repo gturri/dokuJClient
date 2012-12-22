@@ -51,6 +51,14 @@ public class DokuJClient {
 		return res;
 	}
 	
+	public Integer aclCheck(String pageId) throws DokuException{
+		Object res = _client.genericQuery("wiki.aclCheck", pageId);
+		if ( res instanceof Integer ){
+			return (Integer) res;
+		}
+		return Integer.valueOf((String) res);
+	}
+	
 	public Integer getRPCVersionSupported() throws DokuException{
 		return (Integer) genericQuery("wiki.getRPCVersionSupported");
 	}
