@@ -26,7 +26,7 @@ public class T_Lock {
 		pagesToUnlock.add("ns2:p2");
 		pagesToUnlock.add("ns2:p3");
 		pagesToUnlock.add("ns2:p4");
-		_client.setLock(null, pagesToUnlock);
+		_client.setLocks(null, pagesToUnlock);
 	}
 	
 	@org.junit.Test
@@ -55,7 +55,7 @@ public class T_Lock {
 		pagesToUnlock.add("ns2:p4");
 		
 		
-		_client.setLock(pagesToLock, pagesToUnlock);		
+		_client.setLocks(pagesToLock, pagesToUnlock);		
 		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
 		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
 
@@ -68,7 +68,7 @@ public class T_Lock {
 		pagesToUnlock.add("ns2:p4");
 		
 		
-		_client.setLock(pagesToLock, pagesToUnlock);		
+		_client.setLocks(pagesToLock, pagesToUnlock);		
 		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
 		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
 	}
@@ -110,7 +110,7 @@ public class T_Lock {
 		pagesToUnlock.add("ns2:p4");
 		
 		LockResult expected = new LockResult(new HashSet<String>(pagesToLock), emptySet, emptySet, emptySet);
-		LockResult actual = _client.setLock(pagesToLock, pagesToUnlock);
+		LockResult actual = _client.setLocks(pagesToLock, pagesToUnlock);
 		assertEquals(expected, actual);
 		
 		//2nd round: lock some pages, some of which are already lock. Play with unlock too
@@ -128,7 +128,7 @@ public class T_Lock {
 		unlocked.add("ns2:p2");
 
 		expected = new LockResult(locked, emptySet, unlocked, emptySet);
-		actual = _client.setLock(pagesToLock, pagesToUnlock);
+		actual = _client.setLocks(pagesToLock, pagesToUnlock);
 		assertEquals(expected, actual);
 		
 	}

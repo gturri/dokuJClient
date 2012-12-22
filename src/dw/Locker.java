@@ -17,7 +17,7 @@ class Locker {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public LockResult setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
+	public LockResult setLocks(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
 		LockResult result = null;
 		try {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -63,12 +63,12 @@ class Locker {
 	public void lock(String pageId) throws DokuException{
 		List<String> pageIds = new ArrayList<String>();
 		pageIds.add(pageId);
-		setLock(pageIds, null);
+		setLocks(pageIds, null);
 	}
 	
 	public void unlock(String pageId) throws DokuException{
 		List<String> pageIds = new ArrayList<String>();
 		pageIds.add(pageId);
-		setLock(null, pageIds);
+		setLocks(null, pageIds);
 	}
 }
