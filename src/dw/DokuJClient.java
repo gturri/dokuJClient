@@ -1,33 +1,22 @@
 package dw;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.xmlrpc.*;
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-
 import dw.exception.DokuException;
-import dw.exception.ExceptionConverter;
 
 public class DokuJClient {
-	private XmlRpcClient _client;
+	CoreClient _client;
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
 	}
 	
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
-    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-    	config.setServerURL(new URL(url));
-    	config.setBasicUserName(user);
-    	config.setBasicPassword(password);
-    	_client = new XmlRpcClient();
-    	_client.setConfig(config);
+    	_client = new CoreClient(url, user, password);
 	}
     
     public Integer getTime() throws DokuException{
@@ -150,15 +139,10 @@ public class DokuJClient {
 	}
 	
 	public Object genericQuery(String action, Object param) throws DokuException{
-		return genericQuery(action, new Object[]{param});
+		return _client.genericQuery(action, param);
 	}
 	
 	public Object genericQuery(String action, Object[] params) throws DokuException{
-		try {
-			return _client.execute(action, params);
-		} catch (XmlRpcException e){
-			System.out.println(e.toString());
-			throw ExceptionConverter.Convert(e);
-		}
+		return _client.genericQuery(action, params);
 	}
 }
