@@ -37,7 +37,6 @@ public class DokuJClient {
 		return getPages(namespace, new HashMap<String, Object>());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<Page> getPages(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
@@ -45,18 +44,9 @@ public class DokuJClient {
 		Object result = null;
 		
 		result = genericQuery("dokuwiki.getPagelist", params.toArray());
-		List<HashMap<String, Object>> resList = new ArrayList<HashMap<String, Object>>();
-		for(Object o : (Object[]) result ){
-			resList.add((HashMap<String, Object>) o);
-		}
-
 		List<Page> res = new ArrayList<Page>();
-		for ( HashMap<String, Object> pageData : resList){
-			Page page = new Page((String) pageData.get("id"),
-					(Integer) pageData.get("rev"),
-					(Integer) pageData.get("mtime"),
-					(Integer) pageData.get("size"));
-			res.add(page);
+		for(Object o : (Object[]) result ){
+			res.add(BuildPageFromResult(o));
 		}
 
 		return res;
@@ -120,17 +110,26 @@ public class DokuJClient {
 		for(Object result : results){
 			@SuppressWarnings("unchecked")
 			Map<String, Object> mapResult = (Map<String, Object>) result;
-			String id = (String) mapResult.get("id");
-			Integer rev = (Integer) mapResult.get("rev");
-			Integer mtime = (Integer) mapResult.get("mtime");
 			Integer score = (Integer) mapResult.get("score");
 			String snippet = (String) mapResult.get("snippet");
-			Integer size = (Integer) mapResult.get("size");
-			Page page = new Page(id, rev, mtime, size);
+			Page page = BuildPageFromResult(mapResult);
 			SearchResult sr = new SearchResult(page, score, snippet);
 			searchResults.add(sr);
 		}
 		return searchResults;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Page BuildPageFromResult(Object result){
+		return BuildPageFromResult((Map<String, Object>) result);
+	}
+	
+	private Page BuildPageFromResult(Map<String, Object> result){
+		String id = (String) result.get("id");
+		Integer rev = (Integer) result.get("rev");
+		Integer mtime = (Integer) result.get("mtime");
+		Integer size = (Integer) result.get("size");
+		return new Page(id, rev, mtime, size);
 	}
 	
 	public Object genericQuery(String action, Object param) throws DokuException{
