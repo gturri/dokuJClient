@@ -10,6 +10,7 @@ import dw.exception.DokuException;
 
 public class DokuJClient {
 	CoreClient _client;
+	Locker _locker;
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
@@ -17,6 +18,7 @@ public class DokuJClient {
 	
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
     	_client = new CoreClient(url, user, password);
+    	_locker = new Locker(_client);
 	}
     
     public Integer getTime() throws DokuException{
@@ -61,22 +63,15 @@ public class DokuJClient {
 	}
 	
 	public void setLock(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("lock", pagesToLock == null ? new ArrayList<String>() :pagesToLock);
-		params.put("unlock", pagesToUnlock == null ? new ArrayList<String>() : pagesToUnlock);
-		genericQuery("dokuwiki.setLocks", params);
+		_locker.setLock(pagesToLock, pagesToUnlock);
 	}
 	
 	public void lock(String pageId) throws DokuException{
-		List<String> pageIds = new ArrayList<String>();
-		pageIds.add(pageId);
-		setLock(pageIds, null);
+		_locker.lock(pageId);
 	}
 	
 	public void unlock(String pageId) throws DokuException{
-		List<String> pageIds = new ArrayList<String>();
-		pageIds.add(pageId);
-		setLock(null, pageIds);
+		_locker.unlock(pageId);
 	}
 	
 	public String getTitle() throws DokuException{
