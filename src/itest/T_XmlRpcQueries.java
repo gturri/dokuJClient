@@ -222,6 +222,12 @@ public class T_XmlRpcQueries {
 	}
 	
 	@org.junit.Test
+	public void getAllPages() throws Exception{
+		List<Page> pages = _client.getAllPages();
+		assertEquals(12, pages.size());
+	}
+	
+	@org.junit.Test
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
 		

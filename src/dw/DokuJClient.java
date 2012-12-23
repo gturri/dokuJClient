@@ -180,6 +180,15 @@ public class DokuJClient {
 		return new PageInfo(name, modified, author, version);
 	}
 	
+	public 	List<Page> getAllPages() throws DokuException {
+		Object result = genericQuery("wiki.getAllPages");
+		List<Page> res = new ArrayList<Page>();
+		for( Object o : (Object[]) result){
+			res.add(BuildPageFromResult(o));
+		}
+		return res;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private Page BuildPageFromResult(Object result){
 		return BuildPageFromResult((Map<String, Object>) result);

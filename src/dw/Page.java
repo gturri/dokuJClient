@@ -51,5 +51,11 @@ public class Page {
 		}
 		_name = names[names.length-1];
 	}
-
+	
+	public String toString(){
+		return "id:" + _id
+				+ ", revision:" + _revision
+				+ ", mtime:" + _mtime
+				+ ", size:" + _size;
+	}
 }
