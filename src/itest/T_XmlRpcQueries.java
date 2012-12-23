@@ -222,6 +222,12 @@ public class T_XmlRpcQueries {
 	}
 	
 	@org.junit.Test
+	public void getBackLinks() throws Exception{
+		List<String> links = _client.getBackLinks("ns1:dummy");
+		assertEquals("links:start", links.get(0));
+	}
+	
+	@org.junit.Test
 	public void getAllPages() throws Exception{
 		List<Page> pages = _client.getAllPages();
 		assertEquals(12, pages.size());

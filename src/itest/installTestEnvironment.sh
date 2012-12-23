@@ -32,6 +32,7 @@ cp -r $dwVersion $destDir
 
 echo "Configuring the wiki"
 cp ../$relativeTestFileDir/conf/* $destDir/conf
+rm -rf $destDir/data/pages
 cp -r ../$relativeTestFileDir/data/* $destDir/data
 chown -R $serverFileSystemOwner $destDir
 
@@ -41,9 +42,10 @@ touch -t201212230020.00 $destDir/data/attic/rev/start.1356218400.txt.gz
 touch -t201212230020.19 $destDir/data/attic/rev/start.1356218419.txt.gz
 
 echo "Running the indexer"
-wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:start
-wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page1
-wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page2
-wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=nssearch:page3
+cd ../testEnvironment/data/pages
+for f in $(find . -name "*txt"); do
+  f=$(echo $f | cut -d '.' -f 2 | tr / :)
+  wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f
+done
 
-echo Done. You may want to remove $installDir
+echo Done.

@@ -189,6 +189,15 @@ public class DokuJClient {
 		return res;
 	}
 	
+	public List<String> getBackLinks(String pageId) throws DokuException{
+		Object result = genericQuery("wiki.getBackLinks", pageId);
+		List<String> res = new ArrayList<String>();
+		for(Object o : (Object[]) result){
+			res.add((String) o);
+		}
+		return res;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private Page BuildPageFromResult(Object result){
 		return BuildPageFromResult((Map<String, Object>) result);
