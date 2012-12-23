@@ -159,6 +159,27 @@ public class DokuJClient {
 		return searchResults;
 	}
 	
+	public PageInfo getPageInfo(String pageId) throws DokuException{
+		Object result = genericQuery("wiki.getPageInfo",pageId);
+		return BuildPageInfoFromResult(result);
+	}
+	
+	public PageInfo getPageInfoVersion(String pageId, Integer timestamp) throws DokuException {
+		Object[] params = new Object[]{pageId, timestamp};
+		Object result = genericQuery("wiki.getPageInfoVersion", params);
+		return BuildPageInfoFromResult(result);
+	}
+	
+	private PageInfo BuildPageInfoFromResult(Object result) throws DokuException {
+		@SuppressWarnings("unchecked")
+		Map<String, Object> resMap = (Map<String, Object>) result;
+		String name = (String) resMap.get("name");
+		Date modified = (Date) resMap.get("modified");
+		String author = (String) resMap.get("author");
+		Integer version = (Integer) resMap.get("version");
+		return new PageInfo(name, modified, author, version);
+	}
+	
 	@SuppressWarnings("unchecked")
 	private Page BuildPageFromResult(Object result){
 		return BuildPageFromResult((Map<String, Object>) result);

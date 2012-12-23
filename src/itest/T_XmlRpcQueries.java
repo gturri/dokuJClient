@@ -11,6 +11,7 @@ import java.util.Set;
 
 import dw.DokuJClient;
 import dw.Page;
+import dw.PageInfo;
 import dw.PageVersion;
 import dw.SearchResult;
 
@@ -27,6 +28,23 @@ public class T_XmlRpcQueries {
 	@org.junit.Test
 	public void getVersion() throws Exception {
 		assertEquals(TestParams.wikiVersion, _client.getVersion());
+	}
+	
+	@org.junit.Test
+	public void getPageInfo() throws Exception {
+		String pageId = "rev:start";
+		PageInfo pageInfo = _client.getPageInfo(pageId);
+		assertEquals(pageId, pageInfo.name());
+	}
+	
+	@org.junit.Test
+	public void getPageInfoVersion() throws Exception {
+		String pageId = "rev:start";
+		Integer version = 1356218411;
+		PageInfo pageInfo = _client.getPageInfoVersion(pageId, version);
+		assertEquals(pageId, pageInfo.name());
+		assertEquals(version, pageInfo.version());
+		System.out.println(pageInfo.toString());
 	}
 	
 	@org.junit.Test
