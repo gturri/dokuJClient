@@ -40,21 +40,25 @@ public class DokuJClient {
 		
 		List<PageVersion> res = new ArrayList<PageVersion>();
 		for ( Object o : (Object[]) result){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map  = (Map<String, Object>) o;
-			
-			String user = (String) map.get("user");
-			String ip = (String) map.get("user");
-			String type = (String) map.get("type");
-			String summary = (String) map.get("sum");
-			Date modified = (Date) map.get("modified");
-			Integer version = (Integer) map.get("version");
-			
-			PageVersion pv = new PageVersion(user, ip, type, summary, modified, version);
-			res.add(pv);
+			res.add(buildPageVersionFromResult(o));
 		}
 		
 		return res;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private PageVersion buildPageVersionFromResult(Object result){
+		return buildPageVersionFromResult((Map<String, Object>) result);
+	}
+	
+	private PageVersion buildPageVersionFromResult(Map<String, Object> map){
+		String user = (String) map.get("user");
+		String ip = (String) map.get("user");
+		String type = (String) map.get("type");
+		String summary = (String) map.get("sum");
+		Date modified = (Date) map.get("modified");
+		Integer version = (Integer) map.get("version");
+		return new PageVersion(user, ip, type, summary, modified, version);
 	}
 	
 	public String getPageVersion(String pageId, Integer timestamp) throws DokuException{
