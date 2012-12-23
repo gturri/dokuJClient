@@ -197,6 +197,11 @@ public class DokuJClient {
 		return (String) genericQuery("wiki.getPageHTML", pageId);
 	}
 	
+	public String getPageHTMLVersion(String pageId, Integer timestamp) throws DokuException{
+		Object[] params = new Object[]{pageId, timestamp};
+		return (String) genericQuery("wiki.getPageHTMLVersion", params);
+	}
+	
 	public Object genericQuery(String action, Object param) throws DokuException{
 		return _client.genericQuery(action, param);
 	}
