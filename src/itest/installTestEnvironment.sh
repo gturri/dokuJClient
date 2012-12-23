@@ -32,7 +32,7 @@ cp -r $dwVersion $destDir
 
 echo "Configuring the wiki"
 cp ../$relativeTestFileDir/conf/* $destDir/conf
-cp -r ../$relativeTestFileDir/data/pages/* $destDir/data/pages
+cp -r ../$relativeTestFileDir/data/* $destDir/data
 chown -R $serverFileSystemOwner $destDir
 
 echo "Running the indexer"

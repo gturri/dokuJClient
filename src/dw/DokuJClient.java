@@ -33,6 +33,10 @@ public class DokuJClient {
 		return (String) genericQuery("dokuwiki.getVersion");
 	}
 	
+	public String getPageVersion(String pageId, Integer timestamp) throws DokuException{
+		return null;
+	}
+	
 	public List<Page> getPages(String namespace) throws DokuException {
 		return getPages(namespace, null);
 	}
