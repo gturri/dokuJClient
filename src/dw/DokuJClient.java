@@ -74,7 +74,7 @@ public class DokuJClient {
 		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
 		List<Page> res = new ArrayList<Page>();
 		for(Object o : (Object[]) result ){
-			res.add(BuildPageFromResult(o));
+			res.add(buildPageFromResult(o));
 		}
 
 		return res;
@@ -152,7 +152,7 @@ public class DokuJClient {
 			Map<String, Object> mapResult = (Map<String, Object>) result;
 			Integer score = (Integer) mapResult.get("score");
 			String snippet = (String) mapResult.get("snippet");
-			Page page = BuildPageFromResult(mapResult);
+			Page page = buildPageFromResult(mapResult);
 			SearchResult sr = new SearchResult(page, score, snippet);
 			searchResults.add(sr);
 		}
@@ -161,16 +161,16 @@ public class DokuJClient {
 	
 	public PageInfo getPageInfo(String pageId) throws DokuException{
 		Object result = genericQuery("wiki.getPageInfo",pageId);
-		return BuildPageInfoFromResult(result);
+		return buildPageInfoFromResult(result);
 	}
 	
 	public PageInfo getPageInfoVersion(String pageId, Integer timestamp) throws DokuException {
 		Object[] params = new Object[]{pageId, timestamp};
 		Object result = genericQuery("wiki.getPageInfoVersion", params);
-		return BuildPageInfoFromResult(result);
+		return buildPageInfoFromResult(result);
 	}
 	
-	private PageInfo BuildPageInfoFromResult(Object result) throws DokuException {
+	private PageInfo buildPageInfoFromResult(Object result) throws DokuException {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) result;
 		String name = (String) resMap.get("name");
@@ -184,7 +184,7 @@ public class DokuJClient {
 		Object result = genericQuery("wiki.getAllPages");
 		List<Page> res = new ArrayList<Page>();
 		for( Object o : (Object[]) result){
-			res.add(BuildPageFromResult(o));
+			res.add(buildPageFromResult(o));
 		}
 		return res;
 	}
@@ -199,11 +199,11 @@ public class DokuJClient {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Page BuildPageFromResult(Object result){
-		return BuildPageFromResult((Map<String, Object>) result);
+	private Page buildPageFromResult(Object result){
+		return buildPageFromResult((Map<String, Object>) result);
 	}
 	
-	private Page BuildPageFromResult(Map<String, Object> result){
+	private Page buildPageFromResult(Map<String, Object> result){
 		String id = (String) result.get("id");
 		Integer rev = (Integer) result.get("rev");
 		Integer mtime = (Integer) result.get("mtime");
