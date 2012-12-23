@@ -2,6 +2,7 @@ package dw;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,29 @@ public class DokuJClient {
     
 	public String getVersion() throws DokuException{
 		return (String) genericQuery("dokuwiki.getVersion");
+	}
+	
+	public List<PageVersion> getPageVersions(String pageId, Integer offset) throws DokuException {
+		Object[] params = new Object[]{pageId, offset};
+		Object result = genericQuery("wiki.getPageVersions", params);
+		
+		List<PageVersion> res = new ArrayList<PageVersion>();
+		for ( Object o : (Object[]) result){
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map  = (Map<String, Object>) o;
+			
+			String user = (String) map.get("user");
+			String ip = (String) map.get("user");
+			String type = (String) map.get("type");
+			String summary = (String) map.get("sum");
+			Date modified = (Date) map.get("modified");
+			Integer version = (Integer) map.get("version");
+			
+			PageVersion pv = new PageVersion(user, ip, type, summary, modified, version);
+			res.add(pv);
+		}
+		
+		return res;
 	}
 	
 	public String getPageVersion(String pageId, Integer timestamp) throws DokuException{
