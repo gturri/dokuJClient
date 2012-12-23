@@ -202,6 +202,20 @@ public class DokuJClient {
 		return (String) genericQuery("wiki.getPageHTMLVersion", params);
 	}
 	
+	public List<LinkInfo> listLinks(String pageId) throws DokuException {
+		Object result = genericQuery("wiki.listLinks", pageId);
+		List<LinkInfo> res = new ArrayList<LinkInfo>();
+		for(Object o : (Object[]) result){
+			@SuppressWarnings("unchecked")
+			Map<String, Object> resMap = (Map<String, Object>) o;
+			String type = (String) resMap.get("type");
+			String page = (String) resMap.get("page");
+			String href = (String) resMap.get("href");
+			res.add(new LinkInfo(type, page, href));
+		}
+		return res;
+	}
+	
 	public Object genericQuery(String action, Object param) throws DokuException{
 		return _client.genericQuery(action, param);
 	}

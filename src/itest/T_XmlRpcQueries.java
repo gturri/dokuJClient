@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import dw.DokuJClient;
+import dw.LinkInfo;
 import dw.Page;
 import dw.PageInfo;
 import dw.PageVersion;
@@ -206,6 +207,18 @@ public class T_XmlRpcQueries {
 		String pageId = "rev:start";
 		Integer version = 1356218411;
 		assertEquals("\n<p>\nv2\n</p>\n", _client.getPageHTMLVersion(pageId, version));
+	}
+	
+	@org.junit.Test
+	public void listLinks() throws Exception{
+		List<LinkInfo> links = _client.listLinks("links:start");
+		LinkInfo link0 = new LinkInfo(LinkInfo.Type.extern, "http://dokuwiki.org", "http://dokuwiki.org");
+		LinkInfo link1 = new LinkInfo(LinkInfo.Type.extern, "http://github.com/gturri", "http://github.com/gturri");
+		LinkInfo link2 = new LinkInfo(LinkInfo.Type.local, "ns1:dummy","/dokuwikiITestsForXmlRpcClient/doku.php?id=ns1:dummy" );
+
+		assertEquals(link0, links.get(0));
+		assertEquals(link1, links.get(1));
+		assertEquals(link2, links.get(2));
 	}
 	
 	@org.junit.Test

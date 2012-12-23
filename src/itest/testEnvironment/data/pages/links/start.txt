@@ -1,0 +1,3 @@
+  * first link: [[http://dokuwiki.org]]
+  * other one: http://github.com/gturri
+  * [[ns1:dummy]]
