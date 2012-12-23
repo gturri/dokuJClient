@@ -196,6 +196,19 @@ public class T_XmlRpcQueries {
 	}
 	
 	@org.junit.Test
+	public void getPageHTML() throws Exception {
+		String pageId = "rev:start";
+		assertEquals("\n<p>\n3rd version\n</p>\n", _client.getPageHTML(pageId));
+	}
+	
+	@org.junit.Test
+	public void getPageHTMLVersion() throws Exception{
+		String pageId = "rev:start";
+		Integer version = 1356218411;
+		assertEquals("\n<p>\nv2\n</p>\n", _client.getPageHTMLVersion(pageId, version));
+	}
+	
+	@org.junit.Test
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
 		
