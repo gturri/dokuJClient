@@ -29,6 +29,15 @@ public class T_XmlRpcQueries {
 	}
 	
 	@org.junit.Test
+	public void getPageVersion() throws Exception {
+		String pageId = "rev:start";
+		assertEquals("version 1", _client.getPageVersion(pageId, 1356218400));
+		assertEquals("", _client.getPageVersion(pageId, 1356218401));
+		assertEquals("v2", _client.getPageVersion(pageId, 1356218411));
+		assertEquals("3rd version", _client.getPageVersion(pageId, 1356218419));
+	}
+	
+	@org.junit.Test
 	public void aclCheck() throws Exception {
 		assertEquals((Integer) 255, _client.aclCheck("ns1:start"));
 		assertEquals((Integer) 8, _clientWriter.aclCheck("ns1:start"));
