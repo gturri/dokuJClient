@@ -236,7 +236,10 @@ public class T_XmlRpcQueries {
 	@org.junit.Test
 	public void getAllPages() throws Exception{
 		List<Page> pages = _client.getAllPages();
-		assertEquals(12, pages.size());
+		
+		//Not an Equals assertion because other tests may create new pages
+		//(yes, this test should be improved)
+		assertTrue(pages.size() >= 12);
 	}
 	
 	@org.junit.Test

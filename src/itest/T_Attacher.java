@@ -79,10 +79,6 @@ public class T_Attacher {
 	public void getRecentMediaChanges() throws Exception{
 		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
 		assertTrue(changes.size() > 0);
-		
-		for(MediaChange c : changes){
-			System.out.println(c.toString());
-		}
 	}
 	
 	@org.junit.Test
