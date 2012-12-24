@@ -30,6 +30,10 @@ public class DokuJClient {
 		_attacher.putAttachment(attachmentId, attachment, overwrite);
 	}
     
+	public void putAttachment(String attachmentId, String attachment, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, new File(attachment), overwrite);
+	}
+	
 	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		return _attacher.getAttachmentInfo(fileId);
 	}
@@ -40,6 +44,19 @@ public class DokuJClient {
 	
 	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
 		return _attacher.getAttachment(fileId, localPath);
+	}
+	
+	/**
+	 * @param recursive True if also files in subnamespaces are to be included
+	 * @param pattern PREG compatible regexp which has to match the file id. Null if you don't want to use it
+	 * @throws DokuException 
+	 */
+	public List<AttachmentInfo> getAttachments(String namespace, boolean recursive, String pattern) throws DokuException{
+		return _attacher.getAttachments(namespace, recursive, pattern);
+	}
+	
+	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+		return _attacher.getAttachments(namespace, additionalParams);
 	}
 	
     public Integer getTime() throws DokuException{

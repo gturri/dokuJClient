@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import dw.AttachmentInfo;
 import dw.DokuJClient;
@@ -11,10 +16,14 @@ import dw.DokuJClient;
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
+	private String _localFileToUpload = "src/itest/testEnvironment/list-plus.gif";
+
+	Set<String> _uploadedFiles;
 	
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		_uploadedFiles = new HashSet<String>();
 		clean();
 	}
 	
@@ -22,12 +31,83 @@ public class T_Attacher {
 	public void clean(){
 		File f = new File(_localDownloadedFile);
 		f.delete();
+		
+		for ( String fileId : _uploadedFiles ){
+			try {
+				_client.deleteAttachment(fileId);
+			} catch ( Exception e ){
+				//Too bad we missed one... Hope we'll have better luck for the next...
+				System.out.println("Failed to delete distant attachment " + fileId + " during tear down");
+			}
+		}
 	}
 	
 	@org.junit.Test
-	public void putAttachment() throws Exception{
+	public void getAttachementWithoutRecursing() throws Exception {
+		//Set up environment
+		_uploadedFiles.add("nswithanotherns:img1.gif");
+		_uploadedFiles.add("ns2:img2.gif");
+		_uploadedFiles.add("nswithanotherns:img3.gif");
+		_uploadedFiles.add("nswithanotherns:img33.gif");
+		_uploadedFiles.add("nswithanotherns:otherns:img4.gif");
+		
+		for ( String fileId : _uploadedFiles ){
+			_client.putAttachment(fileId, _localFileToUpload, true);
+		}
+		
+		//with recursive explicitly set to false
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("recursive", false);
+		List<AttachmentInfo> res = _client.getAttachments("nswithanotherns", params);
+		
+		System.out.println("With recursive explicitly set to false");
+		for(AttachmentInfo info : res){
+			System.out.println(info.toString());
+		}
+		
+		//Relying on the default value for recursive (which is false according to the documentation)
+		params = new HashMap<String, Object>();
+		res = _client.getAttachments("nswithanotherns", params);
+		
+		System.out.println("With the default value for recursive");
+		for(AttachmentInfo info : res){
+			System.out.println(info.toString());
+		}
+	}
+	
+	@org.junit.Test
+	public void  getAttachments() throws Exception{
+		//Set up environment
+		_uploadedFiles.add("nswithanotherns:img1.gif");
+		_uploadedFiles.add("ns2:img2.gif");
+		_uploadedFiles.add("nswithanotherns:img3.gif");
+		_uploadedFiles.add("nswithanotherns:img33.gif");
+		_uploadedFiles.add("nswithanotherns:otherns:img4.gif");
+		
+		for ( String fileId : _uploadedFiles ){
+			_client.putAttachment(fileId, _localFileToUpload, true);
+		}
+		
+		//actually test
+		//Filtering on a PREG
+		List<AttachmentInfo> res = _client.getAttachments("nswithanotherns", false, "/3.gif$/");
+		assertEquals(2, res.size());
+		
+		//with recursive on
+		res = _client.getAttachments("nswithanotherns", true, null);
+		assertEquals(4, res.size());
+
+		//with custom params
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("depth", 1);
+		res = _client.getAttachments("nswithanotherns", params);
+		assertEquals(3, res.size());
+	}
+	
+	@org.junit.Test
+	public void putGetAndDeleteAttachment() throws Exception{
 		String fileId = "ns1:img2.gif";
-		File file = new File("src/itest/testEnvironment/list-plus.gif");
+		File file = new File(_localFileToUpload);
 
 		_client.putAttachment(fileId, file, true);
 		AttachmentInfo info = _client.getAttachmentInfo(fileId);
