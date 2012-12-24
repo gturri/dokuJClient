@@ -34,6 +34,10 @@ public class DokuJClient {
 		return _attacher.getAttachmentInfo(fileId);
 	}
 	
+	public void deleteAttachment(String fileId) throws DokuException{
+		_attacher.deleteAttachment(fileId);
+	}
+	
     public Integer getTime() throws DokuException{
     	return (Integer) genericQuery("dokuwiki.getTime");
     }
@@ -145,8 +149,7 @@ public class DokuJClient {
 	}
 	
 	public Object genericQuery(String action) throws DokuException {
-		Object[] params = new Object[]{};
-		return genericQuery(action, params);
+		return _client.genericQuery(action);
 	}
 	
 	public void putPage(Page page, String rawWikiText)throws DokuException {

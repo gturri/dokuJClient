@@ -44,4 +44,8 @@ class Attacher {
 		Date lastModified  = (Date) mapRes.get("lastModified");
 		return new AttachmentInfo(size, lastModified);
 	}
+	
+	public void deleteAttachment(String fileId) throws DokuException{
+		_client.genericQuery("wiki.deleteAttachment", fileId);
+	}
 }

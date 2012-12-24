@@ -22,6 +22,11 @@ class CoreClient {
     	_client.setConfig(config);
 	}
 	
+	public Object genericQuery(String action) throws DokuException {
+		Object[] params = new Object[]{};
+		return genericQuery(action, params);
+	}
+    
 	public Object genericQuery(String action, Object param) throws DokuException{
 		return genericQuery(action, new Object[]{param});
 	}

@@ -24,5 +24,9 @@ public class T_Attacher {
 		_client.putAttachment(fileId, file, true);
 		AttachmentInfo info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)(int) file.length(), info.size());
+		
+		_client.deleteAttachment(fileId);
+		info = _client.getAttachmentInfo(fileId);
+		assertEquals((Integer)0, info.size());
 	}
 }
