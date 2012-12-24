@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dw.exception.DokuException;
@@ -42,13 +44,35 @@ class Attacher {
 		_client.genericQuery("wiki.putAttachment", params);
 	}
 	
+	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+		Object[] params = new Object[]{namespace, additionalParams};
+		Object result = _client.genericQuery("wiki.getAttachments", params);
+		List<AttachmentInfo> res = new ArrayList<AttachmentInfo>();
+		for(Object o : (Object[]) result){
+			res.add(buildAttachmentInfoFromResult(o));
+		}
+		
+		return res;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private AttachmentInfo buildAttachmentInfoFromResult(Object o){
+		return buildAttachmentInfoFromResult((Map<String, Object>) o);
+	}
+	
+	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m){
+		String id = (String) m.get("id");
+		Integer size = (Integer) m.get("size");
+		Date lastModified = (Date) m.get("lastModified");
+		Boolean isImg = (Boolean) m.get("isimg");
+		Boolean writable = (Boolean) m.get("writable");
+		Integer perms = (Integer) m.get("perms");
+		return new AttachmentInfo(id, size, lastModified, isImg, writable, perms);
+	}
+	
 	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachmentInfo", fileId);
-		@SuppressWarnings("unchecked")
-		Map<String, Object> mapRes = (Map<String, Object>) result;
-		Integer size = (Integer) mapRes.get("size");
-		Date lastModified  = (Date) mapRes.get("lastModified");
-		return new AttachmentInfo(size, lastModified);
+		return buildAttachmentInfoFromResult(result);
 	}
 	
 	public void deleteAttachment(String fileId) throws DokuException{

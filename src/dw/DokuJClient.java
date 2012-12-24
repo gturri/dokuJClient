@@ -30,6 +30,10 @@ public class DokuJClient {
 		_attacher.putAttachment(attachmentId, attachment, overwrite);
 	}
     
+	public void putAttachment(String attachmentId, String attachment, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, new File(attachment), overwrite);
+	}
+	
 	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		return _attacher.getAttachmentInfo(fileId);
 	}
@@ -40,6 +44,10 @@ public class DokuJClient {
 	
 	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
 		return _attacher.getAttachment(fileId, localPath);
+	}
+
+	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+		return _attacher.getAttachments(namespace, additionalParams);
 	}
 	
     public Integer getTime() throws DokuException{
