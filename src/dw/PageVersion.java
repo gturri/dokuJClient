@@ -43,11 +43,11 @@ public class PageVersion {
 	}
 	
 	public String toString(){
-		return "user=" + _user
-				+ ", ip=" + _ip
-				+ ", type=" + _type
-				+ ", summary=" + _summary
-				+ ", modified=" + _modified.toString()
-				+ ", version=" + _version;
+		return "user=" + (_user == null ? "null" : _user)
+				+ ", ip=" + (_ip == null ? "null" : _ip)
+				+ ", type=" + (_type == null ? "null" : _type)
+				+ ", summary=" + (_summary == null ? "null" : _summary)
+				+ ", modified=" + (_modified == null ? "null" : _modified.toString())
+				+ ", version=" + (_version == null ? "null" : _version);
 	}
 }
