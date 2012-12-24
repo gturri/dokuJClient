@@ -50,6 +50,10 @@ public class DokuJClient {
 		return _attacher.getAttachments(namespace, additionalParams);
 	}
 	
+	public List<MediaChange> getRecentMediaChanges(Integer timestamp) throws DokuException{
+		return _attacher.getRecentMediaChanges(timestamp);
+	}
+	
     public Integer getTime() throws DokuException{
     	return (Integer) genericQuery("dokuwiki.getTime");
     }

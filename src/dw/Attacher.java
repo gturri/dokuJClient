@@ -44,6 +44,30 @@ class Attacher {
 		_client.genericQuery("wiki.putAttachment", params);
 	}
 	
+	public List<MediaChange> getRecentMediaChanges(Integer timestamp) throws DokuException{
+		Object result = _client.genericQuery("wiki.getRecentMediaChanges", timestamp);
+		List<MediaChange> res = new ArrayList<MediaChange>();
+		
+		for(Object o : (Object[]) result){
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map = (Map<String, Object>) o;
+			String id = (String) map.get("id");
+			Date lastModified = (Date) map.get("lastModified");
+			String author = (String) map.get("author");
+			Integer version = (Integer) map.get("version");
+			Integer perms = (Integer) map.get("perms");
+			Object sizeObj = map.get("size");
+			Integer size = null;
+			if ( sizeObj instanceof Integer ){
+				size = (Integer) size;
+			}
+			
+			res.add(new MediaChange(id, lastModified, author, version, perms, size));
+		}
+		
+		return res;
+	}
+	
 	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
 		Object[] params = new Object[]{namespace, additionalParams};
 		Object result = _client.genericQuery("wiki.getAttachments", params);

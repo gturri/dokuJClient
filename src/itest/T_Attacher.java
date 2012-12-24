@@ -12,6 +12,7 @@ import java.util.Set;
 
 import dw.AttachmentInfo;
 import dw.DokuJClient;
+import dw.MediaChange;
 
 public class T_Attacher {
 	private DokuJClient _client;
@@ -72,6 +73,16 @@ public class T_Attacher {
 		params.put("depth", 1);
 		res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(3, res.size());
+	}
+	
+	@org.junit.Test
+	public void getRecentMediaChanges() throws Exception{
+		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
+		assertTrue(changes.size() > 0);
+		
+		for(MediaChange c : changes){
+			System.out.println(c.toString());
+		}
 	}
 	
 	@org.junit.Test
