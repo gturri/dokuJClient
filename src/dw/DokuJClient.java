@@ -40,21 +40,26 @@ public class DokuJClient {
 		
 		List<PageVersion> res = new ArrayList<PageVersion>();
 		for ( Object o : (Object[]) result){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map  = (Map<String, Object>) o;
-			
-			String user = (String) map.get("user");
-			String ip = (String) map.get("user");
-			String type = (String) map.get("type");
-			String summary = (String) map.get("sum");
-			Date modified = (Date) map.get("modified");
-			Integer version = (Integer) map.get("version");
-			
-			PageVersion pv = new PageVersion(user, ip, type, summary, modified, version);
-			res.add(pv);
+			res.add(buildPageVersionFromResult(o, false));
 		}
 		
 		return res;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private PageVersion buildPageVersionFromResult(Object result, boolean keyLastModified){
+		return buildPageVersionFromResult((Map<String, Object>) result, keyLastModified);
+	}
+	
+	private PageVersion buildPageVersionFromResult(Map<String, Object> map, boolean keyLastModified){
+		String pageId = (String) map.get("name");
+		String user = (String) map.get("user");
+		String ip = (String) map.get("ip");
+		String type = (String) map.get("type");
+		String summary = (String) map.get("sum");
+		Date modified = (Date) map.get(keyLastModified ? "lastModified" : "modified");
+		Integer version = (Integer) map.get("version");
+		return new PageVersion(pageId, user, ip, type, summary, modified, version);
 	}
 	
 	public String getPageVersion(String pageId, Integer timestamp) throws DokuException{
@@ -230,6 +235,16 @@ public class DokuJClient {
 			String page = (String) resMap.get("page");
 			String href = (String) resMap.get("href");
 			res.add(new LinkInfo(type, page, href));
+		}
+		return res;
+	}
+
+	public List<PageVersion> getRecentChanges(Integer timestamp) throws DokuException{
+		Object result = genericQuery("wiki.getRecentChanges", timestamp);
+		List<PageVersion> res = new ArrayList<PageVersion>();
+		
+		for(Object o : (Object[]) result){
+			res.add(buildPageVersionFromResult(o, true));
 		}
 		return res;
 	}

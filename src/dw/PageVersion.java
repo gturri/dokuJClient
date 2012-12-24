@@ -3,6 +3,11 @@ package dw;
 import java.util.Date;
 
 public class PageVersion {
+	private String _pageId;
+	public String pageId(){
+		return _pageId;
+	}
+	
 	private String _user;
 	public String user(){
 		return _user;
@@ -33,7 +38,8 @@ public class PageVersion {
 		return _version;
 	}
 	
-	public PageVersion(String user, String ip, String type, String summary, Date modified, Integer version){
+	public PageVersion(String pageId, String user, String ip, String type, String summary, Date modified, Integer version){
+		_pageId = pageId;
 		_user = user;
 		_ip = ip;
 		_type = type;
@@ -43,11 +49,12 @@ public class PageVersion {
 	}
 	
 	public String toString(){
-		return "user=" + _user
-				+ ", ip=" + _ip
-				+ ", type=" + _type
-				+ ", summary=" + _summary
-				+ ", modified=" + _modified.toString()
-				+ ", version=" + _version;
+		return "pageId=" + (_pageId == null ? "null" : _pageId)
+				+ ", user=" + (_user == null ? "null" : _user)
+				+ ", ip=" + (_ip == null ? "null" : _ip)
+				+ ", type=" + (_type == null ? "null" : _type)
+				+ ", summary=" + (_summary == null ? "null" : _summary)
+				+ ", modified=" + (_modified == null ? "null" : _modified.toString())
+				+ ", version=" + (_version == null ? "null" : _version);
 	}
 }
