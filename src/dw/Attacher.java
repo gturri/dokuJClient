@@ -2,6 +2,7 @@ package dw;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,11 @@ class Attacher {
 		FileInputStream fileInputStream = new FileInputStream(f);
 		fileInputStream.read(b);
 		return b;
+	}
+	
+	private void deserializeFile(byte[] b, File f) throws IOException{
+		FileOutputStream fileOutputStream = new FileOutputStream(f);
+		fileOutputStream.write(b);
 	}
 	
 	public void putAttachment(String fileId, File file, boolean overwrite) throws IOException, DokuException{
@@ -47,5 +53,14 @@ class Attacher {
 	
 	public void deleteAttachment(String fileId) throws DokuException{
 		_client.genericQuery("wiki.deleteAttachment", fileId);
+	}
+	
+	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
+		Object result = _client.genericQuery("wiki.getAttachment", fileId);
+		byte[] b = (byte[]) result;
+		
+		File f = new File(localPath);
+		deserializeFile(b, f);
+		return f;
 	}
 }

@@ -38,6 +38,10 @@ public class DokuJClient {
 		_attacher.deleteAttachment(fileId);
 	}
 	
+	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
+		return _attacher.getAttachment(fileId, localPath);
+	}
+	
     public Integer getTime() throws DokuException{
     	return (Integer) genericQuery("dokuwiki.getTime");
     }
