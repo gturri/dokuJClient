@@ -1,8 +1,11 @@
 package itest;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.net.MalformedURLException;
 
+import dw.AttachmentInfo;
 import dw.DokuJClient;
 
 public class T_Attacher {
@@ -15,7 +18,11 @@ public class T_Attacher {
 	
 	@org.junit.Test
 	public void putAttachment() throws Exception{
-		File f = new File("src/itest/testEnvironment/list-plus.gif");
-		_client.putAttachment("ns1:img2.gif", f, true);
+		String fileId = "ns1:img2.gif";
+		File file = new File("src/itest/testEnvironment/list-plus.gif");
+
+		_client.putAttachment(fileId, file, true);
+		AttachmentInfo info = _client.getAttachmentInfo(fileId);
+		assertEquals((Integer)(int) file.length(), info.size());
 	}
 }

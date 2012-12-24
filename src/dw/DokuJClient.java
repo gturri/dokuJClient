@@ -30,6 +30,10 @@ public class DokuJClient {
 		_attacher.putAttachment(attachmentId, attachment, overwrite);
 	}
     
+	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
+		return _attacher.getAttachmentInfo(fileId);
+	}
+	
     public Integer getTime() throws DokuException{
     	return (Integer) genericQuery("dokuwiki.getTime");
     }
