@@ -1,5 +1,7 @@
 package dw;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +14,7 @@ import dw.exception.DokuException;
 public class DokuJClient {
 	CoreClient _client;
 	Locker _locker;
+	Attacher _attacher;
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
@@ -20,6 +23,11 @@ public class DokuJClient {
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
     	_client = new CoreClient(url, user, password);
     	_locker = new Locker(_client);
+    	_attacher = new Attacher(_client);
+	}
+    
+	public void putAttachment(String attachmentId, File attachment, boolean overwrite) throws IOException, DokuException{
+		_attacher.putAttachment(attachmentId, attachment, overwrite);
 	}
     
     public Integer getTime() throws DokuException{
