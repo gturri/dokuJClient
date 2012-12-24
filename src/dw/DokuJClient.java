@@ -1,5 +1,7 @@
 package dw;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +14,7 @@ import dw.exception.DokuException;
 public class DokuJClient {
 	CoreClient _client;
 	Locker _locker;
+	Attacher _attacher;
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
@@ -20,8 +23,37 @@ public class DokuJClient {
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
     	_client = new CoreClient(url, user, password);
     	_locker = new Locker(_client);
+    	_attacher = new Attacher(_client);
 	}
     
+	public void putAttachment(String attachmentId, File attachment, boolean overwrite) throws IOException, DokuException{
+		_attacher.putAttachment(attachmentId, attachment, overwrite);
+	}
+    
+	public void putAttachment(String attachmentId, String attachment, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, new File(attachment), overwrite);
+	}
+	
+	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
+		return _attacher.getAttachmentInfo(fileId);
+	}
+	
+	public void deleteAttachment(String fileId) throws DokuException{
+		_attacher.deleteAttachment(fileId);
+	}
+	
+	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
+		return _attacher.getAttachment(fileId, localPath);
+	}
+
+	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+		return _attacher.getAttachments(namespace, additionalParams);
+	}
+	
+	public List<MediaChange> getRecentMediaChanges(Integer timestamp) throws DokuException{
+		return _attacher.getRecentMediaChanges(timestamp);
+	}
+	
     public Integer getTime() throws DokuException{
     	return (Integer) genericQuery("dokuwiki.getTime");
     }
@@ -133,8 +165,7 @@ public class DokuJClient {
 	}
 	
 	public Object genericQuery(String action) throws DokuException {
-		Object[] params = new Object[]{};
-		return genericQuery(action, params);
+		return _client.genericQuery(action);
 	}
 	
 	public void putPage(Page page, String rawWikiText)throws DokuException {
