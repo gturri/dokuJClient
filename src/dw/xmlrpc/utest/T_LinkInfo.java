@@ -1,7 +1,7 @@
-package utest;
+package dw.xmlrpc.utest;
 
 import static org.junit.Assert.*;
-import dw.LinkInfo;
+import dw.xmlrpc.LinkInfo;
 
 public class T_LinkInfo {
 	@org.junit.Test

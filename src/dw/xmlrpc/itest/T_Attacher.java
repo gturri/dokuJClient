@@ -1,4 +1,4 @@
-package itest;
+package dw.xmlrpc.itest;
 
 import static org.junit.Assert.*;
 
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import dw.AttachmentInfo;
-import dw.DokuJClient;
-import dw.MediaChange;
+import dw.xmlrpc.AttachmentInfo;
+import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.MediaChange;
 
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
-	private String _localFileToUpload = "src/itest/testEnvironment/list-plus.gif";
+	private String _localFileToUpload = "src/dw/xmlrpc/itest/testEnvironment/list-plus.gif";
 
 	Set<String> _uploadedFiles;
 	

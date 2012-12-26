@@ -1,4 +1,4 @@
-package dw.exception;
+package dw.xmlrpc.exception;
 
 public class DokuException extends Exception {
 

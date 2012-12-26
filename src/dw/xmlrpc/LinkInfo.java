@@ -1,4 +1,4 @@
-package dw;
+package dw.xmlrpc;
 
 public class LinkInfo {
 	public enum Type {

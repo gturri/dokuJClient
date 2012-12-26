@@ -1,10 +1,10 @@
-package itest;
+package dw.xmlrpc.itest;
 
 import java.net.MalformedURLException;
 
-import dw.DokuJClient;
-import dw.exception.DokuPageLockedException;
-import dw.exception.DokuUnauthorizedException;
+import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.exception.DokuPageLockedException;
+import dw.xmlrpc.exception.DokuUnauthorizedException;
 
 public class T_Exception {
 	private DokuJClient _client;

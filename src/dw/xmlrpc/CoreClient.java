@@ -1,4 +1,4 @@
-package dw;
+package dw.xmlrpc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,8 +7,8 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
-import dw.exception.DokuException;
-import dw.exception.ExceptionConverter;
+import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.ExceptionConverter;
 
 class CoreClient {
 	private XmlRpcClient _client;

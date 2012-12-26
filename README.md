@@ -53,4 +53,4 @@ Running integration tests
 It's possible to run unit and integration tests within Eclipse.
 
 Integration tests need to be able to connect to a fake wiki.
-Please see src/itest/README.md to know how to set it up.
+Please see src/dw/xmlrpc/itest/README.md to know how to set it up.

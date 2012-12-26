@@ -1,4 +1,4 @@
-package utest;
+package dw.xmlrpc.utest;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import dw.LockResult;
+import dw.xmlrpc.LockResult;
 
 public class T_LockResult {
 

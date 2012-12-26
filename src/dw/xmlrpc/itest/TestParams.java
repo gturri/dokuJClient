@@ -1,4 +1,4 @@
-package itest;
+package dw.xmlrpc.itest;
 
 public class TestParams {
 	public static final String url = "http://localhost/dokuwikiITestsForXmlRpcClient/lib/exe/xmlrpc.php";

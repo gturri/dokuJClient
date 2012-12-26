@@ -1,4 +1,4 @@
-package itest;
+package dw.xmlrpc.itest;
 
 import static org.junit.Assert.*;
 
@@ -9,12 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import dw.DokuJClient;
-import dw.LinkInfo;
-import dw.Page;
-import dw.PageInfo;
-import dw.PageVersion;
-import dw.SearchResult;
+import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.LinkInfo;
+import dw.xmlrpc.Page;
+import dw.xmlrpc.PageInfo;
+import dw.xmlrpc.PageVersion;
+import dw.xmlrpc.SearchResult;
 
 public class T_XmlRpcQueries {
 	private DokuJClient _client;

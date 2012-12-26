@@ -1,4 +1,4 @@
-package dw;
+package dw.xmlrpc;
 
 public class SearchResult {
 	private Integer _score;

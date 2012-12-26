@@ -1,11 +1,11 @@
-package itest;
+package dw.xmlrpc.itest;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import dw.DokuJClient;
-import dw.exception.DokuException;
-import dw.exception.DokuPageLockedException;
+import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuPageLockedException;
 
 public class TestHelper {
 	public static void assertPageIsLockForMe(String pageId, DokuJClient client) throws DokuException{

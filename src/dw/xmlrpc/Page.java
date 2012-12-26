@@ -1,4 +1,4 @@
-package dw;
+package dw.xmlrpc;
 
 public class Page {
 	private String _id;

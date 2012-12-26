@@ -1,4 +1,4 @@
-package dw.exception;
+package dw.xmlrpc.exception;
 
 import org.apache.xmlrpc.XmlRpcException;
 

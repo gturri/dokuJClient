@@ -1,4 +1,4 @@
-package itest;
+package dw.xmlrpc.itest;
 
 import static org.junit.Assert.*;
 
@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import dw.DokuJClient;
-import dw.LockResult;
+import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.LockResult;
 
 public class T_Lock {
 	private DokuJClient _client;
