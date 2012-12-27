@@ -12,10 +12,11 @@ import dw.xmlrpc.LockResult;
 
 public class T_Lock {
 	private DokuJClient _client;
-
+	private DokuJClient _otherClient;
 	@org.junit.Before
 	public void setup() throws Exception {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		_otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 		clean();
 	}
 	
@@ -35,17 +36,14 @@ public class T_Lock {
 		_client.lock(pageId);
 		
 		//Make sure you can't write
-		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
-		TestHelper.assertPageIsLockForMe(pageId, otherClient);
+		TestHelper.assertPageIsLockForMe(pageId, _otherClient);
 				
 		_client.unlock("ns1:start");
-		TestHelper.assertPageIsUnlockForMe(pageId, otherClient);
+		TestHelper.assertPageIsUnlockForMe(pageId, _otherClient);
 	}
 	
 	@org.junit.Test
 	public void iCanLockOrUnlockSeveralPagesAtOnce() throws Exception{
-		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
-
 		//1st round: lock some pages and unlock some already unlock pages
 		List<String> pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
@@ -56,8 +54,8 @@ public class T_Lock {
 		
 		
 		_client.setLocks(pagesToLock, pagesToUnlock);		
-		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
-		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
+		TestHelper.assertPagesAreLockForMe(pagesToLock, _otherClient);
+		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
 
 		//2nd round: lock some pages, some of which are already lock. Play with unlock too
 		pagesToLock = new ArrayList<String>();
@@ -69,8 +67,8 @@ public class T_Lock {
 		
 		
 		_client.setLocks(pagesToLock, pagesToUnlock);		
-		TestHelper.assertPagesAreLockForMe(pagesToLock, otherClient);
-		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, otherClient);
+		TestHelper.assertPagesAreLockForMe(pagesToLock, _otherClient);
+		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
 	}
 	
 	//This doesn't really test the client, but it documents Dokuwiki's behavior,
@@ -101,7 +99,7 @@ public class T_Lock {
 	public void lockResult() throws Exception {
 		Set<String> emptySet = new HashSet<String>();
 		
-		//1st round: lock some pages and unlock some already unlock pages
+		//1st round: lock some pages and unlock some already unlocked pages
 		List<String> pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
 		pagesToLock.add("ns2:p2");
@@ -113,7 +111,7 @@ public class T_Lock {
 		LockResult actual = _client.setLocks(pagesToLock, pagesToUnlock);
 		assertEquals(expected, actual);
 		
-		//2nd round: lock some pages, some of which are already lock. Play with unlock too
+		//2nd round: lock some pages, some of which are already locked. Play with unlock too
 		pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
 		pagesToLock.add("ns2:p3");
