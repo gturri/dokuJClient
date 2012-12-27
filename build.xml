@@ -1,6 +1,8 @@
 <project name="dokuJClient" default="jar">
     <property name="lib.dir" value="/usr/share/java" />
     <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir" value="${build.dir}/jar"/>
     <property name="testresults.dir" value="${build.dir}/junitreport" />
     <path id="classpath">
        <pathelement location="${lib.dir}/ws-commons-util.jar" />
@@ -10,27 +12,28 @@
 
     <target name="clean">
         <delete dir="${build.dir}"/>
-        <delete dir="${testresults.dir}"/>
     </target>
 
     <target name="compileClasses">
-        <mkdir dir="${build.dir}"/>
-        <javac srcdir="src" destdir="${build.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" />
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" />
     </target>
 
     <target name="jar" depends="compileClasses">
-      <jar destfile="${build.dir}/dokujclient.jar" basedir="${build.dir}" excludesfile=".excludesfile" />
+      <mkdir dir="${jar.dir}"/>
+      <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" excludesfile=".excludesfile" />
+      <echo message="${ant.project.name}.jar has been built and may be found in ${jar.dir}"/>
     </target>
 
     <target name="compileAll">
-        <mkdir dir="${build.dir}"/>
-        <javac srcdir="src" destdir="${build.dir}" includeantruntime="false">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
           <classpath>
            <path refid="classpath" />
            <pathelement location="${lib.dir}/junit4.jar" />
           </classpath>
         </javac>
-        <jar destfile="${build.dir}/dokujclient.tests.jar" basedir="${build.dir}" />
+        <jar destfile="${jar.dir}/${ant.project.name}.tests.jar" basedir="${classes.dir}" />
     </target>
 
     <target name="junit" depends="compileAll">
@@ -40,10 +43,10 @@
 
       <!-- Use the following junit opening tag to have a more verbose run -->
       <!--junit printsummary="withOutAndErr" dir="src" haltonfailure="on"-->
-      <junit printsummary="yes" dir="src" haltonfailure="on">
+      <junit printsummary="yes" dir="src" haltonfailure="on" >
         <classpath>
           <path refid="classpath" />
-          <pathelement location="${build.dir}/dokujclient.tests.jar" />
+          <pathelement location="${jar.dir}/${ant.project.name}.tests.jar" />
           <pathelement location="${lib.dir}/junit4.jar" />
         </classpath>
 
