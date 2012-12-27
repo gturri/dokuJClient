@@ -26,8 +26,8 @@ Getting started
 Everyhing is done through the DokuJClient: just create one and play with its methods.
 Here is a quick example which displays the title of the wiki and the list of its pages:
 
-    import dw.DokuJClient;
-    import dw.Page;
+    import dw.xmlrpc.DokuJClient;
+    import dw.xmlrpc.Page;
     
     public class Main {
       public static void main(String[] args) throws Exception{
