@@ -17,7 +17,7 @@ import dw.xmlrpc.MediaChange;
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
-	private String _localFileToUpload = "src/dw/xmlrpc/itest/testEnvironment/list-plus.gif";
+	private String _localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
 
 	Set<String> _uploadedFiles;
 	

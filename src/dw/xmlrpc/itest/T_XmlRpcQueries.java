@@ -45,7 +45,6 @@ public class T_XmlRpcQueries {
 		PageInfo pageInfo = _client.getPageInfoVersion(pageId, version);
 		assertEquals(pageId, pageInfo.name());
 		assertEquals(version, pageInfo.version());
-		System.out.println(pageInfo.toString());
 	}
 	
 	@org.junit.Test

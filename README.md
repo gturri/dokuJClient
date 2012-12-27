@@ -17,14 +17,14 @@ Build
 =====
 On ubuntu, at the root of the project run:
 
-> sudo apt-get install libxmlrpc3-common-java
-> sudo apt-get install ant
-> ant
+    sudo apt-get install libxmlrpc3-common-java
+    sudo apt-get install ant
+    ant
 
 Getting started
 ===============
 Everyhing is done through the DokuJClient: just create one and play with its methods.
-Here is a quick example which display the title of the wiki and the list of its pages:
+Here is a quick example which displays the title of the wiki and the list of its pages:
 
     import dw.DokuJClient;
     import dw.Page;
@@ -50,7 +50,14 @@ allowed to use it (ie: "remote" and "remoteuser" entries in your configuration)
 
 Running integration tests
 ==========================
-It's possible to run unit and integration tests within Eclipse.
-
-Integration tests need to be able to connect to a fake wiki.
+To run the tests you'll need junit 4
 Please see src/dw/xmlrpc/itest/README.md to know how to set it up.
+
+After that, to run the tests, just run
+    ant junit
+or
+    ant junitreport
+
+You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
+ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the
+'Working directory' to '${workspace_loc:dokuJClient/src}

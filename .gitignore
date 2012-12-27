@@ -1,3 +1,6 @@
 bin
 tmpForInstallation
 *.jar
+.*.*wp
+testResults
+build
