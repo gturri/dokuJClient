@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -15,6 +16,10 @@ public class DokuJClient {
 	CoreClient _client;
 	Locker _locker;
 	Attacher _attacher;
+
+	public void setLogger(Logger logger){
+		_client.setLogger(logger);
+	}
 	
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
@@ -24,6 +29,8 @@ public class DokuJClient {
     	_client = new CoreClient(url, user, password);
     	_locker = new Locker(_client);
     	_attacher = new Attacher(_client);
+    	Logger logger = Logger.getLogger(DokuJClient.class.toString());
+    	setLogger(logger);
 	}
     
 	public void putAttachment(String attachmentId, File attachment, boolean overwrite) throws IOException, DokuException{

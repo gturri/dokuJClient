@@ -2,6 +2,8 @@ package dw.xmlrpc;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
@@ -12,6 +14,11 @@ import dw.xmlrpc.exception.ExceptionConverter;
 
 class CoreClient {
 	private XmlRpcClient _client;
+	private Logger _logger = null;
+	
+	public void setLogger(Logger logger){
+		_logger = logger;
+	}
 	
     public CoreClient(String url, String user, String password) throws MalformedURLException{
     	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
@@ -35,7 +42,10 @@ class CoreClient {
 		try {
 			return _client.execute(action, params);
 		} catch (XmlRpcException e){
-			System.out.println(e.toString());
+			if ( _logger != null ){
+				_logger.log(Level.INFO, "Caught exception when executing action " + action + ": " + e.toString());
+				_logger.log(Level.FINEST, "Details of the exception: ", e);
+			}
 			throw ExceptionConverter.Convert(e);
 		}
 	}

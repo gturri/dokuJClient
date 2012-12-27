@@ -19,7 +19,6 @@ class Locker {
 	@SuppressWarnings("unchecked")
 	public LockResult setLocks(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
 		LockResult result = null;
-		try {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("lock", pagesToLock == null ? new ArrayList<String>() :pagesToLock);
 		params.put("unlock", pagesToUnlock == null ? new ArrayList<String>() : pagesToUnlock);
@@ -37,9 +36,6 @@ class Locker {
 				objToStr(unlockedObj),
 				objToStr(unlockfailObj));
 		
-		} catch (Exception e){
-			System.out.println(e.toString());
-		}
 		return result;
 	}
 
