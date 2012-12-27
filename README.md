@@ -53,10 +53,15 @@ Running integration tests
 To run the tests you'll need junit 4
 Please see src/dw/xmlrpc/itest/README.md to know how to set it up.
 
-After that, to run the tests, just run
+After that, to run the tests, just run, at the root of the repo:
+
     ant junit
+
+
 or
+
     ant junitreport
+
 
 You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
 ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the
