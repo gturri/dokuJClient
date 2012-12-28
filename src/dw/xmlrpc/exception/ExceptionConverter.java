@@ -18,7 +18,11 @@ public class ExceptionConverter {
 					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
 			return new DokuBadUrlException(mess, e);
 		}
-		
+
+		if ( message.equals("Positive wordblock check")){
+			return new DokuWordblockException(e);
+		}
+
 		return new DokuUnknownException(e);
 	}
 }

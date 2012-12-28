@@ -6,6 +6,7 @@ import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
+import dw.xmlrpc.exception.DokuWordblockException;
 
 public class T_Exception {
 	private DokuJClient _client;
@@ -35,5 +36,11 @@ public class T_Exception {
 	public void badUrlExceptionWhenPathIsWrong() throws Exception {
 		DokuJClient client = new DokuJClient(TestParams.url + "azerty", TestParams.user, TestParams.password);
 		client.getTitle();
+	}
+
+	@org.junit.Test(expected=DokuWordblockException.class)
+	public void wordblockException() throws Exception {
+		String pageId = "ns1:start";
+		_client.appendPage(pageId, "try to write a forbiddenword");
 	}
 }
