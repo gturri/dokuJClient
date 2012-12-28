@@ -3,6 +3,7 @@ package dw.xmlrpc.itest;
 import java.net.MalformedURLException;
 
 import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 
@@ -28,5 +29,11 @@ public class T_Exception {
 		
 		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 		otherClient.appendPage(pageId, "something");
+	}
+
+	@org.junit.Test(expected=DokuBadUrlException.class)
+	public void badUrlExceptionWhenPathIsWrong() throws Exception {
+		DokuJClient client = new DokuJClient(TestParams.url + "azerty", TestParams.user, TestParams.password);
+		client.getTitle();
 	}
 }

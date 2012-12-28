@@ -12,6 +12,13 @@ public class ExceptionConverter {
 		if ( message.equals("HTTP server returned unexpected status: Unauthorized")){
 			return new DokuUnauthorizedException(e);
 		}
+		
+		if ( message.equals("HTTP server returned unexpected status: Not Found")){
+			String mess = "Server couldn't find the xmlrpc interface."
+					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
+			return new DokuBadUrlException(mess, e);
+		}
+		
 		return new DokuUnknownException(e);
 	}
 }
