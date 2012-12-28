@@ -9,6 +9,9 @@ public class TestParams {
 	public static final String writerLogin = "writeruser";
 	public static final String writerPwd = "writer";
 	
+	public static final String unauthorizedLogin = "norightsuser";
+	public static final String unauthorizedPwd = "norights";
+	
 	public static final String wikiVersion = "Release 2012-10-13 \"Adora Belle\"";
 	public static final String wikiTitle = "test xmlrpc";
 	public static final Integer apiVersion = 7;
