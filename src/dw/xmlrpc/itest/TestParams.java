@@ -16,4 +16,6 @@ public class TestParams {
 	public static final String wikiTitle = "test xmlrpc";
 	public static final Integer apiVersion = 7;
 	public static final Integer rpcVersionSupported = 2;
+	
+	public static final String localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
 }

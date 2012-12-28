@@ -1,5 +1,7 @@
 package dw.xmlrpc.itest;
 
+import static org.junit.Assert.*;
+
 import java.net.MalformedURLException;
 
 import dw.xmlrpc.DokuJClient;
@@ -39,6 +41,40 @@ public class T_Exception {
 	public void unauthorizedToListMedia() throws Exception {
 		_unauthorizedClient.getAttachments("");
 	}
+
+	@org.junit.Test
+	public void unauthorizedToDeleteMedia() throws Exception {
+		String attachmentId = "forTestUnauthorizedWithMedia.gif";
+		_client.putAttachment(attachmentId, TestParams.localFileToUpload, true);
+
+		boolean getRelevantException = false;
+		try {
+			_unauthorizedClient.deleteAttachment(attachmentId);
+		} catch (DokuUnauthorizedException e){
+			getRelevantException = true;
+		}
+		
+		_client.deleteAttachment(attachmentId);
+		
+		assertTrue(getRelevantException);
+	}
+	
+	@org.junit.Test
+	public void unauthorizedToGetMedia() throws Exception {
+		String attachmentId = "forTestUnauthorizedWithMedia.gif";
+		_client.putAttachment(attachmentId, TestParams.localFileToUpload, true);
+
+		boolean getRelevantException = false;
+		try {
+			_unauthorizedClient.getAttachment(attachmentId, "file.gif");
+		} catch (DokuUnauthorizedException e){
+			getRelevantException = true;
+		}
+		
+		_client.deleteAttachment(attachmentId);
+		
+		assertTrue(getRelevantException);
+	}	
 	
 	@org.junit.Test(expected=DokuPageLockedException.class)
 	public void pageLockedException() throws Exception {

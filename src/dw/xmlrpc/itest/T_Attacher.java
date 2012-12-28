@@ -17,7 +17,7 @@ import dw.xmlrpc.MediaChange;
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
-	private String _localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
+	
 
 	Set<String> _uploadedFiles;
 	
@@ -53,7 +53,7 @@ public class T_Attacher {
 		_uploadedFiles.add("nswithanotherns:otherns:img4.gif");
 		
 		for ( String fileId : _uploadedFiles ){
-			_client.putAttachment(fileId, _localFileToUpload, true);
+			_client.putAttachment(fileId, TestParams.localFileToUpload, true);
 		}
 		
 		//actually test
@@ -84,7 +84,7 @@ public class T_Attacher {
 	@org.junit.Test
 	public void putGetAndDeleteAttachment() throws Exception{
 		String fileId = "ns1:img2.gif";
-		File file = new File(_localFileToUpload);
+		File file = new File(TestParams.localFileToUpload);
 
 		_client.putAttachment(fileId, file, true);
 		AttachmentInfo info = _client.getAttachmentInfo(fileId);
