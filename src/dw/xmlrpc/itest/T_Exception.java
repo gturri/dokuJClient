@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
+import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
@@ -61,9 +62,14 @@ public class T_Exception {
 	}
 	
 	@org.junit.Test(expected=DokuDeleteAttachmentException.class)
-	public void mediaDoesntExist() throws Exception {
+	public void mediaToDeleteDoesntExist() throws Exception {
 		String attachmentId = "unexistingFile.gif";
 		_client.deleteAttachment(attachmentId);
+	}
+	
+	@org.junit.Test(expected=DokuDistantFileDoesntExistException.class)
+	public void mediaToGetDoesntExist() throws Exception {
+		_client.getAttachment("unexistingFile.gif", "file.gif");
 	}
 	
 	@org.junit.Test

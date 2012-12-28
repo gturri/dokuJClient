@@ -25,6 +25,9 @@ public class ExceptionConverter {
 		if ( message.equals("Could not delete file")){
 			return new DokuDeleteAttachmentException(e);
 		}
+		if ( message.equals("The requested file does not exist")){
+			return new DokuDistantFileDoesntExistException(e);
+		}
 
 		return new DokuUnknownException(e);
 	}
