@@ -22,6 +22,9 @@ public class ExceptionConverter {
 		if ( message.equals("HTTP server returned unexpected status: Forbidden")){
 			return new DokuUnauthorizedException(e);
 		}
+		if ( message.equals("Could not delete file")){
+			return new DokuDeleteAttachmentException(e);
+		}
 
 		return new DokuUnknownException(e);
 	}
