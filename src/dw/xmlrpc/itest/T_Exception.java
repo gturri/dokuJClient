@@ -35,6 +35,11 @@ public class T_Exception {
 		_unauthorizedClient.putPage("ns1:start", "text");
 	}
 	
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	public void unauthorizedToListMedia() throws Exception {
+		_unauthorizedClient.getAttachments("");
+	}
+	
 	@org.junit.Test(expected=DokuPageLockedException.class)
 	public void pageLockedException() throws Exception {
 		String pageId = "ns1:start";

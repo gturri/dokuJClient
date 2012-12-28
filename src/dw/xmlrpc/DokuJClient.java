@@ -53,6 +53,10 @@ public class DokuJClient {
 		return _attacher.getAttachment(fileId, localPath);
 	}
 
+	public List<AttachmentInfo> getAttachments(String namespace) throws DokuException{
+		return getAttachments(namespace, null);
+	}
+	
 	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
 		return _attacher.getAttachments(namespace, additionalParams);
 	}
