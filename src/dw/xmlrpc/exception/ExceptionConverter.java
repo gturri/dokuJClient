@@ -34,6 +34,9 @@ public class ExceptionConverter {
 		if ( message.equals("The provided value is not a valid timestamp")){
 			return new DokuInvalidTimeStampException(e);
 		}
+		if ( message.equals("There are no changes in the specified timeframe")){
+			return new DokuInvalidTimeStampException(e);
+		}
 
 		return new DokuUnknownException(e);
 	}
