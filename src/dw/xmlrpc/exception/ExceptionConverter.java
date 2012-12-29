@@ -28,6 +28,9 @@ public class ExceptionConverter {
 		if ( message.equals("The requested file does not exist")){
 			return new DokuDistantFileDoesntExistException(e);
 		}
+		if ( message.equals("File is still referenced")){
+			return new DokuAttachmentStillReferenced(e);
+		}		
 
 		return new DokuUnknownException(e);
 	}

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.net.MalformedURLException;
 
 import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
@@ -87,7 +88,15 @@ public class T_Exception {
 		_client.deleteAttachment(attachmentId);
 		
 		assertTrue(getRelevantException);
-	}	
+	}
+	
+	@org.junit.Test(expected=DokuAttachmentStillReferenced.class)
+	public void stillReferencedMedia() throws Exception {
+		String distantFile = "referencedMedia.gif";
+		_client.putAttachment(distantFile, TestParams.localFileToUpload, true);
+		_client.putPage("referencing", "here is a {{" + distantFile + "}}|file");
+		_client.deleteAttachment(distantFile);
+	}
 	
 	@org.junit.Test(expected=DokuPageLockedException.class)
 	public void pageLockedException() throws Exception {
