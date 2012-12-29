@@ -11,6 +11,6 @@ $conf['license'] = 'cc-by-sa';
 $conf['useacl'] = 1;
 $conf['superuser'] = '@admin';
 $conf['remote'] = 1;
-$conf['remoteuser'] = 'xmlrpcuser,writeruser';
+$conf['remoteuser'] = 'xmlrpcuser,writeruser,norightsuser';
 
 // end auto-generated content

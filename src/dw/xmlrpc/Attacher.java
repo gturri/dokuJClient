@@ -69,6 +69,9 @@ class Attacher {
 	}
 	
 	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+		if ( additionalParams == null ){
+			additionalParams = new HashMap<String, Object>();
+		}
 		Object[] params = new Object[]{namespace, additionalParams};
 		Object result = _client.genericQuery("wiki.getAttachments", params);
 		List<AttachmentInfo> res = new ArrayList<AttachmentInfo>();
