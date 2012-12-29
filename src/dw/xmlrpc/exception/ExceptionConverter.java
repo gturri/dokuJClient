@@ -30,7 +30,10 @@ public class ExceptionConverter {
 		}
 		if ( message.equals("File is still referenced")){
 			return new DokuAttachmentStillReferenced(e);
-		}		
+		}
+		if ( message.equals("The provided value is not a valid timestamp")){
+			return new DokuInvalidTimeStampException(e);
+		}
 
 		return new DokuUnknownException(e);
 	}

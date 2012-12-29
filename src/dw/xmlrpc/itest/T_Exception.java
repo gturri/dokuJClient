@@ -9,6 +9,7 @@ import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
+import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
@@ -96,6 +97,11 @@ public class T_Exception {
 		_client.putAttachment(distantFile, TestParams.localFileToUpload, true);
 		_client.putPage("referencing", "here is a {{" + distantFile + "}}|file");
 		_client.deleteAttachment(distantFile);
+	}
+	
+	@org.junit.Test(expected=DokuInvalidTimeStampException.class)
+	public void invalidTimestamp() throws Exception {
+		_client.getRecentChanges(123456);
 	}
 	
 	@org.junit.Test(expected=DokuPageLockedException.class)
