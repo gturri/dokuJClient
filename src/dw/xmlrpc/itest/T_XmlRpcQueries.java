@@ -69,6 +69,11 @@ public class T_XmlRpcQueries {
 	public void getRecentChanges() throws Exception {
 		List<PageVersion> versions = _client.getRecentChanges(1356218401);
 		assertTrue(versions.size() > 0);
+
+		PageVersion version = versions.get(0);
+		assertEquals("someuser", version.author());
+		assertEquals((Integer) 1356218419, version.version());
+		assertEquals("rev:start", version.pageId());
 	}
 	
 	@org.junit.Test

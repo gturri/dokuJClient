@@ -101,13 +101,16 @@ public class DokuJClient {
 	
 	private PageVersion buildPageVersionFromResult(Map<String, Object> map, boolean keyLastModified){
 		String pageId = (String) map.get("name");
-		String user = (String) map.get("user");
+		String author = (String) map.get("author");
+		if ( author == null ){
+			author = (String) map.get("user");
+		}
 		String ip = (String) map.get("ip");
 		String type = (String) map.get("type");
 		String summary = (String) map.get("sum");
 		Date modified = (Date) map.get(keyLastModified ? "lastModified" : "modified");
 		Integer version = (Integer) map.get("version");
-		return new PageVersion(pageId, user, ip, type, summary, modified, version);
+		return new PageVersion(pageId, author, ip, type, summary, modified, version);
 	}
 	
 	public String getPageVersion(String pageId, Integer timestamp) throws DokuException{

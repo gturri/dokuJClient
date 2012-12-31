@@ -8,9 +8,9 @@ public class PageVersion {
 		return _pageId;
 	}
 	
-	private String _user;
-	public String user(){
-		return _user;
+	private String _author;
+	public String author(){
+		return _author;
 	}
 	
 	private String _ip;
@@ -38,9 +38,9 @@ public class PageVersion {
 		return _version;
 	}
 	
-	public PageVersion(String pageId, String user, String ip, String type, String summary, Date modified, Integer version){
+	public PageVersion(String pageId, String author, String ip, String type, String summary, Date modified, Integer version){
 		_pageId = pageId;
-		_user = user;
+		_author = author;
 		_ip = ip;
 		_type = type;
 		_summary = summary;
@@ -50,7 +50,7 @@ public class PageVersion {
 	
 	public String toString(){
 		return "pageId=" + (_pageId == null ? "null" : _pageId)
-				+ ", user=" + (_user == null ? "null" : _user)
+				+ ", author=" + (_author == null ? "null" : _author)
 				+ ", ip=" + (_ip == null ? "null" : _ip)
 				+ ", type=" + (_type == null ? "null" : _type)
 				+ ", summary=" + (_summary == null ? "null" : _summary)
