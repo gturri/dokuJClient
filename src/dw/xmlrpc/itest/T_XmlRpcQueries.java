@@ -35,7 +35,7 @@ public class T_XmlRpcQueries {
 	public void getPageInfo() throws Exception {
 		String pageId = "rev:start";
 		PageInfo pageInfo = _client.getPageInfo(pageId);
-		assertEquals(pageId, pageInfo.name());
+		assertEquals(pageId, pageInfo.id());
 	}
 	
 	@org.junit.Test
@@ -43,7 +43,7 @@ public class T_XmlRpcQueries {
 		String pageId = "rev:start";
 		Integer version = 1356218411;
 		PageInfo pageInfo = _client.getPageInfoVersion(pageId, version);
-		assertEquals(pageId, pageInfo.name());
+		assertEquals(pageId, pageInfo.id());
 		assertEquals(version, pageInfo.version());
 	}
 	

@@ -3,9 +3,9 @@ package dw.xmlrpc;
 import java.util.Date;
 
 public class PageInfo {
-	private String _name;
-	public String name(){
-		return _name;
+	private String _id;
+	public String id(){
+		return _id;
 	}
 	
 	private Date _modified;
@@ -23,15 +23,15 @@ public class PageInfo {
 		return _version;
 	}
 	
-	public PageInfo(String name, Date modified, String author, Integer version){
-		_name = name;
+	public PageInfo(String id, Date modified, String author, Integer version){
+		_id = id;
 		_modified = modified;
 		_author = author;
 		_version = version;
 	}
 	
 	public String toString(){
-		return "name:" + _name
+		return "id:" + _id
 				+ ", modified:" + (_modified == null ? "null" : _modified.toString())
 				+ ", author:" + _author
 				+ ", version:" + _version;
