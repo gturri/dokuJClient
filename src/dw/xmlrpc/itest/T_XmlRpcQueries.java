@@ -49,9 +49,11 @@ public class T_XmlRpcQueries {
 	
 	@org.junit.Test
 	public void getPageVersions() throws Exception{
-		List<PageVersion> versions = _client.getPageVersions("rev:start", 0);
+		String pageId = "rev:start";
+		List<PageVersion> versions = _client.getPageVersions(pageId, 0);
 		PageVersion version = versions.get(0);
 		assertEquals((Integer) 1356218411, version.version());
+		assertEquals(pageId, version.pageId());
 	}
 	
 	@org.junit.Test

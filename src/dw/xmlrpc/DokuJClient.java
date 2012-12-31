@@ -83,7 +83,12 @@ public class DokuJClient {
 		
 		List<PageVersion> res = new ArrayList<PageVersion>();
 		for ( Object o : (Object[]) result){
-			res.add(buildPageVersionFromResult(o, false));
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map = (Map<String, Object>) o;
+			if ( map.get("name") == null ){
+				map.put("name", pageId);
+			}
+			res.add(buildPageVersionFromResult(map, false));
 		}
 		
 		return res;
