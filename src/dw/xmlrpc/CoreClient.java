@@ -10,8 +10,8 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import dw.xmlrpc.exception.DokuException;
-import dw.xmlrpc.exception.ExceptionConverter;
 
+//! @cond
 class CoreClient {
 	private XmlRpcClient _client;
 	private Logger _logger = null;
@@ -49,4 +49,5 @@ class CoreClient {
 			throw ExceptionConverter.Convert(e);
 		}
 	}
+//! @endcond
 }

@@ -100,14 +100,14 @@ public class T_XmlRpcQueries {
 		// * edit the page again and retrieve
 		// * make sure times are consistent
 		Page page = _client.getPageList("singlePage").get(0);
-		_client.putPage(page, "text before (time test)");
+		_client.putPage(page.id(), "text before (time test)");
 		
 		page = _client.getPageList("singlePage").get(0);
 		Integer timeBefore = page.mtime();
 		
 		Integer serverTime = _client.getTime();
 		
-		_client.putPage(page, "text after (time test)");
+		_client.putPage(page.id(), "text after (time test)");
 		page = _client.getPageList("singlePage").get(0);
 		Integer timeAfter = page.mtime();
 		
@@ -182,30 +182,28 @@ public class T_XmlRpcQueries {
 	@org.junit.Test
 	public void putAndGetPage() throws Exception {
 		String pageId = "ns1:dummy";
-		Page page = new Page(pageId);
 		String content1 = "content1";
 		String content2 = "content2";
 		
 		_client.putPage(pageId, content1);
-		assertEquals(content1, _client.getPage(page));
-		_client.putPage(page, content2);
+		assertEquals(content1, _client.getPage(pageId));
+		_client.putPage(pageId, content2);
 		assertEquals(content2, _client.getPage(pageId));
 	}
 
 	@org.junit.Test
 	public void appendPage() throws Exception {
 		String pageId = "ns1:dummy";
-		Page page = new Page(pageId);
 		String initialContent = "put page in a clean state.";
 		String append1 = "text appended.";
 		String append2 = "final text";
 		_client.putPage(pageId, initialContent);
 		
 		_client.appendPage(pageId, append1);
-		assertEquals(initialContent + append1, _client.getPage(page));
+		assertEquals(initialContent + append1, _client.getPage(pageId));
 		
-		_client.appendPage(page, append2);
-		assertEquals(initialContent + append1 + append2, _client.getPage(page));
+		_client.appendPage(pageId, append2);
+		assertEquals(initialContent + append1 + append2, _client.getPage(pageId));
 	}
 	
 	@org.junit.Test

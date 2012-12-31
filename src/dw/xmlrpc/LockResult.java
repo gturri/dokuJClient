@@ -2,24 +2,42 @@ package dw.xmlrpc;
 
 import java.util.Set;
 
-
+/**
+ * Describes the result of an attempt to (un)lock pages
+ */
 public class LockResult {
 	private Set<String> _locked;
+	
+	/**
+	 * Pages successfully locked
+	 */
 	public Set<String> locked(){
 		return _locked;
 	}
 	
 	private Set<String> _lockfail;
+
+	/**
+	 * Pages we failed to lock
+	 */
 	public Set<String> lockfail(){
 		return _lockfail;
 	}
 	
 	private Set<String> _unlocked;
+
+	/**
+	 * Pages successfully unlocked
+	 */
 	public Set<String> unlocked(){
 		return _unlocked;
 	}
 	
 	private Set<String> _unlockfail;
+
+	/**
+	 * Pages we failed to unlock
+	 */
 	public Set<String> unlockfail(){
 		return _unlockfail;
 	}

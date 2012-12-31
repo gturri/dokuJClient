@@ -8,6 +8,6 @@ public class T_Page {
 	public void getNamespaceAndName(){
 		Page page = new Page("ns:name");
 		assertEquals("name", page.name());
-		assertEquals("ns", page.namespace());
+		assertEquals("ns", page.nameSpace());
 	}
 }

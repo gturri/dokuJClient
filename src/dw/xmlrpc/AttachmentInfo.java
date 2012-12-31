@@ -2,49 +2,60 @@ package dw.xmlrpc;
 
 import java.util.Date;
 
+/**
+ * Describes a file uploaded in the wiki
+ */
 public class AttachmentInfo {
-	/**
-	 * Media id
-	 */
 	private String _id;
+	
+	/**
+	 * Media id (namespace + name)
+	 */
 	public String id(){
 		return _id;
 	}
 
-	/**
-	 * true if file is an image, false otherwise
-	 */
 	private Boolean _isImg;
+
+	/**
+	 * Whether the file is an image or not
+	 */
 	public Boolean isImg(){
 		return _isImg;
 	}
 	
-	/**
-	 * true if file is writable, false otherwise
-	 */
 	private Boolean _writable;
+
+	/**
+	 * Whether the file is writable or not
+	 */
 	public Boolean writable(){
 		return _writable;
 	}
 	
-	
-	/**
-	 * permissions of file
-	 */
 	private Integer _perms;
+
+	/**
+	 * Permissions of file
+	 */
 	public Integer perms(){
 		return _perms;
 	}
 
-	/**
-	 * size in bytes
-	 */
 	private Integer _size;
+
+	/**
+	 * Size in bytes
+	 */
 	public Integer size(){
 		return _size;
 	}
 	
 	private Date _lastModified;
+	
+	/**
+	 * Date of last modification of the file
+	 */
 	public Date  lastModified(){
 		return _lastModified;
 	}

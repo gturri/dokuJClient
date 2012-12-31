@@ -1,31 +1,37 @@
 package dw.xmlrpc;
 
+/**
+ * Describes a link in a wiki page
+ */
 public class LinkInfo {
 	public enum Type {
 		local,
 		extern
 	}
 	
-	/**
-	 * Local / extern
-	 */
 	private Type _type;
+	
+	/**
+	 * Whether it is a local or extern link
+	 */
 	public Type type(){
 		return _type;
 	}
 	
-	/**
-	 * The wiki page (or the complete URL if extern)
-	 */
 	private String _page;
+
+	/**
+	 * The wiki page (or the complete URL if extern link)
+	 */
 	public String page(){
 		return _page;
 	}
 	
+	private String _href;
+
 	/**
 	 * The complete URL
 	 */
-	private String _href;
 	public String href(){
 		return _href;
 	}

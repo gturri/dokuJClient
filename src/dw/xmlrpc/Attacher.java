@@ -12,6 +12,7 @@ import java.util.Map;
 
 import dw.xmlrpc.exception.DokuException;
 
+//! @cond
 class Attacher {
 	private CoreClient _client;
 	
@@ -114,4 +115,5 @@ class Attacher {
 		deserializeFile(b, f);
 		return f;
 	}
+//! @endcond
 }

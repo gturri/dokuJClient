@@ -1,32 +1,59 @@
 package dw.xmlrpc;
 
+/**
+ * Describes a page of the wiki
+ */
 public class Page {
 	private String _id;
+	
+	/**
+	 * id of the page, that is namespace + name
+	 */
 	public String id(){
 		return _id;
 	}
 
 	private String _name;
+	
+	/**
+	 * name of the page, without its namespace
+	 */
 	public String name(){
 		return _name;
 	}
 	
 	private String _namespace;
-	public String namespace(){
+	
+	/**
+	 * namespace of the page, without its name
+	 */
+	public String nameSpace(){
 		return _namespace;
 	}
 	
 	private Integer _revision;
+	
+	/**
+	 * Revision of the page as a timestamp
+	 */
 	public Integer revision(){
 		return _revision;
 	}
 	
 	private Integer _mtime;
+	
+	/**
+	 * Modification time, as a timestamp
+	 */
 	public Integer mtime(){
 		return _mtime;
 	}
 	
 	private Integer _size;
+	
+	/**
+	 * Size of the page
+	 */
 	public Integer size(){
 		return _size;
 	}

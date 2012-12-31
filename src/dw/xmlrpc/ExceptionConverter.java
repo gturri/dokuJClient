@@ -1,8 +1,14 @@
-package dw.xmlrpc.exception;
+package dw.xmlrpc;
 
 import org.apache.xmlrpc.XmlRpcException;
+import dw.xmlrpc.exception.*;
 
-public class ExceptionConverter {
+//! @cond
+
+/**
+ * Converts an XmlRpcException into a the most relevant DokuException.
+ */
+class ExceptionConverter {
 	public static DokuException Convert(XmlRpcException e){
 		String message = e.getMessage();
 		if ( message.equals("The page is currently locked") ){
@@ -40,4 +46,5 @@ public class ExceptionConverter {
 
 		return new DokuUnknownException(e);
 	}
+//! @endcond
 }

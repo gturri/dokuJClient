@@ -2,38 +2,76 @@ package dw.xmlrpc;
 
 import java.util.Date;
 
+/**
+ * Describe a version of a page.
+ * 
+ * Dokuwiki may not always return every field (because the information is already
+ * missing on Dokuwiki's side or because it isn't meant to give such field for a
+ * given query).
+ * Hence it's better to always check if a given field isn't null before using it.
+ */
 public class PageVersion {
 	private String _pageId;
+
+	/**
+	 * Page id (namespace + name)
+	 */
 	public String pageId(){
 		return _pageId;
 	}
 	
 	private String _author;
+	
+	/**
+	 * Author of the revision
+	 */
 	public String author(){
 		return _author;
 	}
 	
 	private String _ip;
+	
+	/**
+	 * Ip who made this revision
+	 */
 	public String ip(){
 		return _ip;
 	}
 	
 	private String _type;
+	
+	/**
+	 * Type of revision (creation, edition, ...)
+	 */
 	public String type(){
 		return _type;
 	}
 	
 	private String _summary;
+	
+	/**
+	 * Summary of the revision
+	 */
 	public String summary(){
 		return _summary;
 	}
 	
 	private Date _modified;
+	
+	/**
+	 * Date of the revision
+	 */
 	public Date modified(){
 		return _modified;
 	}
 	
 	private Integer _version;
+	
+	/**
+	 * Version of the revision, as a timestamp
+	 * 
+	 * Should correspond to {@link #modified()}
+	 */
 	public Integer version(){
 		return _version;
 	}

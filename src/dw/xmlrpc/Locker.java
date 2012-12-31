@@ -9,6 +9,7 @@ import java.util.Set;
 
 import dw.xmlrpc.exception.DokuException;
 
+//! @cond
 class Locker {
 	private CoreClient _client;
 	
@@ -67,4 +68,5 @@ class Locker {
 		pageIds.add(pageId);
 		return setLocks(null, pageIds);
 	}
+//! @endcond
 }
