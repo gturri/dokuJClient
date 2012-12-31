@@ -51,7 +51,7 @@ class Attacher {
 		for(Object o : (Object[]) result){
 			@SuppressWarnings("unchecked")
 			Map<String, Object> map = (Map<String, Object>) o;
-			String id = (String) map.get("id");
+			String id = (String) map.get("name");
 			Date lastModified = (Date) map.get("lastModified");
 			String author = (String) map.get("author");
 			Integer version = (Integer) map.get("version");

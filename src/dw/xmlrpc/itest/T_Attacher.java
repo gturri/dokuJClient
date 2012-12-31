@@ -78,7 +78,9 @@ public class T_Attacher {
 	@org.junit.Test
 	public void getRecentMediaChanges() throws Exception{
 		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
+
 		assertTrue(changes.size() > 0);
+		assertTrue(changes.get(0).id() != null);
 	}
 	
 	@org.junit.Test
