@@ -162,13 +162,25 @@ public class DokuJClient {
 	public LockResult setLocks(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
 		return _locker.setLocks(pagesToLock, pagesToUnlock);
 	}
-	
-	public LockResult lock(String pageId) throws DokuException{
-		return _locker.lock(pageId);
+
+	/**
+	 * Lock a page
+	 * @param pageId Id of the page to lock (eg: ns1:ns2:mypage)
+	 * @return TRUE the page has been successfully locked, FALSE otherwise
+	 * @throws DokuException
+	 */
+	public boolean lock(String pageId) throws DokuException{
+		return _locker.lock(pageId).locked().contains(pageId);
 	}
 	
-	public LockResult unlock(String pageId) throws DokuException{
-		return _locker.unlock(pageId);
+	/**
+	 * Unlock a page
+	 * @param pageId Id of the page to unlock (eg: ns1:ns2:mypage)
+	 * @return TRUE the page has been successfully unlocked, FALSE otherwise
+	 * @throws DokuException
+	 */	
+	public boolean unlock(String pageId) throws DokuException{
+		return _locker.unlock(pageId).unlocked().contains(pageId);
 	}
 	
 	public String getTitle() throws DokuException{

@@ -38,7 +38,7 @@ public class T_Lock {
 		//Make sure you can't write
 		TestHelper.assertPageIsLockForMe(pageId, _otherClient);
 				
-		_client.unlock("ns1:start");
+		assertTrue(_client.unlock("ns1:start"));
 		TestHelper.assertPageIsUnlockForMe(pageId, _otherClient);
 	}
 	
@@ -83,7 +83,7 @@ public class T_Lock {
 		//Get a known state
 		_client.putPage(pageId, initialContent);
 		
-		_client.lock(pageId);
+		assertTrue(_client.lock(pageId));
 		
 		//Now I write to let Dokuwiki unlock the page
 		_client.appendPage(pageId, addedContent1);
