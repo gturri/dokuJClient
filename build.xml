@@ -19,13 +19,13 @@
         <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" />
     </target>
 
-    <target name="jar" depends="compileClasses">
+    <target name="jar" depends="clean,compileClasses">
       <mkdir dir="${jar.dir}"/>
       <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" excludesfile=".excludesfile" />
       <echo message="${ant.project.name}.jar has been built and may be found in ${jar.dir}"/>
     </target>
 
-    <target name="compileAll">
+    <target name="compileAll" depends="clean">
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
           <classpath>
