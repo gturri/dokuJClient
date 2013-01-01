@@ -99,16 +99,16 @@ public class T_XmlRpcQueries {
 		// * retrieve server time
 		// * edit the page again and retrieve
 		// * make sure times are consistent
-		Page page = _client.getPages("singlePage").get(0);
+		Page page = _client.getPageList("singlePage").get(0);
 		_client.putPage(page, "text before (time test)");
 		
-		page = _client.getPages("singlePage").get(0);
+		page = _client.getPageList("singlePage").get(0);
 		Integer timeBefore = page.mtime();
 		
 		Integer serverTime = _client.getTime();
 		
 		_client.putPage(page, "text after (time test)");
-		page = _client.getPages("singlePage").get(0);
+		page = _client.getPageList("singlePage").get(0);
 		Integer timeAfter = page.mtime();
 		
 		assertTrue(0 < timeBefore);
@@ -122,7 +122,7 @@ public class T_XmlRpcQueries {
 		expectedPages.add("ns1:start");
 		expectedPages.add("ns1:dummy");
 
-		List<Page> actualPages = _client.getPages("ns1");
+		List<Page> actualPages = _client.getPageList("ns1");
 
 		assertEquals(expectedPages.size(), actualPages.size());
 		for (Page page : actualPages) {
@@ -139,7 +139,7 @@ public class T_XmlRpcQueries {
 		expectedPages.add("nswithanotherns:otherns:page");
 
 		HashMap<String, Object> options = new HashMap<String, Object>();
-		List<Page> actualPages = _client.getPages("nswithanotherns", options);
+		List<Page> actualPages = _client.getPageList("nswithanotherns", options);
 
 		assertEquals(expectedPages.size(), actualPages.size());
 		for (Page page : actualPages) {
@@ -152,7 +152,7 @@ public class T_XmlRpcQueries {
 		expectedPages.add("nswithanotherns:dummy");
 
 		options.put("depth", "2");
-		actualPages = _client.getPages("nswithanotherns", options);
+		actualPages = _client.getPageList("nswithanotherns", options);
 
 		assertEquals(expectedPages.size(), actualPages.size());
 		for (Page page : actualPages) {

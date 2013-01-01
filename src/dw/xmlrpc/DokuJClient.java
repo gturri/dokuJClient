@@ -118,11 +118,22 @@ public class DokuJClient {
 		return (String) genericQuery("wiki.getPageVersion", params);
 	}
 	
-	public List<Page> getPages(String namespace) throws DokuException {
-		return getPages(namespace, null);
+	/**
+	 * Lists all pages within a given namespace
+	 * @param namespace Namespace to look for (eg: ns1:ns2)
+	 * @throws DokuException
+	 */
+	public List<Page> getPageList(String namespace) throws DokuException {
+		return getPageList(namespace, null);
 	}
-	
-	public List<Page> getPages(String namespace, Map<String, Object> options) throws DokuException {
+
+	/**
+	 * Lists all pages within a given namespace 
+	 * @param namespace Namespace to look for (eg: ns1:ns2)
+	 * @param options Options passed directly to dokuwiki's search_all_pages()
+	 * @throws DokuException
+	 */
+	public List<Page> getPageList(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
