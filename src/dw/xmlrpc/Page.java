@@ -1,7 +1,9 @@
 package dw.xmlrpc;
 
+import java.util.Date;
+
 /**
- * Describes a page of the wiki
+ * Page as describe by the method getAllPage
  */
 public class Page {
 	private String _id;
@@ -13,42 +15,24 @@ public class Page {
 		return _id;
 	}
 
-	private String _name;
+	private Integer _perms;
 	
 	/**
-	 * name of the page, without its namespace
+	 * Integer denoting the permissions on the page
 	 */
-	public String name(){
-		return _name;
+	public Integer perms(){
+		return _perms;
 	}
 	
-	private String _namespace;
+	private Date _lastModified;
 	
 	/**
-	 * namespace of the page, without its name
+	 * Last modification date
 	 */
-	public String nameSpace(){
-		return _namespace;
+	public Date lastModified(){
+		return _lastModified;
 	}
-	
-	private Integer _revision;
-	
-	/**
-	 * Revision of the page as a timestamp
-	 */
-	public Integer revision(){
-		return _revision;
-	}
-	
-	private Integer _mtime;
-	
-	/**
-	 * Modification time, as a timestamp
-	 */
-	public Integer mtime(){
-		return _mtime;
-	}
-	
+
 	private Integer _size;
 	
 	/**
@@ -57,32 +41,22 @@ public class Page {
 	public Integer size(){
 		return _size;
 	}
-	
-	public Page(String id){
-    	this(id, null, null, null);
-	}
-	
-	public Page(String id, Integer revision, Integer mtime, Integer size){
-		_id = id;
-		_revision = revision;
-		_mtime = mtime;
-		_size = size;
-		
-		_namespace = "";
-		String[] names = id.split(":");
-		for ( int idx=0 ; idx < names.length-1 ; idx++ ){
-			_namespace += names[idx];
-			if ( idx < names.length-2){
-				_namespace += ":";
-			}
+
+	public Page(String id, Integer perms, Date lastModified, Integer size){
+		if ( id == null ){
+			throw new IllegalArgumentException("Can't build a Page with a null id");
 		}
-		_name = names[names.length-1];
+		
+		_id = id;
+		_perms = perms;
+		_lastModified = lastModified;
+		_size = size;
 	}
-	
+		
 	public String toString(){
 		return "id:" + _id
-				+ ", revision:" + _revision
-				+ ", mtime:" + _mtime
-				+ ", size:" + _size;
+				+ ", perms:" + (_perms == null ? "null" : _perms)
+				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
+				+ ", size:" + (_size == null ? "null" : _size);
 	}
 }

@@ -244,7 +244,7 @@ public class DokuJClient {
 	 * @param namespace Namespace to look for (eg: ns1:ns2)
 	 * @throws DokuException
 	 */
-	public List<Page> getPageList(String namespace) throws DokuException {
+	public List<PageDW> getPageList(String namespace) throws DokuException {
 		return getPageList(namespace, null);
 	}
 
@@ -254,18 +254,28 @@ public class DokuJClient {
 	 * @param options Options passed directly to dokuwiki's search_all_pages()
 	 * @throws DokuException
 	 */
-	public List<Page> getPageList(String namespace, Map<String, Object> options) throws DokuException {
+	public List<PageDW> getPageList(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
 		
 		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
-		List<Page> res = new ArrayList<Page>();
+		List<PageDW> res = new ArrayList<PageDW>();
 		for(Object o : (Object[]) result ){
-			res.add(buildPageFromResult(o));
+			res.add(buildPageDWFromResult(o));
 		}
 
 		return res;
+	}
+	
+	private PageDW buildPageDWFromResult(Object o){
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = (Map<String, Object>) o;
+		String id = (String) map.get("id");
+		Integer size = (Integer) map.get("size");
+		Integer version = (Integer) map.get("version");
+		Integer mtime = (Integer) map.get("mtime");
+		return new PageDW(id, size, version, mtime);
 	}
 	
 	/**
@@ -376,10 +386,16 @@ public class DokuJClient {
 		for(Object result : results){
 			@SuppressWarnings("unchecked")
 			Map<String, Object> mapResult = (Map<String, Object>) result;
+
+			String id = (String) mapResult.get("id");
+			String title  = (String) mapResult.get("title");
+			Integer rev = (Integer) mapResult.get("rev");
+			Integer mtime = (Integer) mapResult.get("mtime");
+			Integer size = (Integer) mapResult.get("size");
 			Integer score = (Integer) mapResult.get("score");
 			String snippet = (String) mapResult.get("snippet");
-			Page page = buildPageFromResult(mapResult);
-			SearchResult sr = new SearchResult(page, score, snippet);
+
+			SearchResult sr = new SearchResult(id, title, rev, mtime, score, snippet, size);
 			searchResults.add(sr);
 		}
 		return searchResults;
@@ -399,7 +415,6 @@ public class DokuJClient {
 	 * Returns information about a specific version of a Wiki page
 	 * @param pageId Id of the page wanted(eg: ns1:ns2:mypage)
 	 * @param timestamp version wanted
-	 * @return
 	 * @throws DokuException
 	 */
 	public PageInfo getPageInfoVersion(String pageId, Integer timestamp) throws DokuException {
@@ -452,10 +467,10 @@ public class DokuJClient {
 	
 	private Page buildPageFromResult(Map<String, Object> result){
 		String id = (String) result.get("id");
-		Integer rev = (Integer) result.get("rev");
-		Integer mtime = (Integer) result.get("mtime");
+		Integer perms = (Integer) result.get("perms");
+		Date lastModified = (Date) result.get("lastModified");
 		Integer size = (Integer) result.get("size");
-		return new Page(id, rev, mtime, size);
+		return new Page(id, perms, lastModified, size);
 	}
 
 	/**
