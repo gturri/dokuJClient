@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,37 +194,7 @@ public class DokuJClient {
 	public List<PageVersion> getPageVersions(String pageId, Integer offset) throws DokuException {
 		Object[] params = new Object[]{pageId, offset};
 		Object result = genericQuery("wiki.getPageVersions", params);
-		
-		List<PageVersion> res = new ArrayList<PageVersion>();
-		for ( Object o : (Object[]) result){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map = (Map<String, Object>) o;
-			if ( map.get("name") == null ){
-				map.put("name", pageId);
-			}
-			res.add(buildPageVersionFromResult(map, false));
-		}
-		
-		return res;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private PageVersion buildPageVersionFromResult(Object result, boolean keyLastModified){
-		return buildPageVersionFromResult((Map<String, Object>) result, keyLastModified);
-	}
-	
-	private PageVersion buildPageVersionFromResult(Map<String, Object> map, boolean keyLastModified){
-		String pageId = (String) map.get("name");
-		String author = (String) map.get("author");
-		if ( author == null ){
-			author = (String) map.get("user");
-		}
-		String ip = (String) map.get("ip");
-		String type = (String) map.get("type");
-		String summary = (String) map.get("sum");
-		Date modified = (Date) map.get(keyLastModified ? "lastModified" : "modified");
-		Integer version = (Integer) map.get("version");
-		return new PageVersion(pageId, author, ip, type, summary, modified, version);
+		return ObjectConverter.toPageVersion((Object[]) result, pageId);		
 	}
 
 	/**
@@ -260,22 +229,7 @@ public class DokuJClient {
 		params.add(options == null ? "" : options);
 		
 		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
-		List<PageDW> res = new ArrayList<PageDW>();
-		for(Object o : (Object[]) result ){
-			res.add(buildPageDWFromResult(o));
-		}
-
-		return res;
-	}
-	
-	private PageDW buildPageDWFromResult(Object o){
-		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) o;
-		String id = (String) map.get("id");
-		Integer size = (Integer) map.get("size");
-		Integer version = (Integer) map.get("version");
-		Integer mtime = (Integer) map.get("mtime");
-		return new PageDW(id, size, version, mtime);
+		return ObjectConverter.toPageDW((Object[]) result);
 	}
 	
 	/**
@@ -380,25 +334,8 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public List<SearchResult> search(String pattern) throws DokuException{
-		List<SearchResult> searchResults = new ArrayList<SearchResult>();
-		
 		Object[] results = (Object[]) genericQuery("dokuwiki.search", pattern);
-		for(Object result : results){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> mapResult = (Map<String, Object>) result;
-
-			String id = (String) mapResult.get("id");
-			String title  = (String) mapResult.get("title");
-			Integer rev = (Integer) mapResult.get("rev");
-			Integer mtime = (Integer) mapResult.get("mtime");
-			Integer size = (Integer) mapResult.get("size");
-			Integer score = (Integer) mapResult.get("score");
-			String snippet = (String) mapResult.get("snippet");
-
-			SearchResult sr = new SearchResult(id, title, rev, mtime, score, snippet, size);
-			searchResults.add(sr);
-		}
-		return searchResults;
+		return ObjectConverter.toSearchResult(results);
 	}
 	
 	/**
@@ -408,7 +345,7 @@ public class DokuJClient {
 	 */
 	public PageInfo getPageInfo(String pageId) throws DokuException{
 		Object result = genericQuery("wiki.getPageInfo",pageId);
-		return buildPageInfoFromResult(result);
+		return ObjectConverter.toPageInfo(result);
 	}
 
 	/**
@@ -420,30 +357,16 @@ public class DokuJClient {
 	public PageInfo getPageInfoVersion(String pageId, Integer timestamp) throws DokuException {
 		Object[] params = new Object[]{pageId, timestamp};
 		Object result = genericQuery("wiki.getPageInfoVersion", params);
-		return buildPageInfoFromResult(result);
+		return ObjectConverter.toPageInfo(result);
 	}
-	
-	private PageInfo buildPageInfoFromResult(Object result) throws DokuException {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> resMap = (Map<String, Object>) result;
-		String name = (String) resMap.get("name");
-		Date modified = (Date) resMap.get("modified");
-		String author = (String) resMap.get("author");
-		Integer version = (Integer) resMap.get("version");
-		return new PageInfo(name, modified, author, version);
-	}
-	
+		
 	/**
 	 * Returns a list of all Wiki pages in the remote Wiki
 	 * @throws DokuException
 	 */
 	public 	List<Page> getAllPages() throws DokuException {
 		Object result = genericQuery("wiki.getAllPages");
-		List<Page> res = new ArrayList<Page>();
-		for( Object o : (Object[]) result){
-			res.add(buildPageFromResult(o));
-		}
-		return res;
+		return ObjectConverter.toPage((Object[]) result);
 	}
 
 	/**
@@ -453,24 +376,7 @@ public class DokuJClient {
 	 */
 	public List<String> getBackLinks(String pageId) throws DokuException{
 		Object result = genericQuery("wiki.getBackLinks", pageId);
-		List<String> res = new ArrayList<String>();
-		for(Object o : (Object[]) result){
-			res.add((String) o);
-		}
-		return res;
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Page buildPageFromResult(Object result){
-		return buildPageFromResult((Map<String, Object>) result);
-	}
-	
-	private Page buildPageFromResult(Map<String, Object> result){
-		String id = (String) result.get("id");
-		Integer perms = (Integer) result.get("perms");
-		Date lastModified = (Date) result.get("lastModified");
-		Integer size = (Integer) result.get("size");
-		return new Page(id, perms, lastModified, size);
+		return ObjectConverter.toString((Object[]) result);
 	}
 
 	/**
@@ -500,30 +406,16 @@ public class DokuJClient {
 	 */
 	public List<LinkInfo> listLinks(String pageId) throws DokuException {
 		Object result = genericQuery("wiki.listLinks", pageId);
-		List<LinkInfo> res = new ArrayList<LinkInfo>();
-		for(Object o : (Object[]) result){
-			@SuppressWarnings("unchecked")
-			Map<String, Object> resMap = (Map<String, Object>) o;
-			String type = (String) resMap.get("type");
-			String page = (String) resMap.get("page");
-			String href = (String) resMap.get("href");
-			res.add(new LinkInfo(type, page, href));
-		}
-		return res;
+		return ObjectConverter.toLinkInfo((Object[]) result);
 	}
 
 	/**
 	 * Returns a list of recent changes since a given timestamp
 	 * @throws DokuException
 	 */
-	public List<PageVersion> getRecentChanges(Integer timestamp) throws DokuException{
+	public List<PageChange> getRecentChanges(Integer timestamp) throws DokuException{
 		Object result = genericQuery("wiki.getRecentChanges", timestamp);
-		List<PageVersion> res = new ArrayList<PageVersion>();
-		
-		for(Object o : (Object[]) result){
-			res.add(buildPageVersionFromResult(o, true));
-		}
-		return res;
+		return ObjectConverter.toPageChange((Object[]) result); 
 	}
 
 	/**

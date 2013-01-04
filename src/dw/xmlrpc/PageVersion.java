@@ -29,6 +29,15 @@ public class PageVersion {
 		return _author;
 	}
 	
+	/**
+	 * Alias of {@link #author()}
+	 * 
+	 * Provided because this is how this fields is names by the xmlrpc query
+	 */
+	public String user(){
+		return _author;
+	}
+	
 	private String _ip;
 	
 	/**
@@ -61,6 +70,15 @@ public class PageVersion {
 	/**
 	 * Date of the revision
 	 */
+	public Date lastModified(){
+		return _modified;
+	}
+	
+	/**
+	 * Alias of lastModifie
+	 * 
+	 * Provided because it's called this way by the xmlrpc query
+	 */
 	public Date modified(){
 		return _modified;
 	}
@@ -77,6 +95,10 @@ public class PageVersion {
 	}
 	
 	public PageVersion(String pageId, String author, String ip, String type, String summary, Date modified, Integer version){
+		if ( pageId == null ){
+			throw new IllegalArgumentException("Can't build a PageVersion with a null id");
+		}
+		
 		_pageId = pageId;
 		_author = author;
 		_ip = ip;

@@ -12,6 +12,7 @@ import java.util.Set;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LinkInfo;
 import dw.xmlrpc.Page;
+import dw.xmlrpc.PageChange;
 import dw.xmlrpc.PageDW;
 import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.PageVersion;
@@ -68,13 +69,13 @@ public class T_XmlRpcQueries {
 	
 	@org.junit.Test
 	public void getRecentChanges() throws Exception {
-		List<PageVersion> versions = _client.getRecentChanges(1356218401);
-		assertTrue(versions.size() > 0);
+		List<PageChange> changes = _client.getRecentChanges(1356218401);
+		assertTrue(changes.size() > 0);
 
-		PageVersion version = versions.get(0);
-		assertEquals("someuser", version.author());
-		assertEquals((Integer) 1356218419, version.version());
-		assertEquals("rev:start", version.pageId());
+		PageChange change = changes.get(0);
+		assertEquals("someuser", change.author());
+		assertEquals((Integer) 1356218419, change.version());
+		assertEquals("rev:start", change.pageId());
 	}
 	
 	@org.junit.Test
