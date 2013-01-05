@@ -12,6 +12,8 @@ import java.util.Set;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LinkInfo;
 import dw.xmlrpc.Page;
+import dw.xmlrpc.PageChange;
+import dw.xmlrpc.PageDW;
 import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.SearchResult;
@@ -67,13 +69,13 @@ public class T_XmlRpcQueries {
 	
 	@org.junit.Test
 	public void getRecentChanges() throws Exception {
-		List<PageVersion> versions = _client.getRecentChanges(1356218401);
-		assertTrue(versions.size() > 0);
+		List<PageChange> changes = _client.getRecentChanges(1356218401);
+		assertTrue(changes.size() > 0);
 
-		PageVersion version = versions.get(0);
-		assertEquals("someuser", version.author());
-		assertEquals((Integer) 1356218419, version.version());
-		assertEquals("rev:start", version.pageId());
+		PageChange change = changes.get(0);
+		assertEquals("someuser", change.author());
+		assertEquals((Integer) 1356218419, change.version());
+		assertEquals("rev:start", change.pageId());
 	}
 	
 	@org.junit.Test
@@ -99,7 +101,7 @@ public class T_XmlRpcQueries {
 		// * retrieve server time
 		// * edit the page again and retrieve
 		// * make sure times are consistent
-		Page page = _client.getPageList("singlePage").get(0);
+		PageDW page = _client.getPageList("singlePage").get(0);
 		_client.putPage(page.id(), "text before (time test)");
 		
 		page = _client.getPageList("singlePage").get(0);
@@ -122,10 +124,10 @@ public class T_XmlRpcQueries {
 		expectedPages.add("ns1:start");
 		expectedPages.add("ns1:dummy");
 
-		List<Page> actualPages = _client.getPageList("ns1");
+		List<PageDW> actualPages = _client.getPageList("ns1");
 
 		assertEquals(expectedPages.size(), actualPages.size());
-		for (Page page : actualPages) {
+		for (PageDW page : actualPages) {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 	}
@@ -139,10 +141,10 @@ public class T_XmlRpcQueries {
 		expectedPages.add("nswithanotherns:otherns:page");
 
 		HashMap<String, Object> options = new HashMap<String, Object>();
-		List<Page> actualPages = _client.getPageList("nswithanotherns", options);
+		List<PageDW> actualPages = _client.getPageList("nswithanotherns", options);
 
 		assertEquals(expectedPages.size(), actualPages.size());
-		for (Page page : actualPages) {
+		for (PageDW page : actualPages) {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 
@@ -155,7 +157,7 @@ public class T_XmlRpcQueries {
 		actualPages = _client.getPageList("nswithanotherns", options);
 
 		assertEquals(expectedPages.size(), actualPages.size());
-		for (Page page : actualPages) {
+		for (PageDW page : actualPages) {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 	}
@@ -252,9 +254,9 @@ public class T_XmlRpcQueries {
 		
 		assertEquals(2, results.size());
 		
-		assertEquals("nssearch:page3", results.get(0).page().id());
+		assertEquals("nssearch:page3", results.get(0).id());
 		assertEquals((Integer) 2, results.get(0).score());
-		assertEquals("nssearch:start", results.get(1).page().id());
+		assertEquals("nssearch:start", results.get(1).id());
 		assertEquals((Integer) 1, results.get(1).score());
 	}
 }
