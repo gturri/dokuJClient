@@ -76,8 +76,10 @@ public class T_XmlRpcQueries {
 		assertEquals("someuser", change.author());
 		assertEquals((Integer) 1356218419, change.version());
 		assertEquals("rev:start", change.pageId());
+		assertTrue(change.perms() != null);
+		assertTrue(change.lastModified() != null);
 	}
-	
+
 	@org.junit.Test
 	public void aclCheck() throws Exception {
 		assertEquals((Integer) 255, _client.aclCheck("ns1:start"));
