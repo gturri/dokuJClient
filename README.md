@@ -4,26 +4,12 @@ Description
 Java client for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
 Currently only the Adora Belle version (2012-10-03) is targeted
 
-Dependencies
-============
-[Apache XML-RPC](http://ws.apache.org/xmlrpc/download.html)
-
-More precisely:
-  * ws-common-util.jar
-  * xmlrpc-client.jar
-  * xmlrpc-common.jar
-
-Build
-=====
-On ubuntu, at the root of the project run:
-
-    sudo apt-get install libxmlrpc3-common-java
-    sudo apt-get install ant
-    ant
+This project is currently a beta. Most of it is stable though, but part of its
+public interface may change in the future.
 
 Getting started
 ===============
-Everyhing is done through the DokuJClient: just create one and play with its methods.
+Everything is done through the DokuJClient: just create one and play with its methods.
 Here is a quick example which displays the title of the wiki and the list of its pages:
 
     import dw.xmlrpc.DokuJClient;
@@ -44,9 +30,40 @@ Here is a quick example which displays the title of the wiki and the list of its
       }
     }
 
-Make sure to add the jar listed in the Dependencies, as well as dokujclient.jar to your classpath.
+Make sure to add the jar listed in the Dependencies section below, as well as dokujclient.jar to your classpath.
 Also make sure to configure your wiki so that xmlrpc interface is enable, and so that your user is
 allowed to use it (ie: "remote" and "remoteuser" entries in your configuration)
+
+Getting the binaries
+====================
+Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
+
+
+You may also build them:
+On ubuntu, at the root of the project run:
+
+    sudo apt-get install libxmlrpc3-common-java
+    sudo apt-get install ant
+    ant
+
+Documentation
+============
+
+To build documentation you must have doxygen installed and run it at the root of the repo:
+
+    doxygen
+
+You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
+
+
+Dependencies
+============
+[Apache XML-RPC](http://ws.apache.org/xmlrpc/download.html)
+
+More precisely:
+  * ws-common-util.jar
+  * xmlrpc-client.jar
+  * xmlrpc-common.jar
 
 Running integration tests
 ==========================
