@@ -1,7 +1,7 @@
 <project name="dokuJClient" default="jar">
     <property name="version.number" value="0.1.0"/>
-    <property name="version.suffix" value="dev"/>
-    <property name="version" value="${version.number}-${version.suffix}"/>
+    <property name="version.suffix" value=""/>
+    <property name="version" value="${version.number}${version.suffix}"/>
     <property name="lib.dir" value="/usr/share/java" />
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
