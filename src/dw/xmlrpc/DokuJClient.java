@@ -239,10 +239,7 @@ public class DokuJClient {
 	 */
 	public Integer aclCheck(String pageId) throws DokuException{
 		Object res = _client.genericQuery("wiki.aclCheck", pageId);
-		if ( res instanceof Integer ){
-			return (Integer) res;
-		}
-		return Integer.valueOf((String) res);
+		return ObjectConverter.toPerms(res);
 	}
 	
 	/**
