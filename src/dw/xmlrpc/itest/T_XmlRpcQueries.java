@@ -251,6 +251,18 @@ public class T_XmlRpcQueries {
 	}
 	
 	@org.junit.Test
+	public void readPermsWithoutBeingAnAdmin() throws Exception {
+		try {
+			//Test to make sure we deal correctly with the fact that Dokuwiki may
+			//either return an Integer or a String for the perms
+			_clientWriter.getAllPages();
+			_clientWriter.getRecentChanges(1356218401);
+		} catch (ClassCastException e){
+			fail();
+		}
+	}
+	
+	@org.junit.Test
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
 		

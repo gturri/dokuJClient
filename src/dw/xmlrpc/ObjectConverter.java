@@ -71,7 +71,7 @@ public class ObjectConverter {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
 		String id = (String) resMap.get("id");
-		Integer perms = (Integer) resMap.get("perms");
+		Integer perms = toPerms(resMap.get("perms"));
 		Date lastModified = (Date) resMap.get("lastModified");
 		Integer size = (Integer) resMap.get("size");
 		return new Page(id, perms, lastModified, size);
@@ -114,7 +114,7 @@ public class ObjectConverter {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
 		String id = (String) resMap.get("name");
-		Integer perms = (Integer) resMap.get("perms");
+		Integer perms = toPerms(resMap.get("perms"));
 		Date lastModified = (Date) resMap.get("lastModified");
 		Integer size = null;
 		try {
@@ -152,6 +152,13 @@ public class ObjectConverter {
 		Date modified = (Date) resMap.get("modified");
 		Integer version = (Integer) resMap.get("version");
 		return new PageVersion(pageId, author, ip, type, summary, modified, version);
+	}
+	
+	static Integer toPerms(Object o){
+		if (o instanceof Integer){
+			return (Integer) o;
+		}
+		return Integer.valueOf((String) o);
 	}
 }
 //! @endcond
