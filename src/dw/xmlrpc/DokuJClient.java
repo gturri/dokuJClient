@@ -408,6 +408,9 @@ public class DokuJClient {
 
 	/**
 	 * Returns a list of recent changes since a given timestamp
+	 * 
+	 * Only the most recent change for each page is listed, regardless of how
+	 * many times that page was changed.
 	 * @throws DokuException
 	 */
 	public List<PageChange> getRecentChanges(Integer timestamp) throws DokuException{
