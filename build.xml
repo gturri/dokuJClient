@@ -1,8 +1,12 @@
 <project name="dokuJClient" default="jar">
+    <property name="version.number" value="0.1.0"/>
+    <property name="version.suffix" value="dev"/>
+    <property name="version" value="${version.number}-${version.suffix}"/>
     <property name="lib.dir" value="/usr/share/java" />
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="jar.name" value="${ant.project.name}-${version}.jar"/>
     <property name="testresults.dir" value="${build.dir}/junitreport" />
     <path id="classpath">
        <pathelement location="${lib.dir}/ws-commons-util.jar" />
@@ -26,8 +30,12 @@
 
     <target name="jar" depends="clean,compileClasses">
       <mkdir dir="${jar.dir}"/>
-      <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" excludesfile=".excludesfile" />
-      <echo message="${ant.project.name}.jar has been built and may be found in ${jar.dir}"/>
+      <jar destfile="${jar.dir}/${jar.name}" basedir="${classes.dir}" excludesfile=".excludesfile">
+        <manifest>
+          <attribute name="Implementation-Version" value="${version}" />
+        </manifest>
+      </jar>
+      <echo message="${jar.name} has been built and may be found in ${jar.dir}"/>
     </target>
 
     <target name="compileAll" depends="cleanLight">
