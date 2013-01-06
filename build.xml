@@ -10,8 +10,13 @@
        <pathelement location="${lib.dir}/xmlrpc-common.jar" />
     </path>
 
-    <target name="clean">
+    <target name="clean" depends="cleanLight">
         <delete dir="${build.dir}"/>
+    </target>
+
+    <!--To avoid deleting the main jar if we just want to run tests-->
+    <target name="cleanLight">
+      <delete dir="${classes.dir}"/>
     </target>
 
     <target name="compileClasses">
@@ -25,7 +30,7 @@
       <echo message="${ant.project.name}.jar has been built and may be found in ${jar.dir}"/>
     </target>
 
-    <target name="compileAll" depends="clean">
+    <target name="compileAll" depends="cleanLight">
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false" debug="on">
           <classpath>
