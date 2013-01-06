@@ -16,7 +16,7 @@
 
     <target name="compileClasses">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" />
+        <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" debug="on"/>
     </target>
 
     <target name="jar" depends="clean,compileClasses">
@@ -27,7 +27,7 @@
 
     <target name="compileAll" depends="clean">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false">
+        <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false" debug="on">
           <classpath>
            <path refid="classpath" />
            <pathelement location="${lib.dir}/junit4.jar" />
