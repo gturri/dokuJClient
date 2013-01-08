@@ -121,7 +121,7 @@ public class T_XmlRpcQueries {
 	}
 
 	@org.junit.Test
-	public void getPageListInAFlatNamespace() throws Exception {
+	public void getPagelistInAFlatNamespace() throws Exception {
 		List<String> expectedPages = new ArrayList<String>();
 		expectedPages.add("ns1:start");
 		expectedPages.add("ns1:dummy");
@@ -133,9 +133,22 @@ public class T_XmlRpcQueries {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 	}
+	
+	@org.junit.Test
+	public void getPagelistCorrectlyBuildsPages() throws Exception{
+		String namespace = "nswithanotherns:otherns";
+		List<PageDW> pages = _client.getPagelist(namespace);
+		assertEquals(1, pages.size());
+		PageDW page = pages.get(0);
+		assertEquals(namespace + ":page", page.id());
+		assertEquals((Integer) 4, page.size());
+		assertEquals((Integer) 1375372800, page.version());
+		assertEquals((Integer) 1375372800, page.mtime());
+	}
+	
 
 	@org.junit.Test
-	public void getPageListInANamespaceWithAnotherNamespace() throws Exception {
+	public void getPagelistInANamespaceWithAnotherNamespace() throws Exception {
 		// Check we get every pages with no max recursion level
 		Set<String> expectedPages = new HashSet<String>();
 		expectedPages.add("nswithanotherns:start");
