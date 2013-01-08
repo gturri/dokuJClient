@@ -155,6 +155,8 @@ public class ObjectConverter {
 	}
 	
 	static Integer toPerms(Object o){
+		//Because DW may sometime return a string instead
+		//(fixed after Adora Belle (2012-10-03))
 		if (o instanceof Integer){
 			return (Integer) o;
 		}
