@@ -279,10 +279,15 @@ public class T_XmlRpcQueries {
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
 		
-		assertEquals(2, results.size());
+		SearchResult sr = results.get(0);
+		assertEquals("nssearch:page3", sr.id());
+		assertEquals("Page 3 title", sr.title());
+		assertEquals((Integer) 1375376400, sr.rev());
+		assertEquals((Integer) 1375376400, sr.mtime());
+		assertEquals((Integer) 2, sr.score());
+		assertEquals((Integer) 197, sr.size());
+		assertTrue(sr.snippet().contains("Amet"));
 		
-		assertEquals("nssearch:page3", results.get(0).id());
-		assertEquals((Integer) 2, results.get(0).score());
 		assertEquals("nssearch:start", results.get(1).id());
 		assertEquals((Integer) 1, results.get(1).score());
 	}

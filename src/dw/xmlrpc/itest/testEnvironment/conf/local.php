@@ -8,6 +8,7 @@
 
 $conf['title'] = 'test xmlrpc';
 $conf['license'] = 'cc-by-sa';
+$conf['useheading'] = '1';
 $conf['useacl'] = 1;
 $conf['superuser'] = '@admin';
 $conf['remote'] = 1;

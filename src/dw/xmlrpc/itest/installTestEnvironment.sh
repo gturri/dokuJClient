@@ -41,6 +41,7 @@ touch -t201212230020.11 $destDir/data/attic/rev/start.1356218411.txt.gz
 touch -t201212230020.00 $destDir/data/attic/rev/start.1356218400.txt.gz
 touch -t201212230020.19 $destDir/data/attic/rev/start.1356218419.txt.gz
 touch -t201308011800.00 $destDir/data/pages/nswithanotherns/otherns/page.txt
+touch -t201308011900.00 $destDir/data/pages/nssearch/page3.txt
 
 echo "Running the indexer"
 cd ../testEnvironment/data/pages
