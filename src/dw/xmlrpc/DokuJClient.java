@@ -181,6 +181,18 @@ public class DokuJClient {
 	public String getVersion() throws DokuException{
 		return (String) genericQuery("dokuwiki.getVersion");
 	}
+
+	/**
+	 * Returns the available versions of a Wiki page.
+	 * 
+	 * The number of pages in the result is controlled via the recent configuration setting of the wiki.
+	 * 
+	 * @param pageId Id of the page (eg: ns1:ns2:mypage)
+	 * @throws DokuException
+	 */
+	public List<PageVersion> getPageVersions(String pageId) throws DokuException {
+		return getPageVersions(pageId, 0);
+	}
 	
 	/**
 	 * Returns the available versions of a Wiki page.
