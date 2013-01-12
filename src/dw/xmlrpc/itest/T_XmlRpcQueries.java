@@ -52,8 +52,11 @@ public class T_XmlRpcQueries {
 		String pageId = "rev:start";
 		Integer version = 1356218411;
 		PageInfo pageInfo = _client.getPageInfoVersion(pageId, version);
+
 		assertEquals(pageId, pageInfo.id());
+		assertEquals("fifi", pageInfo.author());
 		assertEquals(version, pageInfo.version());
+		assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
 	}
 
 	@org.junit.Test
