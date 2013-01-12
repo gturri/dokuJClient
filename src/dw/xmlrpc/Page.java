@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Page {
 	private String _id;
-	
+
 	/**
 	 * id of the page, that is namespace + name
 	 */
@@ -16,16 +16,16 @@ public class Page {
 	}
 
 	private Integer _perms;
-	
+
 	/**
 	 * Integer denoting the permissions on the page
 	 */
 	public Integer perms(){
 		return _perms;
 	}
-	
+
 	private Date _lastModified;
-	
+
 	/**
 	 * Last modification date
 	 */
@@ -34,7 +34,7 @@ public class Page {
 	}
 
 	private Integer _size;
-	
+
 	/**
 	 * Size of the page
 	 */
@@ -46,13 +46,14 @@ public class Page {
 		if ( id == null ){
 			throw new IllegalArgumentException("Can't build a Page with a null id");
 		}
-		
+
 		_id = id;
 		_perms = perms;
 		_lastModified = lastModified;
 		_size = size;
 	}
-		
+
+	@Override
 	public String toString(){
 		return "id:" + _id
 				+ ", perms:" + (_perms == null ? "null" : _perms)

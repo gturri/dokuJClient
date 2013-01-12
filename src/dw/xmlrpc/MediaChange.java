@@ -7,37 +7,37 @@ import java.util.Date;
  */
 public class MediaChange {
 	private String _id;
-	
+
 	/**
 	 * Id of the media (namespace + name)
 	 */
 	public String id(){
 		return _id;
 	}
-	
+
 	private Date _lastModified;
-	
+
 	/**
 	 * Date of this modification of the media
 	 */
 	public Date lastModified(){
 		return _lastModified;
 	}
-	
+
 	private String _author;
-	
+
 	/**
-	 * Author of this modification of the media 
+	 * Author of this modification of the media
 	 */
 	public String author(){
 		return _author;
 	}
-	
+
 	private Integer _version;
-	
+
 	/**
 	 * Version of the revision as a timestamp.
-	 * 
+	 *
 	 * Should correspond to {@link #lastModified()}
 	 */
 	public Integer version(){
@@ -45,16 +45,16 @@ public class MediaChange {
 	}
 
 	private Integer _perms;
-	
+
 	/**
 	 * Permissions of the file
 	 */
 	public Integer perms(){
 		return _perms;
 	}
-	
+
 	private Integer _size;
-	
+
 	/**
 	 * Size of the file in bytes
 	 */
@@ -70,7 +70,8 @@ public class MediaChange {
 		_perms = perms;
 		_size = size;
 	}
-	
+
+	@Override
 	public String toString(){
 		return "id=" + (_id == null ? "null" : _id)
 				+ ", lastModified=" + (_lastModified == null ? "null" : _lastModified.toString())

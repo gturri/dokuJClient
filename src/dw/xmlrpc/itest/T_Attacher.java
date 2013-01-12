@@ -17,22 +17,22 @@ import dw.xmlrpc.MediaChange;
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
-	
+
 
 	Set<String> _uploadedFiles;
-	
+
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_uploadedFiles = new HashSet<String>();
 		clean();
 	}
-	
+
 	@org.junit.After
 	public void clean(){
 		File f = new File(_localDownloadedFile);
 		f.delete();
-		
+
 		for ( String fileId : _uploadedFiles ){
 			try {
 				_client.deleteAttachment(fileId);
@@ -51,18 +51,18 @@ public class T_Attacher {
 		_uploadedFiles.add("nswithanotherns:img3.gif");
 		_uploadedFiles.add("nswithanotherns:img33.gif");
 		_uploadedFiles.add("nswithanotherns:otherns:img4.gif");
-		
+
 		for ( String fileId : _uploadedFiles ){
 			_client.putAttachment(fileId, TestParams.localFileToUpload, true);
 		}
-		
+
 		//actually test
 		//Filtering on a PREG
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pattern", "/3.gif/");
 		List<AttachmentInfo> res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(2, res.size());
-		
+
 		//without special parameters
 		params = new HashMap<String, Object>();
 		res = _client.getAttachments("nswithanotherns", params);
@@ -74,7 +74,7 @@ public class T_Attacher {
 		res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(3, res.size());
 	}
-	
+
 	@org.junit.Test
 	public void getRecentMediaChanges() throws Exception{
 		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
@@ -82,7 +82,7 @@ public class T_Attacher {
 		assertTrue(changes.size() > 0);
 		assertTrue(changes.get(0).id() != null);
 	}
-	
+
 	@org.junit.Test
 	public void putGetAndDeleteAttachment() throws Exception{
 		String fileId = "ns1:img2.gif";
@@ -91,7 +91,7 @@ public class T_Attacher {
 		_client.putAttachment(fileId, file, true);
 		AttachmentInfo info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)(int) file.length(), info.size());
-		
+
 		File fileRetrieved = _client.getAttachment(fileId, _localDownloadedFile);
 		assertTrue(fileRetrieved.exists());
 		//Ideally I should check the content of both files are identical.

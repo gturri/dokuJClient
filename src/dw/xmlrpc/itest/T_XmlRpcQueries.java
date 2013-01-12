@@ -33,7 +33,7 @@ public class T_XmlRpcQueries {
 	public void getVersion() throws Exception {
 		assertEquals(TestParams.wikiVersion, _client.getVersion());
 	}
-	
+
 	@org.junit.Test
 	public void getPageInfo() throws Exception {
 		String pageId = "rev:start";
@@ -49,13 +49,13 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals(version, pageInfo.version());
 	}
-	
+
 	@org.junit.Test
 	public void getPageVersions() throws Exception{
 		String pageId = "rev:start";
 		List<PageVersion> versions = _client.getPageVersions(pageId, 0);
 		PageVersion version = versions.get(0);
-		
+
 		assertEquals((Integer) 1356218419, version.version());
 		assertEquals(pageId, version.pageId());
 		assertEquals("127.0.0.1", version.ip());
@@ -69,7 +69,7 @@ public class T_XmlRpcQueries {
 		cal.set(2012, 11, 22, 23, 20, 19);
 		assertTrue(Math.abs(cal.getTime().getTime() - version.modified().getTime()) < 1000);
 	}
-	
+
 	@org.junit.Test
 	public void getPageVersion() throws Exception {
 		String pageId = "rev:start";
@@ -78,7 +78,7 @@ public class T_XmlRpcQueries {
 		assertEquals("v2", _client.getPageVersion(pageId, 1356218411));
 		assertEquals("3rd version", _client.getPageVersion(pageId, 1356218419));
 	}
-	
+
 	@org.junit.Test
 	public void getRecentChanges() throws Exception {
 		List<PageChange> changes = _client.getRecentChanges(1356218401);
@@ -97,7 +97,7 @@ public class T_XmlRpcQueries {
 		assertEquals((Integer) 255, _client.aclCheck("ns1:start"));
 		assertEquals((Integer) 8, _clientWriter.aclCheck("ns1:start"));
 	}
-	
+
 	@org.junit.Test
 	public void getRPCVersionSupported() throws Exception {
 		assertEquals(TestParams.rpcVersionSupported, _client.getRPCVersionSupported());
@@ -117,19 +117,19 @@ public class T_XmlRpcQueries {
 		// * make sure times are consistent
 		PageDW page = _client.getPagelist("singlePage").get(0);
 		_client.putPage(page.id(), "text before (time test)");
-		
+
 		page = _client.getPagelist("singlePage").get(0);
 		Integer timeBefore = page.mtime();
-		
+
 		Integer serverTime = _client.getTime();
-		
+
 		_client.putPage(page.id(), "text after (time test)");
 		page = _client.getPagelist("singlePage").get(0);
 		Integer timeAfter = page.mtime();
-		
+
 		assertTrue(0 < timeBefore);
 		assertTrue(timeBefore <= serverTime);
-		assertTrue(serverTime <= timeAfter);		
+		assertTrue(serverTime <= timeAfter);
 	}
 
 	@org.junit.Test
@@ -145,7 +145,7 @@ public class T_XmlRpcQueries {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 	}
-	
+
 	@org.junit.Test
 	public void getPagelistCorrectlyBuildsPages() throws Exception{
 		String namespace = "nswithanotherns:otherns";
@@ -157,7 +157,7 @@ public class T_XmlRpcQueries {
 		assertEquals((Integer) 1375372800, page.version());
 		assertEquals((Integer) 1375372800, page.mtime());
 	}
-	
+
 
 	@org.junit.Test
 	public void getPagelistInANamespaceWithAnotherNamespace() throws Exception {
@@ -190,30 +190,30 @@ public class T_XmlRpcQueries {
 	}
 
 
-	
+
 	@org.junit.Test
 	public void genericQueryWithParameters() throws Exception {
 		Object[] params = new Object[] { "ns1:start" };
 		//255 because we make the query as an admin
 		assertEquals(255, _client.genericQuery("wiki.aclCheck", params));
 	}
-	
+
 	@org.junit.Test
 	public void genericQueryWithoutParameters() throws Exception {
-		assertEquals(TestParams.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));		
+		assertEquals(TestParams.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));
 	}
-	
+
 	@org.junit.Test
 	public void getTitle() throws Exception {
-		assertEquals(TestParams.wikiTitle, _client.getTitle());		
+		assertEquals(TestParams.wikiTitle, _client.getTitle());
 	}
-	
+
 	@org.junit.Test
 	public void putAndGetPage() throws Exception {
 		String pageId = "ns1:dummy";
 		String content1 = "content1";
 		String content2 = "content2";
-		
+
 		_client.putPage(pageId, content1);
 		assertEquals(content1, _client.getPage(pageId));
 		_client.putPage(pageId, content2);
@@ -227,27 +227,27 @@ public class T_XmlRpcQueries {
 		String append1 = "text appended.";
 		String append2 = "final text";
 		_client.putPage(pageId, initialContent);
-		
+
 		_client.appendPage(pageId, append1);
 		assertEquals(initialContent + append1, _client.getPage(pageId));
-		
+
 		_client.appendPage(pageId, append2);
 		assertEquals(initialContent + append1 + append2, _client.getPage(pageId));
 	}
-	
+
 	@org.junit.Test
 	public void getPageHTML() throws Exception {
 		String pageId = "rev:start";
 		assertEquals("\n<p>\n3rd version\n</p>\n", _client.getPageHTML(pageId));
 	}
-	
+
 	@org.junit.Test
 	public void getPageHTMLVersion() throws Exception{
 		String pageId = "rev:start";
 		Integer version = 1356218411;
 		assertEquals("\n<p>\nv2\n</p>\n", _client.getPageHTMLVersion(pageId, version));
 	}
-	
+
 	@org.junit.Test
 	public void listLinks() throws Exception{
 		List<LinkInfo> links = _client.listLinks("links:start");
@@ -259,22 +259,22 @@ public class T_XmlRpcQueries {
 		assertEquals(link1, links.get(1));
 		assertEquals(link2, links.get(2));
 	}
-	
+
 	@org.junit.Test
 	public void getBackLinks() throws Exception{
 		List<String> links = _client.getBackLinks("ns1:dummy");
 		assertEquals("links:start", links.get(0));
 	}
-	
+
 	@org.junit.Test
 	public void getAllPages() throws Exception{
 		List<Page> pages = _client.getAllPages();
-		
+
 		//Not an Equals assertion because other tests may create new pages
 		//(yes, this test should be improved)
 		assertTrue(pages.size() >= 12);
 	}
-	
+
 	@org.junit.Test
 	public void readPermsWithoutBeingAnAdmin() throws Exception {
 		try {
@@ -286,11 +286,11 @@ public class T_XmlRpcQueries {
 			fail();
 		}
 	}
-	
+
 	@org.junit.Test
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
-		
+
 		SearchResult sr = results.get(0);
 		assertEquals("nssearch:page3", sr.id());
 		assertEquals("Page 3 title", sr.title());
@@ -299,7 +299,7 @@ public class T_XmlRpcQueries {
 		assertEquals((Integer) 2, sr.score());
 		assertEquals((Integer) 197, sr.size());
 		assertTrue(sr.snippet().contains("Amet"));
-		
+
 		assertEquals("nssearch:start", results.get(1).id());
 		assertEquals((Integer) 1, results.get(1).score());
 	}

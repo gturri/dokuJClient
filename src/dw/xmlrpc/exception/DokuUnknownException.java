@@ -2,7 +2,7 @@ package dw.xmlrpc.exception;
 
 /**
  * Thrown when an xmlrpc query failed for an unknown reason.
- * 
+ *
  * To have more information on the failure you may access the original exception
  * using getCause()
  */

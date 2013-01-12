@@ -15,10 +15,10 @@ public class TestHelper {
 		} catch ( DokuPageLockedException e){
 			lockExceptionCaught = true;
 		}
-		
+
 		assertTrue(lockExceptionCaught);
 	}
-	
+
 	public static void assertPageIsUnlockForMe(String pageId, DokuJClient client) throws DokuException{
 		String initialContent = client.getPage(pageId);
 		try {
@@ -26,17 +26,17 @@ public class TestHelper {
 		} catch (DokuPageLockedException e){
 			fail();
 		}
-		
+
 		//Clean page content
 		client.putPage(pageId, initialContent);
 	}
-	
+
 	public static void assertPagesAreLockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
 		for(String pageId : pageIds){
 			assertPageIsLockForMe(pageId, client);
 		}
 	}
-	
+
 	public static void assertPagesAreUnlockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
 		for(String pageId : pageIds){
 			assertPageIsUnlockForMe(pageId, client);

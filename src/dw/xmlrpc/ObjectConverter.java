@@ -7,7 +7,7 @@ import java.util.Map;
 
 //! @cond
 public class ObjectConverter {
-	
+
 	static List<PageDW> toPageDW(Object[] objs){
 		List<PageDW> result = new ArrayList<PageDW>();
 		for(Object o : objs){
@@ -33,7 +33,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-		
+
 	static SearchResult toSearchResult(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> mapResult = (Map<String, Object>) o;
@@ -48,7 +48,7 @@ public class ObjectConverter {
 
 		return new SearchResult(id, title, rev, mtime, score, snippet, size);
 	}
-	
+
 	static PageInfo toPageInfo(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
@@ -58,7 +58,7 @@ public class ObjectConverter {
 		Integer version = (Integer) resMap.get("version");
 		return new PageInfo(name, modified, author, version);
 	}
-	
+
 	static List<Page> toPage(Object[] objs){
 		List<Page> result = new ArrayList<Page>();
 		for(Object o : objs){
@@ -66,7 +66,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static Page toPage(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
@@ -76,7 +76,7 @@ public class ObjectConverter {
 		Integer size = (Integer) resMap.get("size");
 		return new Page(id, perms, lastModified, size);
 	}
-	
+
 	static List<String> toString(Object[] objs){
 		List<String> result = new ArrayList<String>();
 		for(Object o : objs){
@@ -84,7 +84,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static List<LinkInfo> toLinkInfo(Object[] objs){
 		List<LinkInfo> result = new ArrayList<LinkInfo>();
 		for ( Object o : objs ){
@@ -92,7 +92,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static LinkInfo toLinkInfo(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
@@ -101,7 +101,7 @@ public class ObjectConverter {
 		String href = (String) resMap.get("href");
 		return new LinkInfo(type, page, href);
 	}
-	
+
 	static List<PageChange> toPageChange(Object[] objs){
 		List<PageChange> result = new ArrayList<PageChange>();
 		for(Object o : objs){
@@ -109,7 +109,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static PageChange toPageChange(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
@@ -130,7 +130,7 @@ public class ObjectConverter {
 		return new PageChange(id, perms, lastModified, size, author, version);
 
 	}
-	
+
 	static List<PageVersion> toPageVersion(Object[] objs, String pageId){
 		List<PageVersion> result = new ArrayList<PageVersion>();
 		for ( Object o : objs ){
@@ -138,7 +138,7 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static PageVersion toPageVersion(Object o, String pageId){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
@@ -153,7 +153,7 @@ public class ObjectConverter {
 		Integer version = (Integer) resMap.get("version");
 		return new PageVersion(pageId, author, ip, type, summary, modified, version);
 	}
-	
+
 	static Integer toPerms(Object o){
 		//Because DW may sometime return a string instead
 		//(fixed after Adora Belle (2012-10-03))

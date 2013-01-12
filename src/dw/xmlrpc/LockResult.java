@@ -7,14 +7,14 @@ import java.util.Set;
  */
 public class LockResult {
 	private Set<String> _locked;
-	
+
 	/**
 	 * Pages successfully locked
 	 */
 	public Set<String> locked(){
 		return _locked;
 	}
-	
+
 	private Set<String> _lockfail;
 
 	/**
@@ -23,7 +23,7 @@ public class LockResult {
 	public Set<String> lockfail(){
 		return _lockfail;
 	}
-	
+
 	private Set<String> _unlocked;
 
 	/**
@@ -32,7 +32,7 @@ public class LockResult {
 	public Set<String> unlocked(){
 		return _unlocked;
 	}
-	
+
 	private Set<String> _unlockfail;
 
 	/**
@@ -41,7 +41,7 @@ public class LockResult {
 	public Set<String> unlockfail(){
 		return _unlockfail;
 	}
-	
+
 	public LockResult(Set<String> locked,
 			Set<String> lockfail,
 			Set<String> unlocked,
@@ -51,28 +51,30 @@ public class LockResult {
 		_unlocked = unlocked;
 		_unlockfail = unlockfail;
 	}
-	
+
+	@Override
 	public String toString(){
 		return "[locked:" + _locked.toString() + "]"
 				+ "[lockfail:" + _lockfail.toString() + "]"
 				+ "[unlocked:" + _unlocked.toString() + "]"
 				+ "[unlockfail:" + _unlockfail.toString() + "]";
 	}
-	
+
+	@Override
 	public boolean equals(Object o){
 		if ( this == o ){
 			return true;
 		}
-		
+
 		if ( o == null ){
 			return false;
 		}
-		
+
 		if ( !(o instanceof LockResult )){
 			return false;
 		}
 		LockResult other = (LockResult) o;
-		
+
 		return _locked.equals(other._locked)
 				&& _lockfail.equals(other._lockfail)
 				&& _unlocked.equals(other._unlocked)

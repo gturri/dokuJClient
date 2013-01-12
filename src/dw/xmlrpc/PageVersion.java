@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * Describe a version of a page.
- * 
+ *
  * Dokuwiki may not always return every field (because the information is already
  * missing on Dokuwiki's side or because it isn't meant to give such field for a
  * given query).
@@ -19,86 +19,86 @@ public class PageVersion {
 	public String pageId(){
 		return _pageId;
 	}
-	
+
 	private String _author;
-	
+
 	/**
 	 * Author of the revision
 	 */
 	public String author(){
 		return _author;
 	}
-	
+
 	/**
 	 * Alias of {@link #author()}
-	 * 
+	 *
 	 * Provided because this is how this fields is names by the xmlrpc query
 	 */
 	public String user(){
 		return _author;
 	}
-	
+
 	private String _ip;
-	
+
 	/**
 	 * Ip who made this revision
 	 */
 	public String ip(){
 		return _ip;
 	}
-	
+
 	private String _type;
-	
+
 	/**
 	 * Type of revision (creation, edition, ...)
 	 */
 	public String type(){
 		return _type;
 	}
-	
+
 	private String _summary;
-	
+
 	/**
 	 * Summary of the revision
 	 */
 	public String summary(){
 		return _summary;
 	}
-	
+
 	private Date _modified;
-	
+
 	/**
 	 * Date of the revision
 	 */
 	public Date lastModified(){
 		return _modified;
 	}
-	
+
 	/**
 	 * Alias of lastModifie
-	 * 
+	 *
 	 * Provided because it's called this way by the xmlrpc query
 	 */
 	public Date modified(){
 		return _modified;
 	}
-	
+
 	private Integer _version;
-	
+
 	/**
 	 * Version of the revision, as a timestamp
-	 * 
+	 *
 	 * Should correspond to {@link #modified()}
 	 */
 	public Integer version(){
 		return _version;
 	}
-	
+
 	public PageVersion(String pageId, String author, String ip, String type, String summary, Date modified, Integer version){
 		if ( pageId == null ){
 			throw new IllegalArgumentException("Can't build a PageVersion with a null id");
 		}
-		
+
 		_pageId = pageId;
 		_author = author;
 		_ip = ip;
@@ -107,7 +107,8 @@ public class PageVersion {
 		_modified = modified;
 		_version = version;
 	}
-	
+
+	@Override
 	public String toString(){
 		return "pageId=" + (_pageId == null ? "null" : _pageId)
 				+ ", author=" + (_author == null ? "null" : _author)

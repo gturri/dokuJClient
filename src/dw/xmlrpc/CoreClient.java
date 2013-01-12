@@ -15,11 +15,11 @@ import dw.xmlrpc.exception.DokuException;
 class CoreClient {
 	private XmlRpcClient _client;
 	private Logger _logger = null;
-	
+
 	public void setLogger(Logger logger){
 		_logger = logger;
 	}
-	
+
     public CoreClient(String url, String user, String password) throws MalformedURLException{
     	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
     	config.setServerURL(new URL(url));
@@ -28,16 +28,16 @@ class CoreClient {
     	_client = new XmlRpcClient();
     	_client.setConfig(config);
 	}
-	
+
 	public Object genericQuery(String action) throws DokuException {
 		Object[] params = new Object[]{};
 		return genericQuery(action, params);
 	}
-    
+
 	public Object genericQuery(String action, Object param) throws DokuException{
 		return genericQuery(action, new Object[]{param});
 	}
-	
+
 	public Object genericQuery(String action, Object[] params) throws DokuException{
 		try {
 			return _client.execute(action, params);
