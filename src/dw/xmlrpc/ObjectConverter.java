@@ -53,7 +53,7 @@ public class ObjectConverter {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> resMap = (Map<String, Object>) o;
 		String name = (String) resMap.get("name");
-		Date modified = (Date) resMap.get("modified");
+		Date modified = (Date) resMap.get("lastModified");
 		String author = (String) resMap.get("author");
 		Integer version = (Integer) resMap.get("version");
 		return new PageInfo(name, modified, author, version);

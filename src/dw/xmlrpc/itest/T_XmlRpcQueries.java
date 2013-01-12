@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,9 +39,14 @@ public class T_XmlRpcQueries {
 	public void getPageInfo() throws Exception {
 		String pageId = "rev:start";
 		PageInfo pageInfo = _client.getPageInfo(pageId);
+		System.out.println(pageInfo.toString());
+
 		assertEquals(pageId, pageInfo.id());
+		assertEquals("lulu", pageInfo.author());
+		assertEquals((Integer) 1356218419, pageInfo.version());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
 	}
-	
+
 	@org.junit.Test
 	public void getPageInfoVersion() throws Exception {
 		String pageId = "rev:start";
@@ -62,12 +68,17 @@ public class T_XmlRpcQueries {
 		assertEquals("E", version.type());
 		assertEquals("lulu", version.author());
 		assertEquals("edit 2", version.summary());
-		
-		//Testing modified date is a bit cumbersome because it's acceptable to
-		//have a difference of a few milliseconds
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
+	}
+
+	/**
+	 * Assert that the actual Date is equal to the expected one,
+	 * although it may differ of a few milliseconds
+	 */
+	private void assertDatesNear(int year, int month, int day, int hour, int minute, int second, Date actual){
 		Calendar cal = Calendar.getInstance();
-		cal.set(2012, 11, 22, 23, 20, 19);
-		assertTrue(Math.abs(cal.getTime().getTime() - version.modified().getTime()) < 1000);
+		cal.set(year,  month, day, hour, minute, second);
+		assertTrue(Math.abs(cal.getTime().getTime() - actual.getTime()) < 1000);
 	}
 
 	@org.junit.Test

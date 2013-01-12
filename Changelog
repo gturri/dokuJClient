@@ -1,6 +1,8 @@
 
-0.2.0
+0.3.0
+* Fixed bug when reading modification date with getPageInfo
 
+0.2.0
 * Added getPageVersions(String pageId)
 * Fixed bug when reading page version with gePagelist
 
