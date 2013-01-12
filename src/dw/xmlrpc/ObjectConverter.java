@@ -15,17 +15,17 @@ public class ObjectConverter {
 		}
 		return result;
 	}
-	
+
 	static PageDW toPageDW(Object o){
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = (Map<String, Object>) o;
 		String id = (String) map.get("id");
 		Integer size = (Integer) map.get("size");
-		Integer version = (Integer) map.get("version");
+		Integer version = (Integer) map.get("rev");
 		Integer mtime = (Integer) map.get("mtime");
 		return new PageDW(id, size, version, mtime);
 	}
-	
+
 	static List<SearchResult> toSearchResult(Object[] objs){
 		List<SearchResult> result = new ArrayList<SearchResult>();
 		for ( Object o : objs ){
@@ -155,6 +155,8 @@ public class ObjectConverter {
 	}
 	
 	static Integer toPerms(Object o){
+		//Because DW may sometime return a string instead
+		//(fixed after Adora Belle (2012-10-03))
 		if (o instanceof Integer){
 			return (Integer) o;
 		}

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,8 +56,19 @@ public class T_XmlRpcQueries {
 		String pageId = "rev:start";
 		List<PageVersion> versions = _client.getPageVersions(pageId, 0);
 		PageVersion version = versions.get(0);
-		assertEquals((Integer) 1356218411, version.version());
+		
+		assertEquals((Integer) 1356218419, version.version());
 		assertEquals(pageId, version.pageId());
+		assertEquals("127.0.0.1", version.ip());
+		assertEquals("E", version.type());
+		assertEquals("lulu", version.author());
+		assertEquals("edit 2", version.summary());
+		
+		//Testing modified date is a bit cumbersome because it's acceptable to
+		//have a difference of a few milliseconds
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 11, 22, 23, 20, 19);
+		assertTrue(Math.abs(cal.getTime().getTime() - version.modified().getTime()) < 1000);
 	}
 	
 	@org.junit.Test
@@ -121,7 +134,7 @@ public class T_XmlRpcQueries {
 	}
 
 	@org.junit.Test
-	public void getPageListInAFlatNamespace() throws Exception {
+	public void getPagelistInAFlatNamespace() throws Exception {
 		List<String> expectedPages = new ArrayList<String>();
 		expectedPages.add("ns1:start");
 		expectedPages.add("ns1:dummy");
@@ -133,9 +146,22 @@ public class T_XmlRpcQueries {
 			assertTrue(expectedPages.contains(page.id()));
 		}
 	}
+	
+	@org.junit.Test
+	public void getPagelistCorrectlyBuildsPages() throws Exception{
+		String namespace = "nswithanotherns:otherns";
+		List<PageDW> pages = _client.getPagelist(namespace);
+		assertEquals(1, pages.size());
+		PageDW page = pages.get(0);
+		assertEquals(namespace + ":page", page.id());
+		assertEquals((Integer) 4, page.size());
+		assertEquals((Integer) 1375372800, page.version());
+		assertEquals((Integer) 1375372800, page.mtime());
+	}
+	
 
 	@org.junit.Test
-	public void getPageListInANamespaceWithAnotherNamespace() throws Exception {
+	public void getPagelistInANamespaceWithAnotherNamespace() throws Exception {
 		// Check we get every pages with no max recursion level
 		Set<String> expectedPages = new HashSet<String>();
 		expectedPages.add("nswithanotherns:start");
@@ -266,10 +292,15 @@ public class T_XmlRpcQueries {
 	public void search() throws Exception {
 		List<SearchResult> results = _client.search("amet");
 		
-		assertEquals(2, results.size());
+		SearchResult sr = results.get(0);
+		assertEquals("nssearch:page3", sr.id());
+		assertEquals("Page 3 title", sr.title());
+		assertEquals((Integer) 1375376400, sr.rev());
+		assertEquals((Integer) 1375376400, sr.mtime());
+		assertEquals((Integer) 2, sr.score());
+		assertEquals((Integer) 197, sr.size());
+		assertTrue(sr.snippet().contains("Amet"));
 		
-		assertEquals("nssearch:page3", results.get(0).id());
-		assertEquals((Integer) 2, results.get(0).score());
 		assertEquals("nssearch:start", results.get(1).id());
 		assertEquals((Integer) 1, results.get(1).score());
 	}
