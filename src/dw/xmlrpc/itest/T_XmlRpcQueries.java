@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -54,8 +56,19 @@ public class T_XmlRpcQueries {
 		String pageId = "rev:start";
 		List<PageVersion> versions = _client.getPageVersions(pageId, 0);
 		PageVersion version = versions.get(0);
-		assertEquals((Integer) 1356218411, version.version());
+		
+		assertEquals((Integer) 1356218419, version.version());
 		assertEquals(pageId, version.pageId());
+		assertEquals("127.0.0.1", version.ip());
+		assertEquals("E", version.type());
+		assertEquals("lulu", version.author());
+		assertEquals("edit 2", version.summary());
+		
+		//Testing modified date is a bit cumbersome because it's acceptable to
+		//have a difference of a few milliseconds
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 11, 22, 23, 20, 19);
+		assertTrue(Math.abs(cal.getTime().getTime() - version.modified().getTime()) < 1000);
 	}
 	
 	@org.junit.Test
