@@ -1,5 +1,6 @@
 
 0.3.0
+* Added getRecentChanges(java.util.Date date)
 * Fixed bug when reading modification date with getPageInfo
 
 0.2.0

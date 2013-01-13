@@ -3,6 +3,7 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,7 +186,7 @@ public class DokuJClient {
 	/**
 	 * Returns the available versions of a Wiki page.
 	 *
-	 * The number of pages in the result is controlled via the recent configuration setting of the wiki.
+	 * The number of pages in the result is controlled via the "recent" configuration setting of the wiki.
 	 *
 	 * @param pageId Id of the page (eg: ns1:ns2:mypage)
 	 * @throws DokuException
@@ -421,13 +422,26 @@ public class DokuJClient {
 	/**
 	 * Returns a list of recent changes since a given timestamp
 	 *
-	 * Only the most recent change for each page is listed, regardless of how
-	 * many times that page was changed.
+	 * According to Dokuwiki documentation (https://www.dokuwiki.org/recent_changes):
+	 *
+	 * * Only the most recent change for each page is listed, regardless of how many times that page was changed.
+	 * * The number of changes shown per page is controlled by the "recent" setting.
+	 * * Users are only shown pages to which they have read access
+	 *
+	 * @param timestamp Do not return changes older than this timestamp
 	 * @throws DokuException
 	 */
 	public List<PageChange> getRecentChanges(Integer timestamp) throws DokuException{
 		Object result = genericQuery("wiki.getRecentChanges", timestamp);
 		return ObjectConverter.toPageChange((Object[]) result);
+	}
+
+	/**
+	 * Wrapper around {@link #getRecentChanges(Integer)}
+	 * @param date Do not return chances older than this date
+	 */
+	public List<PageChange> getRecentChanges(Date date) throws DokuException {
+		return getRecentChanges((int)(date.getTime() / 1000));
 	}
 
 	/**

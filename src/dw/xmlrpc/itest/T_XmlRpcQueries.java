@@ -39,7 +39,6 @@ public class T_XmlRpcQueries {
 	public void getPageInfo() throws Exception {
 		String pageId = "rev:start";
 		PageInfo pageInfo = _client.getPageInfo(pageId);
-		System.out.println(pageInfo.toString());
 
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("lulu", pageInfo.author());
@@ -79,9 +78,14 @@ public class T_XmlRpcQueries {
 	 * although it may differ of a few milliseconds
 	 */
 	private void assertDatesNear(int year, int month, int day, int hour, int minute, int second, Date actual){
+		Date date = buildDate(year,  month, day, hour, minute, second);
+		assertTrue(Math.abs(date.getTime() - actual.getTime()) < 1000);
+	}
+
+	private Date buildDate(int year, int month, int day, int hour, int minute, int second){
 		Calendar cal = Calendar.getInstance();
 		cal.set(year,  month, day, hour, minute, second);
-		assertTrue(Math.abs(cal.getTime().getTime() - actual.getTime()) < 1000);
+		return cal.getTime();
 	}
 
 	@org.junit.Test
@@ -102,8 +106,42 @@ public class T_XmlRpcQueries {
 		assertEquals("someuser", change.author());
 		assertEquals((Integer) 1356218419, change.version());
 		assertEquals("rev:start", change.pageId());
-		assertTrue(change.perms() != null);
-		assertTrue(change.lastModified() != null);
+		assertEquals((Integer) 255, change.perms());
+		assertEquals((Integer) 11, change.size());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
+	}
+
+	@org.junit.Test
+	public void getRecentChangesRespectMaxTimestamp() throws Exception {
+		List<PageChange> changes = _client.getRecentChanges(1356218401);
+		String pageId = "rev:start";
+		assertTrue(hasPageChangeOnce(changes, pageId));
+
+		changes = _client.getRecentChanges(1356218500);
+		assertFalse(hasPageChangeOnce(changes, pageId));
+	}
+
+	@org.junit.Test
+	public void getRecentChangesRespectMaxDate() throws Exception {
+		List<PageChange> changes = _client.getRecentChanges(buildDate(2012, 11, 20, 0, 0, 0));
+		String pageId = "rev:start";
+		assertTrue(hasPageChangeOnce(changes, pageId));
+
+		changes = _client.getRecentChanges(buildDate(2013, 0, 1, 0, 0, 0));
+		assertFalse(hasPageChangeOnce(changes, pageId));
+	}
+
+	private boolean hasPageChangeOnce(List<PageChange> changes, String pageId){
+		boolean foundChange = false;
+		for(PageChange change : changes){
+			if ( change.pageId().equals(pageId) ){
+				if ( foundChange ){
+					fail("Had several PageChange for page " + pageId);
+				}
+				foundChange = true;
+			}
+		}
+		return foundChange;
 	}
 
 	@org.junit.Test
