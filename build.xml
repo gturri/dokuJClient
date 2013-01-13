@@ -14,6 +14,38 @@
        <pathelement location="${lib.dir}/xmlrpc-common.jar" />
     </path>
 
+    <!-- cobertura -->
+    <property name="cobertura.dir" value="/usr/share/java" />
+    <property name="instrumented.dir" value="${build.dir}/cobertura"/>
+    <property name="instrumented.file" value="${instrumented.dir}/cobertura.ser"/>
+
+    <path id="cobertura.classpath">
+      <fileset dir="${cobertura.dir}">
+        <include name="cobertura.jar" />
+        <include name="lib/**/*.jar" />
+      </fileset>
+     </path>
+
+    <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+    <target name="cobertura" depends="compileAll">
+      <echo message="If this fails, make sure you have Cobertura installed in ${cobertura.dir}"/>
+      <delete file="cobertura.ser" />
+
+      <cobertura-instrument todir="${instrumented.dir}" datafile="${instrumented.file}">
+        <ignore regex="org.apache.log4j.*" />
+        <fileset dir="${classes.dir}">
+           <include name="**/*.class" />
+           <exclude name="**/itest/**" />
+           <exclude name="**/utest/**" />
+        </fileset>
+        <!--fileset dir="${jar.dir}">
+          <include name="${ant.project.name}.tests.jar" />
+        </fileset-->
+      </cobertura-instrument>
+    </target>
+
+    <!-- targets -->
     <target name="clean" depends="cleanLight">
         <delete dir="${build.dir}"/>
     </target>
@@ -54,14 +86,15 @@
 
       <echo message="If tests fail, please make sure you've installed the fake wiki. See README for more information." />
 
-      <!-- Use the following junit opening tag to have a more verbose run -->
-      <!--junit printsummary="withOutAndErr" dir="src" haltonfailure="on"-->
-      <junit printsummary="yes" dir="src" haltonfailure="on" >
+      <junit printsummary="yes" dir="src" haltonfailure="on" fork="yes" forkmode="once">
+      <sysproperty key="net.sourceforge.cobertura.datafile" file="${instrumented.file}" />
+        <classpath location="${instrumented.dir}"/>
         <classpath>
           <path refid="classpath" />
           <pathelement location="${jar.dir}/${ant.project.name}.tests.jar" />
           <pathelement location="${lib.dir}/junit4.jar" />
         </classpath>
+        <classpath refid="cobertura.classpath"/>
 
         <formatter type="xml" />
 
@@ -77,5 +110,10 @@
         <report todir="${testresults.dir}"/>
       </junitreport>
       <echo message="Test results are available at ${testresults.dir}/index.html"/>
+    </target>
+
+    <target name="junitfullreport" depends="cobertura,junit">
+      <cobertura-report srcdir="src" destdir="${build.dir}/coverage" datafile="${instrumented.file}"/>
+      <echo message="Test coverage is available at ${build.dir}/coverage"/>
     </target>
 </project>

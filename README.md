@@ -79,6 +79,10 @@ or
 
     ant junitreport
 
+if you have[Cobertura](http://cobertura.sourceforge.net/introduction.html) installed you
+may also compute test coverage with:
+
+    ant junitfullreport
 
 You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
 ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the
