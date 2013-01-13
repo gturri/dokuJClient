@@ -285,8 +285,25 @@ public class T_XmlRpcQueries {
 		List<Page> pages = _client.getAllPages();
 
 		//Not an Equals assertion because other tests may create new pages
-		//(yes, this test should be improved)
 		assertTrue(pages.size() >= 12);
+
+		//We check thoroughly an arbitrary page
+		String pageId = "nssearch:page3";
+		Page page = null;
+		for(Page p : pages){
+			if ( p.id().equals(pageId) ){
+				if ( page != null ){
+					fail("page " + pageId + " returned twice");
+				}
+				page = p;
+			}
+		}
+
+		assertNotNull(page);
+		assertEquals(pageId, page.id());
+		assertEquals((Integer) 255, page.perms());
+		assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
+		assertEquals((Integer) 197, page.size());
 	}
 
 	@org.junit.Test
