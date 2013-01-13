@@ -36,11 +36,12 @@
         <ignore regex="org.apache.log4j.*" />
         <fileset dir="${classes.dir}">
            <include name="**/*.class" />
-           <exclude name="**/T_*.class" />
+           <exclude name="**/itest/**" />
+           <exclude name="**/utest/**" />
         </fileset>
-        <fileset dir="${jar.dir}">
+        <!--fileset dir="${jar.dir}">
           <include name="${ant.project.name}.tests.jar" />
-        </fileset>
+        </fileset-->
       </cobertura-instrument>
     </target>
 
