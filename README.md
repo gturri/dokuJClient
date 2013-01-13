@@ -49,9 +49,10 @@ On ubuntu, at the root of the project run:
 Documentation
 ============
 
-To build documentation you must have doxygen installed and run it at the root of the repo:
+To build documentation you must have doxygen installed and run at the root of the repo:
 
-    doxygen
+    cd scripts
+    ./doxygen.sh
 
 You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 

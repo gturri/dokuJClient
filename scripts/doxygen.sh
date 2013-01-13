@@ -1,7 +1,7 @@
 #!/bin/bash
 # Builds documentation
 
-outputDir=../doc
+outputDir=../build/doc
 
 #Retrieve the project version
 buildFile=../build.xml
@@ -13,8 +13,12 @@ version=${versionNumber}${versionSuffix}
 rm -f Doxyfile
 sed -e "s#@PROJECT_NUMBER@#${version}#" \
     -e "s#@OUTPUT_DIRECTORY@#$outputDir#" \
+    -e "s#@HTML_OUTPUT@#doc-${version}#" \
     Doxyfile.template > Doxyfile
 
 #Actualy build the documentation
 rm -rf $outputFile
 doxygen
+
+
+echo Documentation is available in $outputDir
