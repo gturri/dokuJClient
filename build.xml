@@ -29,6 +29,7 @@
     <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
 
     <target name="cobertura" depends="compileAll">
+      <echo message="If this fails, make sure you have Cobertura installed in ${cobertura.dir}"/>
       <delete file="cobertura.ser" />
 
       <cobertura-instrument todir="${instrumented.dir}" datafile="${instrumented.file}">
@@ -79,7 +80,7 @@
         <jar destfile="${jar.dir}/${ant.project.name}.tests.jar" basedir="${classes.dir}" />
     </target>
 
-    <target name="junit" depends="compileAll, cobertura">
+    <target name="junit" depends="compileAll">
       <mkdir dir="${testresults.dir}" />
 
       <echo message="If tests fail, please make sure you've installed the fake wiki. See README for more information." />
@@ -108,7 +109,10 @@
         <report todir="${testresults.dir}"/>
       </junitreport>
       <echo message="Test results are available at ${testresults.dir}/index.html"/>
+    </target>
 
+    <target name="junitfullreport" depends="cobertura,junit">
       <cobertura-report srcdir="src" destdir="${build.dir}/coverage" datafile="${instrumented.file}"/>
+      <echo message="Test coverage is available at ${build.dir}/coverage"/>
     </target>
 </project>
