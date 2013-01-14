@@ -20,25 +20,25 @@ class Attacher {
 		_client = client;
 	}
 
-	private byte[] serializeFile(File f) throws IOException{
+	byte[] serializeFile(File f) throws IOException{
 		byte[] b = new byte[(int)f.length()];
 		FileInputStream fileInputStream = new FileInputStream(f);
 		fileInputStream.read(b);
 		return b;
 	}
 
-	private void deserializeFile(byte[] b, File f) throws IOException{
+	void deserializeFile(byte[] b, File f) throws IOException{
 		FileOutputStream fileOutputStream = new FileOutputStream(f);
 		fileOutputStream.write(b);
 	}
 
-	public void putAttachment(String fileId, File file, boolean overwrite) throws IOException, DokuException{
+	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws IOException, DokuException{
 		Map<String, Object> additionalParam = new HashMap<String, Object>();
 		additionalParam.put("ow", overwrite);
 
 		Object[] params = new Object[]{
 				fileId,
-				serializeFile(file),
+				file,
 				additionalParam
 		};
 
@@ -107,13 +107,9 @@ class Attacher {
 		_client.genericQuery("wiki.deleteAttachment", fileId);
 	}
 
-	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
+	public byte[] getAttachment(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachment", fileId);
-		byte[] b = (byte[]) result;
-
-		File f = new File(localPath);
-		deserializeFile(b, f);
-		return f;
+		return (byte[]) result;
 	}
 //! @endcond
 }
