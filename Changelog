@@ -1,6 +1,6 @@
 
 0.3.0
-* Extended public interface wrt attachment manipularions
+* Enhanced attachment manipularions
 * Added getRecentChanges(java.util.Date date)
 * Fixed bug when reading modification date with getPageInfo
 
