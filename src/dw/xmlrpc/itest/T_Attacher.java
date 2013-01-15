@@ -80,7 +80,29 @@ public class T_Attacher {
 		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
 
 		assertTrue(changes.size() > 0);
-		assertTrue(changes.get(0).id() != null);
+		String mediaId = "ro_for_tests:img1.gif";
+		MediaChange change = findOneMediaChange(changes, mediaId);
+		assertEquals(mediaId, change.id());
+		TestHelper.assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
+		assertEquals("fifi", change.author());
+		assertEquals((Integer) 1356383460, change.version());
+		assertEquals((Integer) 255, change.perms());
+		assertEquals((Integer) 67, change.size());
+	}
+
+	private MediaChange findOneMediaChange(List<MediaChange> changes, String mediaId){
+		MediaChange res = null;
+		boolean foundOne = false;
+		for(MediaChange change : changes){
+			if ( change.id().equals(mediaId) ){
+				if ( foundOne ){
+					fail("Found two media changes for the same mediaId " + mediaId);
+				}
+				foundOne = true;
+				res = change;
+			}
+		}
+		return res;
 	}
 
 	@org.junit.Test

@@ -52,6 +52,7 @@ class Attacher {
 		for(Object o : (Object[]) result){
 			@SuppressWarnings("unchecked")
 			Map<String, Object> map = (Map<String, Object>) o;
+
 			String id = (String) map.get("name");
 			Date lastModified = (Date) map.get("lastModified");
 			String author = (String) map.get("author");
@@ -60,7 +61,7 @@ class Attacher {
 			Object sizeObj = map.get("size");
 			Integer size = null;
 			if ( sizeObj instanceof Integer ){
-				size = (Integer) size;
+				size = (Integer) sizeObj;
 			}
 
 			res.add(new MediaChange(id, lastModified, author, version, perms, size));

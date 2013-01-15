@@ -43,7 +43,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("lulu", pageInfo.author());
 		assertEquals((Integer) 1356218419, pageInfo.version());
-		assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
+		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -55,7 +55,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("fifi", pageInfo.author());
 		assertEquals(version, pageInfo.version());
-		assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
+		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -70,22 +70,7 @@ public class T_XmlRpcQueries {
 		assertEquals("E", version.type());
 		assertEquals("lulu", version.author());
 		assertEquals("edit 2", version.summary());
-		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
-	}
-
-	/**
-	 * Assert that the actual Date is equal to the expected one,
-	 * although it may differ of a few milliseconds
-	 */
-	private void assertDatesNear(int year, int month, int day, int hour, int minute, int second, Date actual){
-		Date date = buildDate(year,  month, day, hour, minute, second);
-		assertTrue(Math.abs(date.getTime() - actual.getTime()) < 1000);
-	}
-
-	private Date buildDate(int year, int month, int day, int hour, int minute, int second){
-		Calendar cal = Calendar.getInstance();
-		cal.set(year,  month, day, hour, minute, second);
-		return cal.getTime();
+		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
 	}
 
 	@org.junit.Test
@@ -108,7 +93,7 @@ public class T_XmlRpcQueries {
 		assertEquals("rev:start", change.pageId());
 		assertEquals((Integer) 255, change.perms());
 		assertEquals((Integer) 11, change.size());
-		assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
+		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
 	}
 
 	@org.junit.Test
@@ -123,11 +108,11 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void getRecentChangesRespectMaxDate() throws Exception {
-		List<PageChange> changes = _client.getRecentChanges(buildDate(2012, 11, 20, 0, 0, 0));
+		List<PageChange> changes = _client.getRecentChanges(TestHelper.buildDate(2012, 11, 20, 0, 0, 0));
 		String pageId = "rev:start";
 		assertTrue(hasPageChangeOnce(changes, pageId));
 
-		changes = _client.getRecentChanges(buildDate(2013, 0, 1, 0, 0, 0));
+		changes = _client.getRecentChanges(TestHelper.buildDate(2013, 0, 1, 0, 0, 0));
 		assertFalse(hasPageChangeOnce(changes, pageId));
 	}
 
@@ -340,7 +325,7 @@ public class T_XmlRpcQueries {
 		assertNotNull(page);
 		assertEquals(pageId, page.id());
 		assertEquals((Integer) 255, page.perms());
-		assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
+		TestHelper.assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
 		assertEquals((Integer) 197, page.size());
 	}
 

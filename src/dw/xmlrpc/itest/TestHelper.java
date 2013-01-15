@@ -3,11 +3,30 @@ package dw.xmlrpc.itest;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 
 public class TestHelper {
+
+	static Date buildDate(int year, int month, int day, int hour, int minute, int second){
+		Calendar cal = Calendar.getInstance();
+		cal.set(year,  month, day, hour, minute, second);
+		return cal.getTime();
+	}
+
+	/**
+	 * Assert that the actual Date is equal to the expected one,
+	 * although it may differ of a few milliseconds
+	 */
+	static void assertDatesNear(int year, int month, int day, int hour, int minute, int second, Date actual){
+		Date date = buildDate(year,  month, day, hour, minute, second);
+		assertTrue(Math.abs(date.getTime() - actual.getTime()) < 1000);
+	}
+
 	public static void assertPageIsLockForMe(String pageId, DokuJClient client) throws DokuException{
 		boolean lockExceptionCaught = false;
 		try {
