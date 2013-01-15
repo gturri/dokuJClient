@@ -77,9 +77,8 @@ public class T_Attacher {
 
 	@org.junit.Test
 	public void getRecentMediaChanges() throws Exception{
-		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
+		List<MediaChange> changes = _client.getRecentMediaChanges(1356383400);
 
-		assertTrue(changes.size() > 0);
 		String mediaId = "ro_for_tests:img1.gif";
 		MediaChange change = findOneMediaChange(changes, mediaId);
 		assertEquals(mediaId, change.id());
@@ -88,6 +87,20 @@ public class T_Attacher {
 		assertEquals((Integer) 1356383460, change.version());
 		assertEquals((Integer) 255, change.perms());
 		assertEquals((Integer) 67, change.size());
+	}
+
+	@org.junit.Test
+	public void getRecentMediaChangesRespectMaxTimestamp() throws Exception {
+		String oldMediaChange = "ro_for_tests:img1.gif";
+		String recentMediaChange = "ro_for_tests:img2.gif";
+
+		List<MediaChange> changes = _client.getRecentMediaChanges(1356383400);
+		assertNotNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+
+		changes = _client.getRecentMediaChanges(1356383461);
+		assertNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 	}
 
 	private MediaChange findOneMediaChange(List<MediaChange> changes, String mediaId){
