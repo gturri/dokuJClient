@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
@@ -13,7 +14,8 @@ import dw.xmlrpc.exception.DokuPageLockedException;
 public class TestHelper {
 
 	static Date buildDate(int year, int month, int day, int hour, int minute, int second){
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		System.out.println(cal.getTimeZone().toString());
 		cal.set(year,  month, day, hour, minute, second);
 		return cal.getTime();
 	}

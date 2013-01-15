@@ -103,6 +103,20 @@ public class T_Attacher {
 		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 	}
 
+	@org.junit.Test
+	public void getRecentMediaChangesRespectMaxDate() throws Exception {
+		String oldMediaChange = "ro_for_tests:img1.gif";
+		String recentMediaChange = "ro_for_tests:img2.gif";
+
+		List<MediaChange> changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 22, 10, 59));
+		assertNotNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+
+		changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 22, 11, 1));
+		assertNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+	}
+
 	private MediaChange findOneMediaChange(List<MediaChange> changes, String mediaId){
 		MediaChange res = null;
 		boolean foundOne = false;
