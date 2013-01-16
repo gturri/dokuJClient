@@ -16,7 +16,6 @@ public class TestHelper {
 	static Date buildDate(int year, int month, int day, int hour, int minute, int second){
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		System.out.println(cal.getTimeZone().toString());
 		cal.set(year,  month, day, hour, minute, second);
 		return cal.getTime();
 	}
