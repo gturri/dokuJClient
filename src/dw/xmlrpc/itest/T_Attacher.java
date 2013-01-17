@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
@@ -23,6 +24,7 @@ public class T_Attacher {
 
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_uploadedFiles = new HashSet<String>();
 		clean();
@@ -77,10 +79,59 @@ public class T_Attacher {
 
 	@org.junit.Test
 	public void getRecentMediaChanges() throws Exception{
-		List<MediaChange> changes = _client.getRecentMediaChanges(1356383460);
+		List<MediaChange> changes = _client.getRecentMediaChanges(1356383400);
 
-		assertTrue(changes.size() > 0);
-		assertTrue(changes.get(0).id() != null);
+		String mediaId = "ro_for_tests:img1.gif";
+		MediaChange change = findOneMediaChange(changes, mediaId);
+		assertEquals(mediaId, change.id());
+		TestHelper.assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
+		assertEquals("fifi", change.author());
+		assertEquals((Integer) 1356383460, change.version());
+		assertEquals((Integer) 255, change.perms());
+		assertEquals((Integer) 67, change.size());
+	}
+
+	@org.junit.Test
+	public void getRecentMediaChangesRespectMaxTimestamp() throws Exception {
+		String oldMediaChange = "ro_for_tests:img1.gif";
+		String recentMediaChange = "ro_for_tests:img2.gif";
+
+		List<MediaChange> changes = _client.getRecentMediaChanges(1356383400);
+		assertNotNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+
+		changes = _client.getRecentMediaChanges(1356383461);
+		assertNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+	}
+
+	@org.junit.Test
+	public void getRecentMediaChangesRespectMaxDate() throws Exception {
+		String oldMediaChange = "ro_for_tests:img1.gif";
+		String recentMediaChange = "ro_for_tests:img2.gif";
+
+		List<MediaChange> changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 10, 59));
+		assertNotNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+
+		changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 11, 1));
+		assertNull(findOneMediaChange(changes,oldMediaChange));
+		assertNotNull(findOneMediaChange(changes, recentMediaChange));
+	}
+
+	private MediaChange findOneMediaChange(List<MediaChange> changes, String mediaId){
+		MediaChange res = null;
+		boolean foundOne = false;
+		for(MediaChange change : changes){
+			if ( change.id().equals(mediaId) ){
+				if ( foundOne ){
+					fail("Found two media changes for the same mediaId " + mediaId);
+				}
+				foundOne = true;
+				res = change;
+			}
+		}
+		return res;
 	}
 
 	@org.junit.Test

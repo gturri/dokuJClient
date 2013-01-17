@@ -70,26 +70,40 @@ public class DokuJClient {
      * Uploads a file to the wiki
      *
      * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
+     * @param localPath The path to the file to upload
+     * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
+     * @throws IOException
+     * @throws DokuException
+     */
+	public void putAttachment(String attachmentId, String localPath, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, new File(localPath), overwrite);
+	}
+
+
+    /**
+     * Uploads a file to the wiki
+     *
+     * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
      * @param attachment The file to upload
      * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
      * @throws IOException
      * @throws DokuException
      */
-	public void putAttachment(String attachmentId, File attachment, boolean overwrite) throws IOException, DokuException{
-		_attacher.putAttachment(attachmentId, attachment, overwrite);
+	public void putAttachment(String attachmentId, File localFile, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, _attacher.serializeFile(localFile), overwrite);
 	}
 
     /**
      * Uploads a file to the wiki
      *
      * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
-     * @param attachment The path to the file to upload
+     * @param attachment base64 encoded file
      * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
      * @throws IOException
      * @throws DokuException
      */
-	public void putAttachment(String attachmentId, String attachment, boolean overwrite) throws IOException, DokuException{
-		putAttachment(attachmentId, new File(attachment), overwrite);
+	public void putAttachment(String attachmentId, byte[] localFile, boolean overwrite) throws IOException, DokuException{
+		_attacher.putAttachment(attachmentId, localFile, overwrite);
 	}
 
 	/**
@@ -113,7 +127,7 @@ public class DokuJClient {
 	}
 
 	/**
-	 *Let download a file from the wiki
+	 * Let download a file from the wiki
 	 *
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @param localPath Where to put the file
@@ -121,7 +135,24 @@ public class DokuJClient {
 	 * @throws IOException
 	 */
 	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
-		return _attacher.getAttachment(fileId, localPath);
+		byte[] b = getAttachment(fileId);
+		File f = new File(localPath);
+		_attacher.deserializeFile(b, f);
+		return f;
+
+	}
+
+	/**
+	 * Let download a file from the wiki
+	 *
+	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
+	 * @param localPath Where to put the file
+	 * @throws DokuException
+	 * @throws IOException
+	 * @return the data of the file, encoded in base64
+	 */
+	public byte[] getAttachment(String fileId) throws DokuException {
+		return _attacher.getAttachment(fileId);
 	}
 
 	/**
@@ -155,6 +186,14 @@ public class DokuJClient {
 	 */
 	public List<MediaChange> getRecentMediaChanges(Integer timestamp) throws DokuException{
 		return _attacher.getRecentMediaChanges(timestamp);
+	}
+
+	/**
+	 * Wrapper around {@link #getRecentMediaChanges(Integer)}
+	 * @param date Do not return chances older than this date
+	 */
+	public List<MediaChange> getRecentMediaChanges(Date date) throws DokuException {
+		return getRecentMediaChanges((int)(date.getTime() / 1000));
 	}
 
 	/**

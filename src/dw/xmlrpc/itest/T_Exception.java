@@ -2,10 +2,12 @@ package dw.xmlrpc.itest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.net.MalformedURLException;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
+import dw.xmlrpc.exception.DokuAttachmentUploadException;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
@@ -123,5 +125,31 @@ public class T_Exception {
 	public void wordblockException() throws Exception {
 		String pageId = "ns1:start";
 		_client.appendPage(pageId, "try to write a forbiddenword");
+	}
+
+	@org.junit.Test(expected=DokuAttachmentUploadException.class)
+	public void uploadForbiddenBecauseOfForbiddenExtension() throws Exception {
+		File file = new File(TestParams.localFileToUpload);
+		_client.putAttachment("file.sh", file, true);
+	}
+
+	@org.junit.Test(expected=DokuAttachmentUploadException.class)
+	public void uploadForbiddenBecauseOfBadExtension() throws Exception {
+		File file = new File(TestParams.localFileToUpload);
+
+		//jpg is authorized, but the file is in fact a gif
+		_client.putAttachment("file.jpg", file, true);
+	}
+
+	@org.junit.Test(expected=DokuAttachmentUploadException.class)
+	public void uploadBecauseFileAlreadyExists() throws Exception {
+		File file = new File(TestParams.localFileToUpload);
+		String attachmentId = "file.gif";
+		try {
+			_client.putAttachment(attachmentId, file, true);
+		} catch (Exception e){
+			fail();
+		}
+		_client.putAttachment(attachmentId, file, false);
 	}
 }
