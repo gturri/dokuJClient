@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import dw.xmlrpc.AttachmentDetails;
+import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
 
@@ -140,7 +141,7 @@ public class T_Attacher {
 		File file = new File(TestParams.localFileToUpload);
 
 		_client.putAttachment(fileId, file, true);
-		AttachmentDetails info = _client.getAttachmentInfo(fileId);
+		AttachmentInfo info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)(int) file.length(), info.size());
 
 		File fileRetrieved = _client.getAttachment(fileId, _localDownloadedFile);
@@ -153,5 +154,15 @@ public class T_Attacher {
 		_client.deleteAttachment(fileId);
 		info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)0, info.size());
+	}
+
+	@org.junit.Test
+	public void getAttachmentInfo() throws Exception {
+		String id = "ro_for_tests:img1.gif";
+		AttachmentInfo info = _client.getAttachmentInfo(id);
+
+		assertEquals(id, info.id());
+		assertEquals((Integer) 67, info.size());
+		TestHelper.assertDatesNear(2013, 0, 15, 21, 59, 21, info.lastModified());
 	}
 }

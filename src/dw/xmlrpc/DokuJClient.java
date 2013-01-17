@@ -112,7 +112,7 @@ public class DokuJClient {
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @throws DokuException
 	 */
-	public AttachmentDetails getAttachmentInfo(String fileId) throws DokuException{
+	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		return _attacher.getAttachmentInfo(fileId);
 	}
 

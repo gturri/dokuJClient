@@ -3,7 +3,7 @@ package dw.xmlrpc;
 import java.util.Date;
 
 /**
- * Describes a file uploaded in the wiki
+ * Describes a file uploaded in the wiki as getAttachments would
  */
 public class AttachmentDetails {
 	private String _id;

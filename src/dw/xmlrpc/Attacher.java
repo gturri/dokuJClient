@@ -78,18 +78,18 @@ class Attacher {
 		Object result = _client.genericQuery("wiki.getAttachments", params);
 		List<AttachmentDetails> res = new ArrayList<AttachmentDetails>();
 		for(Object o : (Object[]) result){
-			res.add(buildAttachmentInfoFromResult(o));
+			res.add(buildAttachmentDetailsFromResult(o));
 		}
 
 		return res;
 	}
 
 	@SuppressWarnings("unchecked")
-	private AttachmentDetails buildAttachmentInfoFromResult(Object o){
-		return buildAttachmentInfoFromResult((Map<String, Object>) o);
+	private AttachmentDetails buildAttachmentDetailsFromResult(Object o){
+		return buildAttachmentDetailsFromResult((Map<String, Object>) o);
 	}
 
-	private AttachmentDetails buildAttachmentInfoFromResult(Map<String, Object> m){
+	private AttachmentDetails buildAttachmentDetailsFromResult(Map<String, Object> m){
 		String id = (String) m.get("id");
 		Integer size = (Integer) m.get("size");
 		Date lastModified = (Date) m.get("lastModified");
@@ -99,9 +99,20 @@ class Attacher {
 		return new AttachmentDetails(id, size, lastModified, isImg, writable, perms);
 	}
 
-	public AttachmentDetails getAttachmentInfo(String fileId) throws DokuException{
+	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachmentInfo", fileId);
-		return buildAttachmentInfoFromResult(result);
+		return buildAttachmentInfoFromResult(result, fileId);
+	}
+
+	@SuppressWarnings("unchecked")
+	private AttachmentInfo buildAttachmentInfoFromResult(Object o, String fileId){
+		return buildAttachmentInfoFromResult((Map<String, Object>) o, fileId);
+	}
+
+	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m, String fileId){
+		Integer size = (Integer) m.get("size");
+		Date lastModified = (Date) m.get("lastModified");
+		return new AttachmentInfo(fileId, size, lastModified);
 	}
 
 	public void deleteAttachment(String fileId) throws DokuException{
