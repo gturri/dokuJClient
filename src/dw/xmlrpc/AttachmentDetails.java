@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Describes a file uploaded in the wiki
  */
-public class AttachmentInfo {
+public class AttachmentDetails {
 	private String _id;
 
 	/**
@@ -60,7 +60,7 @@ public class AttachmentInfo {
 		return _lastModified;
 	}
 
-	public AttachmentInfo(String id, Integer size, Date lastModified, Boolean isImg, Boolean writable, Integer perms){
+	public AttachmentDetails(String id, Integer size, Date lastModified, Boolean isImg, Boolean writable, Integer perms){
 		_id = id;
 		_size = size;
 		_lastModified = lastModified;

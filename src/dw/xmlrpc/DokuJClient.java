@@ -112,7 +112,7 @@ public class DokuJClient {
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @throws DokuException
 	 */
-	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
+	public AttachmentDetails getAttachmentInfo(String fileId) throws DokuException{
 		return _attacher.getAttachmentInfo(fileId);
 	}
 
@@ -161,7 +161,7 @@ public class DokuJClient {
 	 * @param namespace Where to look for files
 	 * @throws DokuException
 	 */
-	public List<AttachmentInfo> getAttachments(String namespace) throws DokuException{
+	public List<AttachmentDetails> getAttachments(String namespace) throws DokuException{
 		return getAttachments(namespace, null);
 	}
 
@@ -175,7 +175,7 @@ public class DokuJClient {
 	 *  * pattern: an optional PREG compatible regex which has to match the file id
 	 * @throws DokuException
 	 */
-	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+	public List<AttachmentDetails> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
 		return _attacher.getAttachments(namespace, additionalParams);
 	}
 

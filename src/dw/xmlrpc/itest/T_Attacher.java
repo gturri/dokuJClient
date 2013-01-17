@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import dw.xmlrpc.AttachmentInfo;
+import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
 
@@ -62,7 +62,7 @@ public class T_Attacher {
 		//Filtering on a PREG
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pattern", "/3.gif/");
-		List<AttachmentInfo> res = _client.getAttachments("nswithanotherns", params);
+		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(2, res.size());
 
 		//without special parameters
@@ -140,7 +140,7 @@ public class T_Attacher {
 		File file = new File(TestParams.localFileToUpload);
 
 		_client.putAttachment(fileId, file, true);
-		AttachmentInfo info = _client.getAttachmentInfo(fileId);
+		AttachmentDetails info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)(int) file.length(), info.size());
 
 		File fileRetrieved = _client.getAttachment(fileId, _localDownloadedFile);
