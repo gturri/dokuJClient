@@ -112,8 +112,8 @@
       <echo message="Test results are available at ${testresults.dir}/index.html"/>
     </target>
 
-    <target name="junitfullreport" depends="cobertura,junit">
+    <target name="junitfullreport" depends="cobertura,junitreport">
       <cobertura-report srcdir="src" destdir="${build.dir}/coverage" datafile="${instrumented.file}"/>
-      <echo message="Test coverage is available at ${build.dir}/coverage"/>
+      <echo message="Test coverage is available at ${build.dir}/coverage/index.html"/>
     </target>
 </project>
