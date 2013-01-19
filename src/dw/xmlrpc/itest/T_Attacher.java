@@ -47,7 +47,7 @@ public class T_Attacher {
 	}
 
 	@org.junit.Test
-	public void  getAttachments() throws Exception{
+	public void getAttachmentsUseParameters() throws Exception{
 		//Set up environment
 		_uploadedFiles.add("nswithanotherns:img1.gif");
 		_uploadedFiles.add("ns2:img2.gif");
@@ -76,6 +76,23 @@ public class T_Attacher {
 		params.put("depth", 1);
 		res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(3, res.size());
+	}
+
+	@org.junit.Test
+	public void getAttachmentsReturnsCorrectStructure() throws Exception {
+		List<AttachmentDetails> res = _client.getAttachments("ro_for_tests");
+		assertEquals(1, res.size());
+
+		AttachmentDetails details = res.get(0);
+		System.out.println("Details: " + details.toString());
+		//Details: isImg: true, writable: true, perms:null
+		assertEquals("ro_for_tests:img1.gif", details.id());
+		assertEquals((Integer) 67, details.size());
+		//TODO: study timezones more in depth to strenghten this assertion
+		assertNotNull(details.lastModified());
+		assertEquals(true, details.isImg());
+		assertEquals(true, details.writable());
+		assertEquals((Integer) 255, details.perms());
 	}
 
 	@org.junit.Test

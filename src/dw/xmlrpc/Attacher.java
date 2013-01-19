@@ -95,7 +95,7 @@ class Attacher {
 		Date lastModified = (Date) m.get("lastModified");
 		Boolean isImg = (Boolean) m.get("isimg");
 		Boolean writable = (Boolean) m.get("writable");
-		Integer perms = (Integer) m.get("perms");
+		Integer perms = (Integer) m.get("perm");
 		return new AttachmentDetails(id, size, lastModified, isImg, writable, perms);
 	}
 
