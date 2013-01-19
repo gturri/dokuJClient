@@ -49,9 +49,10 @@ On ubuntu, at the root of the project run:
 Documentation
 ============
 
-To build documentation you must have doxygen installed and run it at the root of the repo:
+To build documentation you must have doxygen installed and run at the root of the repo:
 
-    doxygen
+    cd scripts
+    ./doxygen.sh
 
 You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
@@ -79,6 +80,10 @@ or
 
     ant junitreport
 
+if you have[Cobertura](http://cobertura.sourceforge.net/introduction.html) installed you
+may also compute test coverage with:
+
+    ant junitfullreport
 
 You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
 ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the

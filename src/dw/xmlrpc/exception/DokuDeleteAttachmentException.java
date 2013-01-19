@@ -12,11 +12,11 @@ public class DokuDeleteAttachmentException extends DokuException {
 	public DokuDeleteAttachmentException(String message) {
 		super(message);
 	}
-	
+
 	public DokuDeleteAttachmentException(Throwable cause) {
 		super(cause);
 	}
-	
+
 	public DokuDeleteAttachmentException(String message, Throwable cause) {
 		super(message, cause);
 	}

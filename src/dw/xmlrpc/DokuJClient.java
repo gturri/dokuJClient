@@ -3,6 +3,7 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +14,10 @@ import dw.xmlrpc.exception.DokuException;
 
 /**
  * Main public class to actually make an xmlrpc query
- * 
+ *
  * Instantiate one such client for a given wiki and a given user, then make
  * xmlrpc query using its methods.
- * 
+ *
  * Most methods may throw DokuException because many things can go wrong
  * (bad url, wrong credential, no network, unreachable server, ...), so you may
  * want to make sure you handle them correcty
@@ -35,23 +36,23 @@ public class DokuJClient {
 
 	/**
 	 * Instantiate a client for an anonymous user on the given wiki
-	 * 
+	 *
 	 * Likely to be unsuitable for most wiki since anonymous user are often
 	 * not authorized to use the xmlrpc interface
-	 * 
+	 *
 	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
 	 * @throws MalformedURLException
 	 */
 	public DokuJClient(String url) throws MalformedURLException{
 		this(url, "", "");
 	}
-	
+
 	/**
 	 * Instantiance a client for the given user on the given wiki
-	 * 
+	 *
 	 * The wiki should be configured in a way to let this user access the
 	 * xmlrpc interface
-	 * 
+	 *
 	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
 	 * @param user Login of the user
 	 * @param password Password of the user
@@ -64,89 +65,118 @@ public class DokuJClient {
     	Logger logger = Logger.getLogger(DokuJClient.class.toString());
     	setLogger(logger);
 	}
-    
+
     /**
      * Uploads a file to the wiki
-     * 
+     *
      * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
-     * @param attachment The file to upload
+     * @param localPath The path to the file to upload
      * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
      * @throws IOException
      * @throws DokuException
      */
-	public void putAttachment(String attachmentId, File attachment, boolean overwrite) throws IOException, DokuException{
-		_attacher.putAttachment(attachmentId, attachment, overwrite);
+	public void putAttachment(String attachmentId, String localPath, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, new File(localPath), overwrite);
+	}
+
+
+    /**
+     * Uploads a file to the wiki
+     *
+     * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
+     * @param localFile The file to upload
+     * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
+     * @throws IOException
+     * @throws DokuException
+     */
+	public void putAttachment(String attachmentId, File localFile, boolean overwrite) throws IOException, DokuException{
+		putAttachment(attachmentId, _attacher.serializeFile(localFile), overwrite);
 	}
 
     /**
      * Uploads a file to the wiki
-     * 
+     *
      * @param attachmentId Id the file should have once uploaded (eg: ns1:ns2:myfile.gif)
-     * @param attachment The path to the file to upload
+     * @param localFile base64 encoded file
      * @param overwrite TRUE to overwrite if a file with this id already exist on the wiki
      * @throws IOException
      * @throws DokuException
      */
-	public void putAttachment(String attachmentId, String attachment, boolean overwrite) throws IOException, DokuException{
-		putAttachment(attachmentId, new File(attachment), overwrite);
+	public void putAttachment(String attachmentId, byte[] localFile, boolean overwrite) throws IOException, DokuException{
+		_attacher.putAttachment(attachmentId, localFile, overwrite);
 	}
 
 	/**
-	 * Returns information about a media file 
-	 * 
+	 * Returns information about a media file
+	 *
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @throws DokuException
 	 */
 	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		return _attacher.getAttachmentInfo(fileId);
 	}
-	
+
 	/**
-	 * Deletes a file. Fails if the file is still referenced from any page in the wiki. 
-	 * 
+	 * Deletes a file. Fails if the file is still referenced from any page in the wiki.
+	 *
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @throws DokuException
 	 */
 	public void deleteAttachment(String fileId) throws DokuException{
 		_attacher.deleteAttachment(fileId);
 	}
-	
+
 	/**
-	 *Let download a file from the wiki
-	 * 
+	 * Let download a file from the wiki
+	 *
 	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
 	 * @param localPath Where to put the file
 	 * @throws DokuException
 	 * @throws IOException
 	 */
 	public File getAttachment(String fileId, String localPath) throws DokuException, IOException{
-		return _attacher.getAttachment(fileId, localPath);
+		byte[] b = getAttachment(fileId);
+		File f = new File(localPath);
+		_attacher.deserializeFile(b, f);
+		return f;
+
+	}
+
+	/**
+	 * Let download a file from the wiki
+	 *
+	 * @param fileId Id of the file on the wiki (eg: ns1:ns2:myfile.gif)
+	 * @throws DokuException
+	 * @return the data of the file, encoded in base64
+	 */
+	public byte[] getAttachment(String fileId) throws DokuException {
+		return _attacher.getAttachment(fileId);
 	}
 
 	/**
 	 * Returns information about a list of media files in a given namespace
-	 * 
+	 *
 	 * @param namespace Where to look for files
 	 * @throws DokuException
 	 */
-	public List<AttachmentInfo> getAttachments(String namespace) throws DokuException{
+	public List<AttachmentDetails> getAttachments(String namespace) throws DokuException{
 		return getAttachments(namespace, null);
 	}
-	
+
 	/**
 	 * Returns information about a list of media files in a given namespace
-	 * 
+	 *
 	 * @param namespace Where to look for files
 	 * @param additionalParams Potential additional parameters directly sent to Dokuwiki.
 	 * Available parameters are:
 	 *  * recursive: TRUE if also files in subnamespaces are to be included, defaults to FALSE
 	 *  * pattern: an optional PREG compatible regex which has to match the file id
 	 * @throws DokuException
-	 */	
-	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+	 */
+	public List<AttachmentDetails> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
 		return _attacher.getAttachments(namespace, additionalParams);
 	}
-	
+
 	/**
 	 * Returns a list of recent changed media since given timestamp
 	 * @param timestamp
@@ -155,9 +185,17 @@ public class DokuJClient {
 	public List<MediaChange> getRecentMediaChanges(Integer timestamp) throws DokuException{
 		return _attacher.getRecentMediaChanges(timestamp);
 	}
-	
+
 	/**
-	 * Returns the current time at the remote wiki server as Unix timestamp 
+	 * Wrapper around {@link #getRecentMediaChanges(Integer)}
+	 * @param date Do not return chances older than this date
+	 */
+	public List<MediaChange> getRecentMediaChanges(Date date) throws DokuException {
+		return getRecentMediaChanges((int)(date.getTime() / 1000));
+	}
+
+	/**
+	 * Returns the current time at the remote wiki server as Unix timestamp
 	 * @throws DokuException
 	 */
     public Integer getTime() throws DokuException{
@@ -167,13 +205,13 @@ public class DokuJClient {
     /**
      * Returns the XML RPC interface version of the remote Wiki.
      * This is DokuWiki implementation specific and independent of the supported
-     * standard API version returned by wiki.getRPCVersionSupported 
+     * standard API version returned by wiki.getRPCVersionSupported
      * @throws DokuException
      */
     public Integer getXMLRPCAPIVersion() throws DokuException{
 		return (Integer) genericQuery("dokuwiki.getXMLRPCAPIVersion");
     }
- 
+
     /**
      * Returns the DokuWiki version of the remote Wiki
      * @throws DokuException
@@ -184,21 +222,21 @@ public class DokuJClient {
 
 	/**
 	 * Returns the available versions of a Wiki page.
-	 * 
-	 * The number of pages in the result is controlled via the recent configuration setting of the wiki.
-	 * 
+	 *
+	 * The number of pages in the result is controlled via the "recent" configuration setting of the wiki.
+	 *
 	 * @param pageId Id of the page (eg: ns1:ns2:mypage)
 	 * @throws DokuException
 	 */
 	public List<PageVersion> getPageVersions(String pageId) throws DokuException {
 		return getPageVersions(pageId, 0);
 	}
-	
+
 	/**
 	 * Returns the available versions of a Wiki page.
-	 * 
+	 *
 	 * The number of pages in the result is controlled via the recent configuration setting of the wiki.
-	 * 
+	 *
 	 * @param pageId Id of the page (eg: ns1:ns2:mypage)
 	 * @param offset Can be used to list earlier versions in the history.
 	 * @throws DokuException
@@ -206,7 +244,7 @@ public class DokuJClient {
 	public List<PageVersion> getPageVersions(String pageId, Integer offset) throws DokuException {
 		Object[] params = new Object[]{pageId, offset};
 		Object result = genericQuery("wiki.getPageVersions", params);
-		return ObjectConverter.toPageVersion((Object[]) result, pageId);		
+		return ObjectConverter.toPageVersion((Object[]) result, pageId);
 	}
 
 	/**
@@ -219,7 +257,7 @@ public class DokuJClient {
 		Object[]params = new Object[]{pageId, timestamp};
 		return (String) genericQuery("wiki.getPageVersion", params);
 	}
-	
+
 	/**
 	 * Lists all pages within a given namespace
 	 * @param namespace Namespace to look for (eg: ns1:ns2)
@@ -230,7 +268,7 @@ public class DokuJClient {
 	}
 
 	/**
-	 * Lists all pages within a given namespace 
+	 * Lists all pages within a given namespace
 	 * @param namespace Namespace to look for (eg: ns1:ns2)
 	 * @param options Options passed directly to dokuwiki's search_all_pages()
 	 * @throws DokuException
@@ -239,11 +277,11 @@ public class DokuJClient {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
 		params.add(options == null ? "" : options);
-		
+
 		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
 		return ObjectConverter.toPageDW((Object[]) result);
 	}
-	
+
 	/**
 	 * Returns the permission of the given wikipage.
 	 * @param pageId Id of the page (eg: ns1:ns2:mypage)
@@ -253,20 +291,20 @@ public class DokuJClient {
 		Object res = _client.genericQuery("wiki.aclCheck", pageId);
 		return ObjectConverter.toPerms(res);
 	}
-	
+
 	/**
 	 * Returns the supported RPC API version
-	 * 
+	 *
 	 * cf http://www.jspwiki.org/wiki/WikiRPCInterface2 for more info
 	 * @throws DokuException
 	 */
 	public Integer getRPCVersionSupported() throws DokuException{
 		return (Integer) genericQuery("wiki.getRPCVersionSupported");
 	}
-	
+
 	/**
 	 * Allows to lock or unlock a whole bunch of pages at once.
-	 * Useful when you are about to do a operation over multiple pages 
+	 * Useful when you are about to do a operation over multiple pages
 	 * @param pagesToLock  Ids of pages to lock
 	 * @param pagesToUnlock Ids of pages to unlock
 	 * @throws DokuException
@@ -284,19 +322,19 @@ public class DokuJClient {
 	public boolean lock(String pageId) throws DokuException{
 		return _locker.lock(pageId).locked().contains(pageId);
 	}
-	
+
 	/**
 	 * Unlock a page
 	 * @param pageId Id of the page to unlock (eg: ns1:ns2:mypage)
 	 * @return TRUE the page has been successfully unlocked, FALSE otherwise
 	 * @throws DokuException
-	 */	
+	 */
 	public boolean unlock(String pageId) throws DokuException{
 		return _locker.unlock(pageId).unlocked().contains(pageId);
 	}
-	
+
 	/**
-	 * Returns the title of the wiki 
+	 * Returns the title of the wiki
 	 * @throws DokuException
 	 */
 	public String getTitle() throws DokuException{
@@ -304,7 +342,7 @@ public class DokuJClient {
 	}
 
 	/**
-	 * Appends text to a Wiki Page. 
+	 * Appends text to a Wiki Page.
 	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
 	 * @param rawWikiText Text to add to the current page content
 	 * @throws DokuException
@@ -314,7 +352,7 @@ public class DokuJClient {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, attributes});
 	}
-	
+
     /**
      * Returns the raw Wiki text for a page
      * @param pageId Id of the page to fetch (eg: ns1:ns2:mypage)
@@ -337,7 +375,7 @@ public class DokuJClient {
 	}
 
 	/**
-	 * Performs a fulltext search 
+	 * Performs a fulltext search
 	 * @param pattern A query string as described on https://www.dokuwiki.org/search
 	 * @return Matching pages. Snippets are provided for the first 15 results.
 	 * @throws DokuException
@@ -346,7 +384,7 @@ public class DokuJClient {
 		Object[] results = (Object[]) genericQuery("dokuwiki.search", pattern);
 		return ObjectConverter.toSearchResult(results);
 	}
-	
+
 	/**
 	 * Returns information about a Wiki page
 	 * @param pageId Id of the page wanted (eg: ns1:ns2:mypage)
@@ -368,7 +406,7 @@ public class DokuJClient {
 		Object result = genericQuery("wiki.getPageInfoVersion", params);
 		return ObjectConverter.toPageInfo(result);
 	}
-		
+
 	/**
 	 * Returns a list of all Wiki pages in the remote Wiki
 	 * @throws DokuException
@@ -420,14 +458,27 @@ public class DokuJClient {
 
 	/**
 	 * Returns a list of recent changes since a given timestamp
-	 * 
-	 * Only the most recent change for each page is listed, regardless of how
-	 * many times that page was changed.
+	 *
+	 * According to Dokuwiki documentation (https://www.dokuwiki.org/recent_changes):
+	 *
+	 * * Only the most recent change for each page is listed, regardless of how many times that page was changed.
+	 * * The number of changes shown per page is controlled by the "recent" setting.
+	 * * Users are only shown pages to which they have read access
+	 *
+	 * @param timestamp Do not return changes older than this timestamp
 	 * @throws DokuException
 	 */
 	public List<PageChange> getRecentChanges(Integer timestamp) throws DokuException{
 		Object result = genericQuery("wiki.getRecentChanges", timestamp);
-		return ObjectConverter.toPageChange((Object[]) result); 
+		return ObjectConverter.toPageChange((Object[]) result);
+	}
+
+	/**
+	 * Wrapper around {@link #getRecentChanges(Integer)}
+	 * @param date Do not return chances older than this date
+	 */
+	public List<PageChange> getRecentChanges(Date date) throws DokuException {
+		return getRecentChanges((int)(date.getTime() / 1000));
 	}
 
 	/**
@@ -450,7 +501,7 @@ public class DokuJClient {
 	public Object genericQuery(String action, Object param) throws DokuException{
 		return _client.genericQuery(action, param);
 	}
-	
+
 	/**
 	 * Let execute any xmlrpc query with an arbitrary number of arguments
 	 * @param action The name of the xmlrpc method to invoke

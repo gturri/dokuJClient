@@ -8,16 +8,16 @@ public class LinkInfo {
 		local,
 		extern
 	}
-	
+
 	private Type _type;
-	
+
 	/**
 	 * Whether it is a local or extern link
 	 */
 	public Type type(){
 		return _type;
 	}
-	
+
 	private String _page;
 
 	/**
@@ -26,7 +26,7 @@ public class LinkInfo {
 	public String page(){
 		return _page;
 	}
-	
+
 	private String _href;
 
 	/**
@@ -35,37 +35,39 @@ public class LinkInfo {
 	public String href(){
 		return _href;
 	}
-	
+
 	public LinkInfo(String type, String page, String href){
 		this(Type.valueOf(type), page, href);
 	}
-	
+
+	@Override
 	public boolean equals(Object other){
 		if ( this == other ){
 			return true;
 		}
-		
+
 		if ( other == null ){
 			return false;
 		}
-		
+
 		if ( !(other instanceof LinkInfo)){
 			return false;
 		}
-		
+
 		LinkInfo link = (LinkInfo) other;
-		
+
 		return _type == link._type
 				&& _page.equals(link._page)
 				&& _href.equals(link._href);
 	}
-	
+
 	public LinkInfo(Type type, String page, String href){
 		_type = type;
 		_page = page;
 		_href = href;
 	}
-	
+
+	@Override
 	public String toString(){
 		return "type:" + _type.toString()
 				+ ", page:" + _page

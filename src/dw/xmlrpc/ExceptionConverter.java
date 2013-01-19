@@ -44,6 +44,13 @@ class ExceptionConverter {
 			return new DokuInvalidTimeStampException(e);
 		}
 
+		//Won't match if the wiki's locale isn't 'en'
+		if ( message.equals("Upload denied. This file extension is forbidden!")
+				|| ( message.contains("The uploaded content did not match the ") && message.contains("file extension."))
+				|| message.equals("File already exists. Nothing done.")){
+			return new DokuAttachmentUploadException(message, e);
+		}
+
 		return new DokuUnknownException(e);
 	}
 //! @endcond
