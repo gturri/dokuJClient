@@ -70,38 +70,49 @@ class Attacher {
 		return res;
 	}
 
-	public List<AttachmentInfo> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
+	public List<AttachmentDetails> getAttachments(String namespace, Map<String, Object> additionalParams) throws DokuException{
 		if ( additionalParams == null ){
 			additionalParams = new HashMap<String, Object>();
 		}
 		Object[] params = new Object[]{namespace, additionalParams};
 		Object result = _client.genericQuery("wiki.getAttachments", params);
-		List<AttachmentInfo> res = new ArrayList<AttachmentInfo>();
+		List<AttachmentDetails> res = new ArrayList<AttachmentDetails>();
 		for(Object o : (Object[]) result){
-			res.add(buildAttachmentInfoFromResult(o));
+			res.add(buildAttachmentDetailsFromResult(o));
 		}
 
 		return res;
 	}
 
 	@SuppressWarnings("unchecked")
-	private AttachmentInfo buildAttachmentInfoFromResult(Object o){
-		return buildAttachmentInfoFromResult((Map<String, Object>) o);
+	private AttachmentDetails buildAttachmentDetailsFromResult(Object o){
+		return buildAttachmentDetailsFromResult((Map<String, Object>) o);
 	}
 
-	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m){
+	private AttachmentDetails buildAttachmentDetailsFromResult(Map<String, Object> m){
 		String id = (String) m.get("id");
 		Integer size = (Integer) m.get("size");
 		Date lastModified = (Date) m.get("lastModified");
 		Boolean isImg = (Boolean) m.get("isimg");
 		Boolean writable = (Boolean) m.get("writable");
-		Integer perms = (Integer) m.get("perms");
-		return new AttachmentInfo(id, size, lastModified, isImg, writable, perms);
+		Integer perms = (Integer) m.get("perm");
+		return new AttachmentDetails(id, size, lastModified, isImg, writable, perms);
 	}
 
 	public AttachmentInfo getAttachmentInfo(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachmentInfo", fileId);
-		return buildAttachmentInfoFromResult(result);
+		return buildAttachmentInfoFromResult(result, fileId);
+	}
+
+	@SuppressWarnings("unchecked")
+	private AttachmentInfo buildAttachmentInfoFromResult(Object o, String fileId){
+		return buildAttachmentInfoFromResult((Map<String, Object>) o, fileId);
+	}
+
+	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m, String fileId){
+		Integer size = (Integer) m.get("size");
+		Date lastModified = (Date) m.get("lastModified");
+		return new AttachmentInfo(fileId, size, lastModified);
 	}
 
 	public void deleteAttachment(String fileId) throws DokuException{

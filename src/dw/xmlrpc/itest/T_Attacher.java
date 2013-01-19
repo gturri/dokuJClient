@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
@@ -46,7 +47,7 @@ public class T_Attacher {
 	}
 
 	@org.junit.Test
-	public void  getAttachments() throws Exception{
+	public void getAttachmentsUseParameters() throws Exception{
 		//Set up environment
 		_uploadedFiles.add("nswithanotherns:img1.gif");
 		_uploadedFiles.add("ns2:img2.gif");
@@ -62,7 +63,7 @@ public class T_Attacher {
 		//Filtering on a PREG
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pattern", "/3.gif/");
-		List<AttachmentInfo> res = _client.getAttachments("nswithanotherns", params);
+		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(2, res.size());
 
 		//without special parameters
@@ -75,6 +76,23 @@ public class T_Attacher {
 		params.put("depth", 1);
 		res = _client.getAttachments("nswithanotherns", params);
 		assertEquals(3, res.size());
+	}
+
+	@org.junit.Test
+	public void getAttachmentsReturnsCorrectStructure() throws Exception {
+		List<AttachmentDetails> res = _client.getAttachments("ro_for_tests");
+		assertEquals(1, res.size());
+
+		AttachmentDetails details = res.get(0);
+		System.out.println("Details: " + details.toString());
+		//Details: isImg: true, writable: true, perms:null
+		assertEquals("ro_for_tests:img1.gif", details.id());
+		assertEquals((Integer) 67, details.size());
+		//TODO: study timezones more in depth to strenghten this assertion
+		assertNotNull(details.lastModified());
+		assertEquals(true, details.isImg());
+		assertEquals(true, details.writable());
+		assertEquals((Integer) 255, details.perms());
 	}
 
 	@org.junit.Test
@@ -153,5 +171,16 @@ public class T_Attacher {
 		_client.deleteAttachment(fileId);
 		info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)0, info.size());
+	}
+
+	@org.junit.Test
+	public void getAttachmentInfo() throws Exception {
+		String id = "ro_for_tests:img1.gif";
+		AttachmentInfo info = _client.getAttachmentInfo(id);
+
+		assertEquals(id, info.id());
+		assertEquals((Integer) 67, info.size());
+		//TODO: enforced this test once we've clarify how to deal with timezone
+		assertNotNull(info.lastModified());
 	}
 }

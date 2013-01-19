@@ -3,7 +3,7 @@ package dw.xmlrpc;
 import java.util.Date;
 
 /**
- * Describes a file uploaded in the wiki
+ * Describes a file uploaded in the wiki as getAttachmentInfo would
  */
 public class AttachmentInfo {
 	private String _id;
@@ -13,33 +13,6 @@ public class AttachmentInfo {
 	 */
 	public String id(){
 		return _id;
-	}
-
-	private Boolean _isImg;
-
-	/**
-	 * Whether the file is an image or not
-	 */
-	public Boolean isImg(){
-		return _isImg;
-	}
-
-	private Boolean _writable;
-
-	/**
-	 * Whether the file is writable or not
-	 */
-	public Boolean writable(){
-		return _writable;
-	}
-
-	private Integer _perms;
-
-	/**
-	 * Permissions of file
-	 */
-	public Integer perms(){
-		return _perms;
 	}
 
 	private Integer _size;
@@ -60,22 +33,17 @@ public class AttachmentInfo {
 		return _lastModified;
 	}
 
-	public AttachmentInfo(String id, Integer size, Date lastModified, Boolean isImg, Boolean writable, Integer perms){
+	public AttachmentInfo(String id, Integer size, Date lastModified){
+
 		_id = id;
 		_size = size;
 		_lastModified = lastModified;
-		_isImg = isImg;
-		_writable = writable;
-		_perms = perms;
 	}
 
 	@Override
 	public String toString(){
 		return "id: " + (_id == null ? "null" : _id)
 				+ ", size:" + (_size == null ? "unknown" : _size)
-				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
-				+ ", isImg: " + (_isImg == null ? "null" : _isImg)
-				+ ", writable: " + (_writable == null ? "null" : _writable)
-				+ ", perms:" + (_perms == null ? "null" : _perms);
+				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString());
 	}
 }
