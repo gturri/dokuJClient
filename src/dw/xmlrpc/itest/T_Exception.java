@@ -11,6 +11,7 @@ import dw.xmlrpc.exception.DokuAttachmentUploadException;
 import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
+import dw.xmlrpc.exception.DokuEmptyNewPageException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
@@ -151,5 +152,15 @@ public class T_Exception {
 			fail();
 		}
 		_client.putAttachment(attachmentId, file, false);
+	}
+
+	@org.junit.Test(expected=DokuEmptyNewPageException.class)
+	public void emptyNewPageException() throws Exception {
+		String pageId = "toDelete";
+
+		//We try to delete it twice because to be sure we try it at least once
+		//when the page is actually already deleted
+		_client.putPage(pageId, "");
+		_client.putPage(pageId, "");
 	}
 }

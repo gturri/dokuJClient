@@ -1,4 +1,6 @@
 
+* Throw a relevant exception when trying to create an empty new page
+
 0.3.0
 * Enhanced attachment manipularions
 * Added getRecentChanges(java.util.Date date)
