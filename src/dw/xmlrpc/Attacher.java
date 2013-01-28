@@ -24,12 +24,14 @@ class Attacher {
 		byte[] b = new byte[(int)f.length()];
 		FileInputStream fileInputStream = new FileInputStream(f);
 		fileInputStream.read(b);
+		fileInputStream.close();
 		return b;
 	}
 
 	void deserializeFile(byte[] b, File f) throws IOException{
 		FileOutputStream fileOutputStream = new FileOutputStream(f);
 		fileOutputStream.write(b);
+		fileOutputStream.close();
 	}
 
 	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws IOException, DokuException{
