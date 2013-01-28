@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LinkInfo;
@@ -24,6 +25,7 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 	}
