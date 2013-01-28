@@ -347,17 +347,29 @@ public class DokuJClient {
 	 * @param rawWikiText Text to add to the current page content
 	 * @throws DokuException
 	 */
-    public void appendPage(String pageId, String rawWikiText) throws DokuException {
-    	//TODO: Let use summary and isMinor
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, attributes});
+	public void appendPage(String pageId, String rawWikiText) throws DokuException {
+		appendPage(pageId, rawWikiText, null);
 	}
 
-    /**
-     * Returns the raw Wiki text for a page
-     * @param pageId Id of the page to fetch (eg: ns1:ns2:mypage)
-     * @throws DokuException
-     */
+	/**
+	 * Appends text to a Wiki Page.
+	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
+	 * @param rawWikiText Text to add to the current page content
+	 * @param options Options passed to Dokuwiki. ie: 'sum' and/or 'minor'
+	 * @throws DokuException
+	 */
+	public void appendPage(String pageId, String rawWikiText, Map<String, Object> options) throws DokuException {
+		if ( options == null ){
+			options = new HashMap<String, Object>();
+		}
+		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, options});
+	}
+
+	/**
+	 * Returns the raw Wiki text for a page
+	 * @param pageId Id of the page to fetch (eg: ns1:ns2:mypage)
+	 * @throws DokuException
+	 */
 	public String getPage(String pageId) throws DokuException {
 		return (String) genericQuery("wiki.getPage", pageId);
 	}
@@ -369,9 +381,20 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public void putPage(String pageId, String rawWikiText)throws DokuException {
-		//TODO: Let use summary and isMinor
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, attributes});
+		putPage(pageId, rawWikiText, null);
+	}
+
+	/**
+	 * Saves a Wiki Page
+	 * @param pageId Id of the page to save
+	 * @param rawWikiText Text to put
+	 * @param options Options passed to Dokuwiki. ie: 'sum' and/or 'minor'	 * @throws DokuException
+	 */
+	public void putPage(String pageId, String rawWikiText, Map<String, Object> options)throws DokuException {
+		if (options == null){
+			options = new HashMap<String, Object>();
+		}
+		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, options});
 	}
 
 	/**
