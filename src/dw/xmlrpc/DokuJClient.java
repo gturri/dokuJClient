@@ -3,12 +3,16 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -59,12 +63,27 @@ public class DokuJClient {
 	 * @throws MalformedURLException
 	 */
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
-    	_client = new CoreClient(url, user, password);
+       	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    	config.setServerURL(new URL(url));
+    	config.setBasicUserName(user);
+    	config.setBasicPassword(password);
+    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
+    	xmlRpcClient.setConfig(config);
+
+    	init(xmlRpcClient);
+	}
+
+    public DokuJClient(XmlRpcClient xmlRpcClient){
+    	init(xmlRpcClient);
+    }
+
+    private void init(XmlRpcClient xmlRpcClient){
+    	_client = new CoreClient(xmlRpcClient);
     	_locker = new Locker(_client);
     	_attacher = new Attacher(_client);
     	Logger logger = Logger.getLogger(DokuJClient.class.toString());
     	setLogger(logger);
-	}
+    }
 
     /**
      * Uploads a file to the wiki
