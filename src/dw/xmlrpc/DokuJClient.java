@@ -73,6 +73,24 @@ public class DokuJClient {
     	init(xmlRpcClient);
 	}
 
+    public DokuJClient(DokuJClientConfig dokuConfig){
+    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    	config.setServerURL(dokuConfig.url());
+    	if ( dokuConfig.user() != null ){
+    		config.setBasicUserName(dokuConfig.user());
+    		config.setBasicPassword(dokuConfig.password());
+    	}
+
+    	if ( dokuConfig.userAgent() != null ){
+    		config.setUserAgent(dokuConfig.userAgent());
+    	}
+
+    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
+    	xmlRpcClient.setConfig(config);
+
+    	init(xmlRpcClient);
+    }
+
     public DokuJClient(XmlRpcClient xmlRpcClient){
     	init(xmlRpcClient);
     }
