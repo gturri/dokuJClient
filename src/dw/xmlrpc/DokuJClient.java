@@ -79,7 +79,6 @@ public class DokuJClient {
 		putAttachment(attachmentId, new File(localPath), overwrite);
 	}
 
-
     /**
      * Uploads a file to the wiki
      *
@@ -355,6 +354,20 @@ public class DokuJClient {
 	 * Appends text to a Wiki Page.
 	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
 	 * @param rawWikiText Text to add to the current page content
+	 * @throws DokuException
+	 */
+	public void appendPage(String pageId, String rawWikiText, String summary, boolean minor) throws DokuException {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("sum",  summary);
+		options.put("minor", minor);
+
+		appendPage(pageId, rawWikiText, options);
+	}
+
+	/**
+	 * Appends text to a Wiki Page.
+	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
+	 * @param rawWikiText Text to add to the current page content
 	 * @param options Options passed to Dokuwiki. ie: 'sum' and/or 'minor'
 	 * @throws DokuException
 	 */
@@ -382,6 +395,21 @@ public class DokuJClient {
 	 */
 	public void putPage(String pageId, String rawWikiText)throws DokuException {
 		putPage(pageId, rawWikiText, null);
+	}
+
+	/**
+	 * Saves a Wiki Page
+	 * @param pageId Id of the page to save
+	 * @param rawWikiText Text to put
+	 * @param summary Summary of the edition
+	 * @param minor Whether it's a minor edition
+	 * @throws DokuException
+	 */
+	public void putPage(String pageId, String rawWikiText, String summary, boolean minor) throws DokuException{
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("sum",  summary);
+		options.put("minor", minor);
+		putPage(pageId, rawWikiText, options);
 	}
 
 	/**
