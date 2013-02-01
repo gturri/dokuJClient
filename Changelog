@@ -1,5 +1,8 @@
 
 * Let pass options when editing a page
+* Added DokuJClientConfig
+* Let build a DokuJClient with an arbitrary XmlRpcClient
+* Let pass arbitrary options when editing a page
 * Throw a relevant exception when trying to create an empty new page
 
 0.3.0
