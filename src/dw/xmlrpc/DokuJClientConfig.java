@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DokuJClientConfig {
+	public static final String defaultUserAgent = "DokuJClient - XmlRpc client for Dokuwiki";
+
 	private URL _url = null;
 	URL url(){
 		return _url;

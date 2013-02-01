@@ -69,6 +69,7 @@ public class DokuJClient {
     	config.setBasicPassword(password);
     	XmlRpcClient xmlRpcClient = new XmlRpcClient();
     	xmlRpcClient.setConfig(config);
+    	config.setUserAgent(DokuJClientConfig.defaultUserAgent);
 
     	init(xmlRpcClient);
 	}
@@ -83,6 +84,8 @@ public class DokuJClient {
 
     	if ( dokuConfig.userAgent() != null ){
     		config.setUserAgent(dokuConfig.userAgent());
+    	} else {
+    		config.setUserAgent(DokuJClientConfig.defaultUserAgent);
     	}
 
     	XmlRpcClient xmlRpcClient = new XmlRpcClient();
