@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LinkInfo;
@@ -24,6 +25,7 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Before
 	public void setup() throws MalformedURLException {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 	}
@@ -268,6 +270,33 @@ public class T_XmlRpcQueries {
 
 		_client.appendPage(pageId, append2);
 		assertEquals(initialContent + append1 + append2, _client.getPage(pageId));
+	}
+
+	@org.junit.Test
+	public void editWithSummary() throws Exception {
+		String pageId = "ns1:dummy";
+		String initialContent = _client.getPage(pageId);
+		String addedContent = "def";
+		String addedSummary = "sum append";
+		String finalContent = "abc";
+		String finalSummary = "sum put";
+
+		//Start with appendPage, to make sure we change the content of the page
+		//hence, that the modification is taken into account
+		_client.appendPage(pageId, addedContent, addedSummary, false);
+		assertEquals(initialContent + addedContent, _client.getPage(pageId));
+
+		//Because DW creates at most one revision per second
+		//If we don't sleep here the next modification will override the previous one
+		Thread.sleep(1000, 0);
+
+		_client.putPage(pageId, finalContent, finalSummary, false);
+		assertEquals(finalContent, _client.getPage(pageId));
+
+		List<PageVersion> versions = _client.getPageVersions(pageId);
+
+		assertEquals(finalSummary, versions.get(0).summary());
+		assertEquals(addedSummary, versions.get(1).summary());
 	}
 
 	@org.junit.Test

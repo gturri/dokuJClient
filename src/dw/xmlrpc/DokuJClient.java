@@ -3,12 +3,16 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -59,12 +63,48 @@ public class DokuJClient {
 	 * @throws MalformedURLException
 	 */
     public DokuJClient(String url, String user, String password) throws MalformedURLException{
-    	_client = new CoreClient(url, user, password);
+       	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    	config.setServerURL(new URL(url));
+    	config.setBasicUserName(user);
+    	config.setBasicPassword(password);
+    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
+    	xmlRpcClient.setConfig(config);
+    	config.setUserAgent(DokuJClientConfig.defaultUserAgent);
+
+    	init(xmlRpcClient);
+	}
+
+    public DokuJClient(DokuJClientConfig dokuConfig){
+    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+    	config.setServerURL(dokuConfig.url());
+    	if ( dokuConfig.user() != null ){
+    		config.setBasicUserName(dokuConfig.user());
+    		config.setBasicPassword(dokuConfig.password());
+    	}
+
+    	if ( dokuConfig.userAgent() != null ){
+    		config.setUserAgent(dokuConfig.userAgent());
+    	} else {
+    		config.setUserAgent(DokuJClientConfig.defaultUserAgent);
+    	}
+
+    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
+    	xmlRpcClient.setConfig(config);
+
+    	init(xmlRpcClient);
+    }
+
+    public DokuJClient(XmlRpcClient xmlRpcClient){
+    	init(xmlRpcClient);
+    }
+
+    private void init(XmlRpcClient xmlRpcClient){
+    	_client = new CoreClient(xmlRpcClient);
     	_locker = new Locker(_client);
     	_attacher = new Attacher(_client);
     	Logger logger = Logger.getLogger(DokuJClient.class.toString());
     	setLogger(logger);
-	}
+    }
 
     /**
      * Uploads a file to the wiki
@@ -78,7 +118,6 @@ public class DokuJClient {
 	public void putAttachment(String attachmentId, String localPath, boolean overwrite) throws IOException, DokuException{
 		putAttachment(attachmentId, new File(localPath), overwrite);
 	}
-
 
     /**
      * Uploads a file to the wiki
@@ -347,17 +386,45 @@ public class DokuJClient {
 	 * @param rawWikiText Text to add to the current page content
 	 * @throws DokuException
 	 */
-    public void appendPage(String pageId, String rawWikiText) throws DokuException {
-    	//TODO: Let use summary and isMinor
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, attributes});
+	public void appendPage(String pageId, String rawWikiText) throws DokuException {
+		appendPage(pageId, rawWikiText, null);
 	}
 
-    /**
-     * Returns the raw Wiki text for a page
-     * @param pageId Id of the page to fetch (eg: ns1:ns2:mypage)
-     * @throws DokuException
-     */
+	/**
+	 * Appends text to a Wiki Page.
+	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
+	 * @param rawWikiText Text to add to the current page content
+	 * @param summary A summary of the modification
+	 * @param minor Whether it's a minor modification
+	 * @throws DokuException
+	 */
+	public void appendPage(String pageId, String rawWikiText, String summary, boolean minor) throws DokuException {
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("sum",  summary);
+		options.put("minor", minor);
+
+		appendPage(pageId, rawWikiText, options);
+	}
+
+	/**
+	 * Appends text to a Wiki Page.
+	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
+	 * @param rawWikiText Text to add to the current page content
+	 * @param options Options passed to Dokuwiki. ie: 'sum' and/or 'minor'
+	 * @throws DokuException
+	 */
+	public void appendPage(String pageId, String rawWikiText, Map<String, Object> options) throws DokuException {
+		if ( options == null ){
+			options = new HashMap<String, Object>();
+		}
+		genericQuery("dokuwiki.appendPage", new Object[]{pageId, rawWikiText, options});
+	}
+
+	/**
+	 * Returns the raw Wiki text for a page
+	 * @param pageId Id of the page to fetch (eg: ns1:ns2:mypage)
+	 * @throws DokuException
+	 */
 	public String getPage(String pageId) throws DokuException {
 		return (String) genericQuery("wiki.getPage", pageId);
 	}
@@ -369,9 +436,35 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public void putPage(String pageId, String rawWikiText)throws DokuException {
-		//TODO: Let use summary and isMinor
-		Map<String, Object> attributes = new HashMap<String, Object>();
-		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, attributes});
+		putPage(pageId, rawWikiText, null);
+	}
+
+	/**
+	 * Saves a Wiki Page
+	 * @param pageId Id of the page to save
+	 * @param rawWikiText Text to put
+	 * @param summary Summary of the edition
+	 * @param minor Whether it's a minor edition
+	 * @throws DokuException
+	 */
+	public void putPage(String pageId, String rawWikiText, String summary, boolean minor) throws DokuException{
+		Map<String, Object> options = new HashMap<String, Object>();
+		options.put("sum",  summary);
+		options.put("minor", minor);
+		putPage(pageId, rawWikiText, options);
+	}
+
+	/**
+	 * Saves a Wiki Page
+	 * @param pageId Id of the page to save
+	 * @param rawWikiText Text to put
+	 * @param options Options passed to Dokuwiki. ie: 'sum' and/or 'minor'	 * @throws DokuException
+	 */
+	public void putPage(String pageId, String rawWikiText, Map<String, Object> options)throws DokuException {
+		if (options == null){
+			options = new HashMap<String, Object>();
+		}
+		genericQuery("wiki.putPage", new Object[]{pageId, rawWikiText, options});
 	}
 
 	/**

@@ -43,6 +43,9 @@ class ExceptionConverter {
 		if ( message.equals("There are no changes in the specified timeframe")){
 			return new DokuInvalidTimeStampException(e);
 		}
+		if ( message.equals("Refusing to write an empty new wiki page")){
+			return new DokuEmptyNewPageException(e);
+		}
 
 		//Won't match if the wiki's locale isn't 'en'
 		if ( message.equals("Upload denied. This file extension is forbidden!")

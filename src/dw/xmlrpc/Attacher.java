@@ -24,12 +24,14 @@ class Attacher {
 		byte[] b = new byte[(int)f.length()];
 		FileInputStream fileInputStream = new FileInputStream(f);
 		fileInputStream.read(b);
+		fileInputStream.close();
 		return b;
 	}
 
 	void deserializeFile(byte[] b, File f) throws IOException{
 		FileOutputStream fileOutputStream = new FileOutputStream(f);
 		fileOutputStream.write(b);
+		fileOutputStream.close();
 	}
 
 	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws IOException, DokuException{
@@ -96,6 +98,10 @@ class Attacher {
 		Boolean isImg = (Boolean) m.get("isimg");
 		Boolean writable = (Boolean) m.get("writable");
 		Integer perms = (Integer) m.get("perm");
+		if ( perms == null ){
+			//Because it has been renamed in API v8
+			perms = (Integer) m.get("perms");
+		}
 		return new AttachmentDetails(id, size, lastModified, isImg, writable, perms);
 	}
 

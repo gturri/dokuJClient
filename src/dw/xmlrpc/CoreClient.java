@@ -1,13 +1,10 @@
 package dw.xmlrpc;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -20,14 +17,9 @@ class CoreClient {
 		_logger = logger;
 	}
 
-    public CoreClient(String url, String user, String password) throws MalformedURLException{
-    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-    	config.setServerURL(new URL(url));
-    	config.setBasicUserName(user);
-    	config.setBasicPassword(password);
-    	_client = new XmlRpcClient();
-    	_client.setConfig(config);
-	}
+    public CoreClient(XmlRpcClient client){
+    	_client = client;
+    }
 
 	public Object genericQuery(String action) throws DokuException {
 		Object[] params = new Object[]{};
