@@ -394,6 +394,8 @@ public class DokuJClient {
 	 * Appends text to a Wiki Page.
 	 * @param pageId Id of the page to edit (eg: ns1:ns2:mypage)
 	 * @param rawWikiText Text to add to the current page content
+	 * @param summary A summary of the modification
+	 * @param minor Whether it's a minor modification
 	 * @throws DokuException
 	 */
 	public void appendPage(String pageId, String rawWikiText, String summary, boolean minor) throws DokuException {
