@@ -1,4 +1,5 @@
 
+1.0.0
 * Let pass options when editing a page
 * Added DokuJClientConfig
 * Let build a DokuJClient with an arbitrary XmlRpcClient
