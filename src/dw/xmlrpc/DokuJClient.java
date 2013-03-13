@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.apache.xmlrpc.client.XmlRpcClient;
-
+import de.timroes.axmlrpc.XMLRPCClient;
 import dw.xmlrpc.exception.DokuException;
 
 /**
@@ -46,7 +45,7 @@ public class DokuJClient {
 	 * @throws MalformedURLException
 	 */
 	public DokuJClient(String url) throws MalformedURLException{
-		this(url, "", "");
+		this(CoreClientFactory.Build(url));
 	}
 
 	/**
@@ -59,16 +58,18 @@ public class DokuJClient {
 	 * @param user Login of the user
 	 * @param password Password of the user
 	 * @throws MalformedURLException
+	 * @throws DokuException
 	 */
-    public DokuJClient(String url, String user, String password) throws MalformedURLException{
-    	this(CoreClientFactory.Build(url, user, password));
+    public DokuJClient(String url, String user, String password) throws MalformedURLException, DokuException{
+    	this(url);
+    	login(user, password);
 	}
 
     public DokuJClient(DokuJClientConfig dokuConfig){
     	this(CoreClientFactory.Build(dokuConfig));
     }
 
-    public DokuJClient(XmlRpcClient xmlRpcClient){
+    public DokuJClient(XMLRPCClient xmlRpcClient){
     	this(CoreClientFactory.Build(xmlRpcClient));
     }
 
@@ -78,6 +79,11 @@ public class DokuJClient {
     	_attacher = new Attacher(_client);
     	Logger logger = Logger.getLogger(DokuJClient.class.toString());
     	setLogger(logger);
+    }
+
+    public void login(String user, String password) throws DokuException{
+    	Object[] params = new Object[]{user, password};
+       	genericQuery("dokuwiki.login", params);
     }
 
     /**

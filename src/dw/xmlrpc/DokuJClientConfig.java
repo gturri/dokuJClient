@@ -21,7 +21,7 @@ public class DokuJClientConfig {
 		return _password;
 	}
 
-	private String _userAgent = null;
+	private String _userAgent = DokuJClientConfig.defaultUserAgent;
 	String userAgent(){
 		return _userAgent;
 	}

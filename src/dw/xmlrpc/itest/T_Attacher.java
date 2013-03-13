@@ -15,6 +15,7 @@ import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
+import dw.xmlrpc.exception.DokuException;
 
 public class T_Attacher {
 	private DokuJClient _client;
@@ -24,7 +25,7 @@ public class T_Attacher {
 	Set<String> _uploadedFiles;
 
 	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public void setup() throws MalformedURLException, DokuException {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_uploadedFiles = new HashSet<String>();
