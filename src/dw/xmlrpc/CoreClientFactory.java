@@ -15,7 +15,7 @@ class CoreClientFactory {
 	}
 
 	public static CoreClient Build(URL url, String userAgent) {
-		XMLRPCClient xmlRpcClient = new XMLRPCClient(url, userAgent, XMLRPCClient.FLAGS_ENABLE_COOKIES);
+		XMLRPCClient xmlRpcClient = new XMLRPCClient(url, userAgent, XMLRPCClient.FLAGS_ENABLE_COOKIES | XMLRPCClient.FLAGS_IGNORE_STATUSCODE);
     	return Build(xmlRpcClient);
 	}
 
