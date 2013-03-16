@@ -1,6 +1,6 @@
 package dw.xmlrpc;
 
-import org.apache.xmlrpc.XmlRpcException;
+import de.timroes.axmlrpc.XMLRPCException;
 import dw.xmlrpc.exception.*;
 
 //! @cond
@@ -9,48 +9,49 @@ import dw.xmlrpc.exception.*;
  * Converts an XmlRpcException into a the most relevant DokuException.
  */
 class ExceptionConverter {
-	public static DokuException Convert(XmlRpcException e){
+	public static DokuException Convert(XMLRPCException e){
 		String message = e.getMessage();
-		if ( message.equals("The page is currently locked") ){
+		if ( message.contains("The page is currently locked") ){
 			return new DokuPageLockedException(e);
 		}
-		if ( message.equals("HTTP server returned unexpected status: Unauthorized")){
+		if ( message.contains("not authorized to call method")
+				|| message.contains("forbidden to call the method")){
 			return new DokuUnauthorizedException(e);
 		}
-		if ( message.equals("HTTP server returned unexpected status: Not Found")){
+		if ( message.contains("java.io.FileNotFoundException")){
 			String mess = "Server couldn't find the xmlrpc interface."
 					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
 			return new DokuBadUrlException(mess, e);
 		}
-		if ( message.equals("Positive wordblock check")){
+		if ( message.contains("Positive wordblock check")){
 			return new DokuWordblockException(e);
 		}
-		if ( message.equals("HTTP server returned unexpected status: Forbidden")){
+		if ( message.contains("HTTP server returned unexpected status: Forbidden")){
 			return new DokuUnauthorizedException(e);
 		}
-		if ( message.equals("Could not delete file")){
+		if ( message.contains("Could not delete file")){
 			return new DokuDeleteAttachmentException(e);
 		}
-		if ( message.equals("The requested file does not exist")){
+		if ( message.contains("The requested file does not exist")){
 			return new DokuDistantFileDoesntExistException(e);
 		}
-		if ( message.equals("File is still referenced")){
+		if ( message.contains("File is still referenced")){
 			return new DokuAttachmentStillReferenced(e);
 		}
-		if ( message.equals("The provided value is not a valid timestamp")){
+		if ( message.contains("The provided value is not a valid timestamp")){
 			return new DokuInvalidTimeStampException(e);
 		}
-		if ( message.equals("There are no changes in the specified timeframe")){
+		if ( message.contains("There are no changes in the specified timeframe")){
 			return new DokuInvalidTimeStampException(e);
 		}
-		if ( message.equals("Refusing to write an empty new wiki page")){
+		if ( message.contains("Refusing to write an empty new wiki page")){
 			return new DokuEmptyNewPageException(e);
 		}
 
 		//Won't match if the wiki's locale isn't 'en'
-		if ( message.equals("Upload denied. This file extension is forbidden!")
+		if ( message.contains("Upload denied. This file extension is forbidden!")
 				|| ( message.contains("The uploaded content did not match the ") && message.contains("file extension."))
-				|| message.equals("File already exists. Nothing done.")){
+				|| message.contains("File already exists. Nothing done.")){
 			return new DokuAttachmentUploadException(message, e);
 		}
 

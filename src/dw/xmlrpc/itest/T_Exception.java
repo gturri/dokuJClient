@@ -12,6 +12,7 @@ import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
 import dw.xmlrpc.exception.DokuEmptyNewPageException;
+import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
@@ -23,7 +24,7 @@ public class T_Exception {
 
 
 	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public void setup() throws MalformedURLException, DokuException {
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_unauthorizedClient = new DokuJClient(TestParams.url, TestParams.unauthorizedLogin, TestParams.unauthorizedPwd);
 	}

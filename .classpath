@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/usr/share/java/ws-commons-util.jar"/>
 	<classpathentry kind="lib" path="/usr/share/java/xmlrpc-client.jar"/>
 	<classpathentry kind="lib" path="/usr/share/java/xmlrpc-common.jar"/>
+	<classpathentry kind="lib" path="3rdparty/aXMLRPC/aXMLRPC_v1.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

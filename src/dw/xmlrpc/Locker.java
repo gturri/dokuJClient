@@ -21,8 +21,8 @@ class Locker {
 	public LockResult setLocks(List<String> pagesToLock, List<String> pagesToUnlock) throws DokuException{
 		LockResult result = null;
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("lock", pagesToLock == null ? new ArrayList<String>() :pagesToLock);
-		params.put("unlock", pagesToUnlock == null ? new ArrayList<String>() : pagesToUnlock);
+		params.put("lock", pagesToLock == null ? new Object[]{} : pagesToLock.toArray());
+		params.put("unlock", pagesToUnlock == null ? new Object[]{} : pagesToUnlock.toArray());
 
 		Object resultObj = _client.genericQuery("dokuwiki.setLocks", params);
 		Map<String, Object> resultMap = (Map<String, Object>) resultObj;

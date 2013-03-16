@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.LinkInfo;
 import dw.xmlrpc.Page;
 import dw.xmlrpc.PageChange;
@@ -18,16 +19,25 @@ import dw.xmlrpc.PageDW;
 import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.SearchResult;
+import dw.xmlrpc.exception.DokuException;
 
 public class T_XmlRpcQueries {
 	private DokuJClient _client;
 	private DokuJClient _clientWriter;
 
 	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public void setup() throws MalformedURLException, DokuException {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
 		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+	}
+
+	@org.junit.Test
+	public void builtWithAConfig() throws Exception {
+		DokuJClientConfig config = new DokuJClientConfig(TestParams.url);
+		config.setUser(TestParams.user, TestParams.password);
+		DokuJClient client = new DokuJClient(config);
+		assertEquals(TestParams.wikiVersion, client.getVersion());
 	}
 
 	@org.junit.Test
