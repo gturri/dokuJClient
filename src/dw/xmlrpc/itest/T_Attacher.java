@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,12 +12,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
 import dw.xmlrpc.exception.DokuException;
 
+@RunWith(value = Parameterized.class)
 public class T_Attacher {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
@@ -24,13 +30,17 @@ public class T_Attacher {
 
 	Set<String> _uploadedFiles;
 
-	@org.junit.Before
-	public void setup() throws MalformedURLException, DokuException {
+	public T_Attacher(TestParams params) throws MalformedURLException, DokuException {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
 		_uploadedFiles = new HashSet<String>();
 		clean();
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.After
 	public void clean(){

@@ -4,11 +4,16 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
@@ -21,28 +26,35 @@ import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.SearchResult;
 import dw.xmlrpc.exception.DokuException;
 
+@RunWith(value = Parameterized.class)
 public class T_XmlRpcQueries {
 	private DokuJClient _client;
 	private DokuJClient _clientWriter;
+	private TestParams _params;
 
-	@org.junit.Before
-	public void setup() throws MalformedURLException, DokuException {
+	public T_XmlRpcQueries(TestParams params) throws MalformedURLException, DokuException{
+		_params = params;
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
+		_clientWriter = new DokuJClient(params.url, TestParams.writerLogin, TestParams.writerPwd);
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
-		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.Test
 	public void builtWithAConfig() throws Exception {
-		DokuJClientConfig config = new DokuJClientConfig(TestParams.url);
+		DokuJClientConfig config = new DokuJClientConfig(_params.url);
 		config.setUser(TestParams.user, TestParams.password);
 		DokuJClient client = new DokuJClient(config);
-		assertEquals(TestParams.wikiVersion, client.getVersion());
+		assertEquals(_params.wikiVersion, client.getVersion());
 	}
 
 	@org.junit.Test
 	public void getVersion() throws Exception {
-		assertEquals(TestParams.wikiVersion, _client.getVersion());
+		assertEquals(_params.wikiVersion, _client.getVersion());
 	}
 
 	@org.junit.Test
@@ -147,12 +159,12 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void getRPCVersionSupported() throws Exception {
-		assertEquals(TestParams.rpcVersionSupported, _client.getRPCVersionSupported());
+		assertEquals(_params.rpcVersionSupported, _client.getRPCVersionSupported());
 	}
 
 	@org.junit.Test
 	public void getXMLRPCAPIVersion() throws Exception {
-		assertEquals(TestParams.apiVersion, _client.getXMLRPCAPIVersion());
+		assertEquals(_params.apiVersion, _client.getXMLRPCAPIVersion());
 	}
 
 	@org.junit.Test
@@ -247,7 +259,7 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void genericQueryWithoutParameters() throws Exception {
-		assertEquals(TestParams.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));
+		assertEquals(_params.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));
 	}
 
 	@org.junit.Test
@@ -327,7 +339,7 @@ public class T_XmlRpcQueries {
 		List<LinkInfo> links = _client.listLinks("links:start");
 		LinkInfo link0 = new LinkInfo(LinkInfo.Type.extern, "http://dokuwiki.org", "http://dokuwiki.org");
 		LinkInfo link1 = new LinkInfo(LinkInfo.Type.extern, "http://github.com/gturri", "http://github.com/gturri");
-		LinkInfo link2 = new LinkInfo(LinkInfo.Type.local, "ns1:dummy","/dokuwikiITestsForXmlRpcClient/doku.php?id=ns1:dummy" );
+		LinkInfo link2 = new LinkInfo(LinkInfo.Type.local, "ns1:dummy","/" + _params.localPath + "/doku.php?id=ns1:dummy" );
 
 		assertEquals(link0, links.get(0));
 		assertEquals(link1, links.get(1));
