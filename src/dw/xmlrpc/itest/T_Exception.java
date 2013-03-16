@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Collection;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
@@ -18,20 +23,26 @@ import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
 
+@RunWith(value = Parameterized.class)
 public class T_Exception {
 	private DokuJClient _client;
 	private DokuJClient _unauthorizedClient;
+	private TestParams _params;
 
-
-	@org.junit.Before
-	public void setup() throws MalformedURLException, DokuException {
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
-		_unauthorizedClient = new DokuJClient(TestParams.url, TestParams.unauthorizedLogin, TestParams.unauthorizedPwd);
+	public T_Exception(TestParams params) throws MalformedURLException, DokuException {
+		_params = params;
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
+		_unauthorizedClient = new DokuJClient(params.url, TestParams.unauthorizedLogin, TestParams.unauthorizedPwd);
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.Test(expected=DokuUnauthorizedException.class)
 	public void unauthorizedToUseXmlRpc() throws Exception {
-		DokuJClient unauthorizedClient = new DokuJClient(TestParams.url, "wrongUser","wrongPwd");
+		DokuJClient unauthorizedClient = new DokuJClient(_params.url, "wrongUser","wrongPwd");
 		unauthorizedClient.getTime();
 	}
 
@@ -113,13 +124,13 @@ public class T_Exception {
 		String pageId = "ns1:start";
 		_client.lock(pageId);
 
-		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+		DokuJClient otherClient = new DokuJClient(_params.url, TestParams.writerLogin, TestParams.writerPwd);
 		otherClient.appendPage(pageId, "something");
 	}
 
 	@org.junit.Test(expected=DokuBadUrlException.class)
 	public void badUrlExceptionWhenPathIsWrong() throws Exception {
-		DokuJClient client = new DokuJClient(TestParams.url + "azerty", TestParams.user, TestParams.password);
+		DokuJClient client = new DokuJClient(_params.url + "azerty", TestParams.user, TestParams.password);
 		client.getTitle();
 	}
 

@@ -3,22 +3,35 @@ package dw.xmlrpc.itest;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LockResult;
 
+@RunWith(value = Parameterized.class)
 public class T_Lock {
 	private DokuJClient _client;
 	private DokuJClient _otherClient;
-	@org.junit.Before
-	public void setup() throws Exception {
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
-		_otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+	private TestParams _params;
+
+	public T_Lock(TestParams params) throws Exception{
+		_params = params;
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
+		_otherClient = new DokuJClient(params.url, TestParams.writerLogin, TestParams.writerPwd);
 		clean();
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.After
 	public void clean() throws Exception {
@@ -89,7 +102,7 @@ public class T_Lock {
 		_client.appendPage(pageId, addedContent1);
 
 		//And I make sure everyone may now write
-		DokuJClient otherClient = new DokuJClient(TestParams.url, "writeruser", "writer");
+		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
 		otherClient.appendPage(pageId, addedContent2);
 		String currentContent = _client.getPage(pageId);
 		assertEquals(initialContent + addedContent1 + addedContent2, currentContent);
