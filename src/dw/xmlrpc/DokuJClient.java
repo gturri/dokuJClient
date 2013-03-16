@@ -65,8 +65,11 @@ public class DokuJClient {
     	login(user, password);
 	}
 
-    public DokuJClient(DokuJClientConfig dokuConfig){
+    public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
     	this(CoreClientFactory.Build(dokuConfig));
+    	if ( dokuConfig.user() != null){
+    		login(dokuConfig.user(), dokuConfig.password());
+    	}
     }
 
     public DokuJClient(XMLRPCClient xmlRpcClient){
