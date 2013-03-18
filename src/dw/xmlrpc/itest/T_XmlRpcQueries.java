@@ -396,7 +396,12 @@ public class T_XmlRpcQueries {
 
 		SearchResult sr = results.get(0);
 		assertEquals("nssearch:page3", sr.id());
-		assertEquals("Page 3 title", sr.title());
+		if ( _client.getXMLRPCAPIVersion() >= 7 ){
+			//Previous version of the API doesn't return a title for this query
+			assertEquals("Page 3 title", sr.title());
+		} else {
+			assertEquals("nssearch:page3", sr.title());
+		}
 		assertEquals((Integer) 1375376400, sr.rev());
 		assertEquals((Integer) 1375376400, sr.mtime());
 		assertEquals((Integer) 2, sr.score());
