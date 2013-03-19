@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.bind.DatatypeConverter;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -115,9 +116,17 @@ class Attacher {
 		return buildAttachmentInfoFromResult((Map<String, Object>) o, fileId);
 	}
 
+	@SuppressWarnings("deprecation")
 	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m, String fileId){
 		Integer size = (Integer) m.get("size");
-		Date lastModified = (Date) m.get("lastModified");
+		Date lastModified = null;
+		try {
+			lastModified = (Date) m.get("lastModified");
+		} catch (ClassCastException e){
+			//for DW up to 2012-01-25b: when the file doesn't exist,
+			//"lastModified" is int 0
+			lastModified = new Date(1970, 1, 1, 0, 0, 0);
+		}
 		return new AttachmentInfo(fileId, size, lastModified);
 	}
 
@@ -127,7 +136,13 @@ class Attacher {
 
 	public byte[] getAttachment(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachment", fileId);
-		return (byte[]) result;
+		try {
+			return (byte[]) result;
+		} catch (ClassCastException e){
+			//for DW up to 2012-01-25b
+			String base64Encoded = (String) result;
+			return DatatypeConverter.parseBase64Binary(base64Encoded);
+		}
 	}
 //! @endcond
 }

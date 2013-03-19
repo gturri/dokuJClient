@@ -2,7 +2,11 @@ Description
 ===========
 
 Java client for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
-Currently only the Adora Belle version (2012-10-03) is targeted
+Currently tested with:
+* Adora Belle (2012-10-03)
+* Angua (dokuwiki-2012-01-25b)
+
+See the "Compatibility" section for more info
 
 Getting started
 ===============
@@ -85,3 +89,11 @@ may also compute test coverage with:
 You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
 ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the
 'Working directory' to '${workspace_loc:dokuJClient/src}
+
+Compatibility
+=============
+dokuJClient aims at providing the same behavior for every supported version of Dokuwiki.
+There are however, some discrepancies:
+
+* Angua (dokuwiki-2012-01-25b)
+** getAttachmentInfo can't retrieve the page title. It instead set it to the page id.

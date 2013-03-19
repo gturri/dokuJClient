@@ -15,7 +15,10 @@ class ExceptionConverter {
 			return new DokuPageLockedException(e);
 		}
 		if ( message.contains("not authorized to call method")
-				|| message.contains("forbidden to call the method")){
+				|| message.contains("forbidden to call the method")
+				|| message.contains("You are not allowed to") //for DW up to 2012-01-25b
+				|| message.contains("You don't have permissions to delete files") //for DW up to 2012-01-25b
+				){
 			return new DokuUnauthorizedException(e);
 		}
 		if ( message.contains("java.io.FileNotFoundException")){

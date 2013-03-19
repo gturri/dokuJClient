@@ -35,6 +35,7 @@ public class TestParams {
 
 	 public static Collection<Object[]> data() {
 		 List<Object[]> result = new ArrayList<Object[]>();
+		 result.add(new Object[]{new TestParams("dokuwiki-2012-01-25b", "Release 2012-01-25b \"Angua\"", 6, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2012-10-13", "Release 2012-10-13 \"Adora Belle\"", 7, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-rc2013-03-06", "Release 2013-03-06 \"Weatherwax RC1\"", 8, 2)});
 		 return result;
