@@ -3,8 +3,8 @@ Description
 
 Java client for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
 Currently tested with:
-* Adora Belle (2012-10-03)
-* Angua (dokuwiki-2012-01-25b)
+* Adora Belle (dokuwiki-2012-10-03)
+* Angua       (dokuwiki-2012-01-25b)
 
 See the "Compatibility" section for more info
 
