@@ -21,12 +21,13 @@ public class TestHelper {
 	}
 
 	/**
-	 * Assert that the actual Date is equal to the expected one,
-	 * although it may differ of a few milliseconds
+	 * Assert that the actual Date is equal to the expected one.
+	 * Since we don't want to bother with timezones, we add a margin
 	 */
 	static void assertDatesNear(int year, int month, int day, int hour, int minute, int second, Date actual){
 		Date date = buildDate(year,  month, day, hour, minute, second);
-		assertTrue(Math.abs(date.getTime() - actual.getTime()) < 1000);
+		int marginInMs = 24 * 3600 * 1000 + 1;
+		assertTrue(Math.abs(date.getTime() - actual.getTime()) < marginInMs);
 	}
 
 	public static void assertPageIsLockForMe(String pageId, DokuJClient client) throws DokuException{
