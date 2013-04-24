@@ -42,4 +42,7 @@ public class DokuJClientConfig {
 		_user = user;
 		_password = password;
 	}
+
+	public void setTimeOutInSeconds(int timeout){
+	}
 }

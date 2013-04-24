@@ -33,6 +33,8 @@ public class TestParams {
 
 	public static final String localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
 
+	public static final String sleepingWiki = "http://localhost/dokuwikiITestsForXmlRpcClient_sleepingWiki/lib/exe/xmlrpc.php";
+
 	 public static Collection<Object[]> data() {
 		 List<Object[]> result = new ArrayList<Object[]>();
 		 result.add(new Object[]{new TestParams("dokuwiki-2012-01-25b", "Release 2012-01-25b \"Angua\"", 6, 2)});

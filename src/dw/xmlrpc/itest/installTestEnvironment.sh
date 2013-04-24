@@ -16,6 +16,8 @@ mkdir -p $installDir
 cd $installDir
 
 function installFakeWiki {
+#Argument 1 is the name of the version of Dokuwiki to install
+#Argument 2 is optional. If provided, it overrides the destination name, and a "sleeping wiki" is installed there
   dwVersion=$1
   echo "Going to install $dwVersion"
   pushd . >/dev/null
@@ -34,9 +36,24 @@ function installFakeWiki {
   
   echo " Copying files to the server"
   dirName=${dirNamePrefix}${dwVersion}
-  destDir=$serverFileSystemRoot/$dirName
+
+  if [ $# -eq 2 ]; then
+    destDir=$serverFileSystemRoot/$2
+    echo " Installing in $destDir"
+  else
+    destDir=$serverFileSystemRoot/$dirName
+  fi
+
   rm -rf $destDir 
   cp -r $dwVersion $destDir
+
+  #Make the wiki sleeps
+  if [ $# -eq 2 ]; then
+    echo "<?php" > temp.php
+    echo "sleep(5);" >> temp.php
+    tail -n +2 $destDir/lib/exe/xmlrpc.php >> temp.php
+    mv temp.php $destDir/lib/exe/xmlrpc.php
+  fi
   
   echo " Configuring the wiki"
   cp ../$relativeTestFileDir/conf/* $destDir/conf
@@ -66,5 +83,8 @@ function installFakeWiki {
 for dwVersion in $dwVersions; do
   installFakeWiki $dwVersion
 done
+
+echo Installing wiki for timeout tests
+installFakeWiki dokuwiki-2012-10-13 ${dirNamePrefix}sleepingWiki
 
 echo Done.
