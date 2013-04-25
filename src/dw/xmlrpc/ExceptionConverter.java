@@ -14,6 +14,9 @@ class ExceptionConverter {
 		if ( message.contains("The page is currently locked") ){
 			return new DokuPageLockedException(e);
 		}
+		if ( message.contains("The XMLRPC call timed out.")){
+			return new DokuTimeoutException(e);
+		}
 		if ( message.contains("not authorized to call method")
 				|| message.contains("forbidden to call the method")
 				|| message.contains("You are not allowed to") //for DW up to 2012-01-25b

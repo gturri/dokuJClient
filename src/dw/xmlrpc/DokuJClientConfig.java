@@ -5,6 +5,7 @@ import java.net.URL;
 
 public class DokuJClientConfig {
 	public static final String defaultUserAgent = "DokuJClient - XmlRpc client for Dokuwiki";
+	public static final int defaultTimeoutInSeconds = 30;
 
 	private URL _url = null;
 	URL url(){
@@ -41,5 +42,14 @@ public class DokuJClientConfig {
 	public void setUser(String user, String password){
 		_user = user;
 		_password = password;
+	}
+
+	private int _timeoutInSeconds = defaultTimeoutInSeconds;
+	public void setTimeOutInSeconds(int timeout){
+		_timeoutInSeconds = timeout;
+	}
+
+	public int timeoutInSeconds(){
+		return _timeoutInSeconds;
 	}
 }

@@ -12,7 +12,7 @@
        <pathelement location="${lib.dir}/ws-commons-util.jar" />
        <pathelement location="${lib.dir}/xmlrpc-client.jar" />
        <pathelement location="${lib.dir}/xmlrpc-common.jar" />
-       <pathelement location="./3rdparty/aXMLRPC/aXMLRPC_v1.5.0.jar" />
+       <pathelement location="./3rdparty/aXMLRPC/aXMLRPC_v1.7.0.jar" />
     </path>
 
     <!-- cobertura -->

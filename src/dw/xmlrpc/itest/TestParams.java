@@ -11,10 +11,12 @@ public class TestParams {
 	public final Integer apiVersion;
 	public final Integer rpcVersionSupported;
 
+	public static final String urlPrefix = "http://localhost/";
+	public static final String urlSuffix = "/lib/exe/xmlrpc.php";
 
 	public TestParams(String name, String wikiVersion, Integer apiVersion, Integer rpcVersionSupported){
 		this.localPath = "dokuwikiITestsForXmlRpcClient_" + name;
-		this.url = "http://localhost/" + localPath + "/lib/exe/xmlrpc.php";
+		this.url = urlPrefix  + localPath + urlSuffix;
 		this.wikiVersion = wikiVersion;
 		this.apiVersion = apiVersion;
 		this.rpcVersionSupported = rpcVersionSupported;
@@ -32,6 +34,8 @@ public class TestParams {
 	public static final String wikiTitle = "test xmlrpc";
 
 	public static final String localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
+
+	public static final String sleepingWiki = urlPrefix  + "dokuwikiITestsForXmlRpcClient_sleepingWiki" + urlSuffix;
 
 	 public static Collection<Object[]> data() {
 		 List<Object[]> result = new ArrayList<Object[]>();

@@ -1,4 +1,5 @@
 
+* Implemented timeout
 * Also handles DW 2012-01-25b
 * Uses aXMLRPC instead of Apache xmlrpc, to enhance cookie handling
 
