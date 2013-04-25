@@ -63,7 +63,7 @@ Dependencies
 [aXMLRPC](https://github.com/timroes/aXMLRPC)
 
 More precisely:
-  * aXMLRPC_v1.5.0.jar
+  * aXMLRPC_v1.7.0.jar
 
 Running integration tests
 ==========================
