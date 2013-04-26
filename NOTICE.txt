@@ -6,18 +6,6 @@
 DokuJClient
 Copyright 2012-2012 Guillaume Turri <guillaume.turri@gmail.com>
 
-This software relies on Apache XML-RPC
-
-=========================================================================
-==  Apache XML-RPC Notice                                              ==
-=========================================================================
-
-Apache XML-RPC
-Copyright 1999-2009 The Apache Software Foundation
-
-This product includes software developed at
-The Apache Software Foundation (http://www.apache.org/).
-
 #########################################################################
 ## DokuJClient DEPENDENCIES                                            ##
 #########################################################################
