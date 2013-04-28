@@ -96,4 +96,4 @@ dokuJClient aims at providing the same behavior for every supported version of D
 There are however, some discrepancies:
 
 * Angua (dokuwiki-2012-01-25b)
-** getAttachmentInfo can't retrieve the page title. It instead set it to the page id.
+** getAttachmentInfo can't retrieve the page title. It instead sets it to the page id.
