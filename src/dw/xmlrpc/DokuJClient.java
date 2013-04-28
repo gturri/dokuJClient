@@ -84,6 +84,10 @@ public class DokuJClient {
     	setLogger(logger);
     }
 
+    public Map<String, String> cookies(){
+    	return _client.cookies();
+    }
+
     public void login(String user, String password) throws DokuException{
     	Object[] params = new Object[]{user, password};
        	genericQuery("dokuwiki.login", params);

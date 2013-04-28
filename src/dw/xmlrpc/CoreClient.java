@@ -1,5 +1,6 @@
 package dw.xmlrpc;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +19,10 @@ class CoreClient {
 
     public CoreClient(XMLRPCClient client){
     	_client = client;
+    }
+
+    public Map<String, String> cookies(){
+    	return _client.getCookies();
     }
 
 	public Object genericQuery(String action) throws DokuException {
