@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import de.timroes.axmlrpc.XMLRPCClient;
 import dw.xmlrpc.exception.DokuException;
 
 /**
@@ -72,10 +71,6 @@ public class DokuJClient {
     	if ( dokuConfig.user() != null){
     		loginWithRetry(dokuConfig.user(), dokuConfig.password(), 2);
     	}
-    }
-
-    public DokuJClient(XMLRPCClient xmlRpcClient){
-    	this(CoreClientFactory.Build(xmlRpcClient));
     }
 
     private DokuJClient(CoreClient client){
