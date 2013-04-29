@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 //! @cond
-public class ObjectConverter {
+class ObjectConverter {
 
 	static List<PageDW> toPageDW(Object[] objs){
 		List<PageDW> result = new ArrayList<PageDW>();
