@@ -6,7 +6,7 @@ import java.util.Date;
  * Page as describe by the method getAllPage
  */
 public class Page {
-	private String _id;
+	private final String _id;
 
 	/**
 	 * id of the page, that is namespace + name
@@ -15,7 +15,7 @@ public class Page {
 		return _id;
 	}
 
-	private Integer _perms;
+	private final Integer _perms;
 
 	/**
 	 * Integer denoting the permissions on the page
@@ -24,7 +24,7 @@ public class Page {
 		return _perms;
 	}
 
-	private Date _lastModified;
+	private final Date _lastModified;
 
 	/**
 	 * Last modification date
@@ -33,7 +33,7 @@ public class Page {
 		return _lastModified;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 
 	/**
 	 * Size of the page

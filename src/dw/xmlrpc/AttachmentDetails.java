@@ -6,7 +6,7 @@ import java.util.Date;
  * Describes a file uploaded in the wiki as getAttachments would
  */
 public class AttachmentDetails {
-	private String _id;
+	private final String _id;
 
 	/**
 	 * Media id (namespace + name)
@@ -15,16 +15,16 @@ public class AttachmentDetails {
 		return _id;
 	}
 
-	private Boolean _isImg;
+	private final Boolean _isImg;
 
 	/**
 	 * Whether the file is an image or not
 	 */
-	public Boolean isImg(){
+	public final Boolean isImg(){
 		return _isImg;
 	}
 
-	private Boolean _writable;
+	private final Boolean _writable;
 
 	/**
 	 * Whether the file is writable or not
@@ -33,7 +33,7 @@ public class AttachmentDetails {
 		return _writable;
 	}
 
-	private Integer _perms;
+	private final Integer _perms;
 
 	/**
 	 * Permissions of file
@@ -42,7 +42,7 @@ public class AttachmentDetails {
 		return _perms;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 
 	/**
 	 * Size in bytes
@@ -51,12 +51,12 @@ public class AttachmentDetails {
 		return _size;
 	}
 
-	private Date _lastModified;
+	private final Date _lastModified;
 
 	/**
 	 * Date of last modification of the file
 	 */
-	public Date  lastModified(){
+	public final Date lastModified(){
 		return _lastModified;
 	}
 

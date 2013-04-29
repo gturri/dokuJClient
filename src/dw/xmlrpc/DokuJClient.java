@@ -24,9 +24,9 @@ import dw.xmlrpc.exception.DokuException;
  * want to make sure you handle them correcty
  */
 public class DokuJClient {
-	CoreClient _client;
-	Locker _locker;
-	Attacher _attacher;
+	private final CoreClient _client;
+	private final Locker _locker;
+	private final Attacher _attacher;
 
 	private final String COOKIE_PREFIX = "DW";
 

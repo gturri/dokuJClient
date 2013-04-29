@@ -16,7 +16,7 @@ import dw.xmlrpc.exception.DokuException;
 
 //! @cond
 class Attacher {
-	private CoreClient _client;
+	private final CoreClient _client;
 
 	public Attacher(CoreClient client){
 		_client = client;

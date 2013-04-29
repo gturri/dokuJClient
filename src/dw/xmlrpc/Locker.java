@@ -11,7 +11,7 @@ import dw.xmlrpc.exception.DokuException;
 
 //! @cond
 class Locker {
-	private CoreClient _client;
+	private final CoreClient _client;
 
 	public Locker(CoreClient client){
 		_client = client;

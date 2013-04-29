@@ -9,7 +9,7 @@ public class LinkInfo {
 		extern
 	}
 
-	private Type _type;
+	private final Type _type;
 
 	/**
 	 * Whether it is a local or extern link
@@ -18,7 +18,7 @@ public class LinkInfo {
 		return _type;
 	}
 
-	private String _page;
+	private final String _page;
 
 	/**
 	 * The wiki page (or the complete URL if extern link)
@@ -27,7 +27,7 @@ public class LinkInfo {
 		return _page;
 	}
 
-	private String _href;
+	private final String _href;
 
 	/**
 	 * The complete URL

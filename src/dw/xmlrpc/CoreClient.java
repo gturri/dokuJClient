@@ -10,7 +10,7 @@ import dw.xmlrpc.exception.DokuException;
 
 //! @cond
 class CoreClient {
-	private XMLRPCClient _client;
+	private final XMLRPCClient _client;
 	private Logger _logger = null;
 
 	public void setLogger(Logger logger){

@@ -4,22 +4,22 @@ package dw.xmlrpc;
  * Page as describe by DokuWiki's xmlrpc method getPageList
  */
 public class PageDW {
-	private String _id;
+	private final String _id;
 	public String id(){
 		return _id;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 	public Integer size(){
 		return _size;
 	}
 
-	private Integer _version;
+	private final Integer _version;
 	public Integer version(){
 		return _version;
 	}
 
-	private Integer _mtime;
+	private final Integer _mtime;
 	public Integer mtime(){
 		return _mtime;
 	}

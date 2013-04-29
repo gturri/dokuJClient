@@ -6,7 +6,7 @@ import java.util.Date;
  * Describes a revision of a media
  */
 public class MediaChange {
-	private String _id;
+	private final String _id;
 
 	/**
 	 * Id of the media (namespace + name)
@@ -15,7 +15,7 @@ public class MediaChange {
 		return _id;
 	}
 
-	private Date _lastModified;
+	private final Date _lastModified;
 
 	/**
 	 * Date of this modification of the media
@@ -24,7 +24,7 @@ public class MediaChange {
 		return _lastModified;
 	}
 
-	private String _author;
+	private final String _author;
 
 	/**
 	 * Author of this modification of the media
@@ -33,7 +33,7 @@ public class MediaChange {
 		return _author;
 	}
 
-	private Integer _version;
+	private final Integer _version;
 
 	/**
 	 * Version of the revision as a timestamp.
@@ -44,7 +44,7 @@ public class MediaChange {
 		return _version;
 	}
 
-	private Integer _perms;
+	private final Integer _perms;
 
 	/**
 	 * Permissions of the file
@@ -53,7 +53,7 @@ public class MediaChange {
 		return _perms;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 
 	/**
 	 * Size of the file in bytes
