@@ -64,13 +64,13 @@ public class DokuJClient {
 	 */
     public DokuJClient(String url, String user, String password) throws MalformedURLException, DokuException{
     	this(url);
-    	login(user, password);
+    	loginWithRetry(user, password, 2);
 	}
 
     public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
     	this(CoreClientFactory.Build(dokuConfig));
     	if ( dokuConfig.user() != null){
-    		login(dokuConfig.user(), dokuConfig.password());
+    		loginWithRetry(dokuConfig.user(), dokuConfig.password(), 2);
     	}
     }
 
@@ -97,6 +97,14 @@ public class DokuJClient {
 
     public Map<String, String> cookies(){
     	return _client.cookies();
+    }
+
+    //Because it's been observed that some hosting services sometime mess up a bit with cookies...
+    private void loginWithRetry(String user, String password, int nbMaxRetry) throws DokuException {
+    	login(user, password);
+    	for(int retry=1 ; retry < nbMaxRetry && !hasDokuwikiCookies() ; retry++ ){
+    		login(user, password);
+    	}
     }
 
     public void login(String user, String password) throws DokuException{
