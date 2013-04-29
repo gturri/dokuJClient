@@ -84,6 +84,15 @@ public class DokuJClient {
     	setLogger(logger);
     }
 
+    public boolean hasDokuwikiCookies(){
+    	for(String cookieKey : cookies().keySet()){
+    		if ( cookieKey.startsWith("DW") ){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
     public Map<String, String> cookies(){
     	return _client.cookies();
     }
