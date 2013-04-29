@@ -29,8 +29,10 @@ public class T_Cookies {
 	public void cookies() throws Exception {
 		DokuJClient client = new DokuJClient(_params.url);
 		assertEquals(0, client.cookies().size());
+		assertFalse(client.hasDokuwikiCookies());
+
 		client.login(TestParams.writerLogin, TestParams.writerPwd);
 		assertTrue(client.cookies().size() > 0);
+		assertTrue(client.hasDokuwikiCookies());
 	}
-
 }
