@@ -28,6 +28,8 @@ public class DokuJClient {
 	Locker _locker;
 	Attacher _attacher;
 
+	private final String COOKIE_PREFIX = "DW";
+
 	/**
 	 * Let override the default Logger
 	 */
@@ -86,7 +88,7 @@ public class DokuJClient {
 
     public boolean hasDokuwikiCookies(){
     	for(String cookieKey : cookies().keySet()){
-    		if ( cookieKey.startsWith("DW") ){
+    		if ( cookieKey.startsWith(COOKIE_PREFIX) ){
     			return true;
     		}
     	}
