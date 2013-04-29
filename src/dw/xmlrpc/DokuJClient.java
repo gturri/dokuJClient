@@ -37,19 +37,6 @@ public class DokuJClient {
 	}
 
 	/**
-	 * Instantiate a client for an anonymous user on the given wiki
-	 *
-	 * Likely to be unsuitable for most wiki since anonymous user are often
-	 * not authorized to use the xmlrpc interface
-	 *
-	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
-	 * @throws MalformedURLException
-	 */
-	public DokuJClient(String url) throws MalformedURLException{
-		this(CoreClientFactory.Build(url));
-	}
-
-	/**
 	 * Instantiance a client for the given user on the given wiki
 	 *
 	 * The wiki should be configured in a way to let this user access the
@@ -64,6 +51,19 @@ public class DokuJClient {
     public DokuJClient(String url, String user, String password) throws MalformedURLException, DokuException{
     	this(url);
     	loginWithRetry(user, password, 2);
+	}
+
+	/**
+	 * Instantiate a client for an anonymous user on the given wiki
+	 *
+	 * Likely to be unsuitable for most wiki since anonymous user are often
+	 * not authorized to use the xmlrpc interface
+	 *
+	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
+	 * @throws MalformedURLException
+	 */
+	public DokuJClient(String url) throws MalformedURLException{
+		this(CoreClientFactory.Build(url));
 	}
 
     public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
