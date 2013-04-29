@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +117,6 @@ class Attacher {
 		return buildAttachmentInfoFromResult((Map<String, Object>) o, fileId);
 	}
 
-	@SuppressWarnings("deprecation")
 	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m, String fileId){
 		Integer size = (Integer) m.get("size");
 		Date lastModified = null;
@@ -125,9 +125,15 @@ class Attacher {
 		} catch (ClassCastException e){
 			//for DW up to 2012-01-25b: when the file doesn't exist,
 			//"lastModified" is int 0
-			lastModified = new Date(1970, 1, 1, 0, 0, 0);
+			lastModified = defaultDate();
 		}
 		return new AttachmentInfo(fileId, size, lastModified);
+	}
+
+	private Date defaultDate(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(1970, 0, 0);
+		return calendar.getTime();
 	}
 
 	public void deleteAttachment(String fileId) throws DokuException{
