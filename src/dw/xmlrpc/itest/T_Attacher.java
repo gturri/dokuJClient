@@ -48,12 +48,16 @@ public class T_Attacher {
 		f.delete();
 
 		for ( String fileId : _uploadedFiles ){
-			try {
-				_client.deleteAttachment(fileId);
-			} catch ( Exception e ){
-				//Too bad we missed one... Hope we'll have better luck for the next...
-				System.out.println("Failed to delete distant attachment " + fileId + " during tear down");
-			}
+			tryToDeleteDistantFile(fileId);
+		}
+	}
+
+	private void tryToDeleteDistantFile(String fileId){
+		try {
+			_client.deleteAttachment(fileId);
+		} catch ( Exception e ){
+			//Too bad we missed one... We'll live with it
+			System.out.println("Failed to delete distant attachment " + fileId + " during tear down");
 		}
 	}
 
@@ -74,19 +78,21 @@ public class T_Attacher {
 		//Filtering on a PREG
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pattern", "/3.gif/");
-		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(2, res.size());
+		testGetAttachmentWithParams(params, 2);
 
 		//without special parameters
 		params = new HashMap<String, Object>();
-		res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(4, res.size());
+		testGetAttachmentWithParams(params, 4);
 
 		//Limiting max depth
 		params = new HashMap<String, Object>();
 		params.put("depth", 1);
-		res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(3, res.size());
+		testGetAttachmentWithParams(params, 3);
+	}
+
+	private void testGetAttachmentWithParams(Map<String, Object> params, int nbExpectedAttachments) throws DokuException{
+		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
+		assertEquals(nbExpectedAttachments, res.size());
 	}
 
 	@org.junit.Test
@@ -95,11 +101,9 @@ public class T_Attacher {
 		assertEquals(1, res.size());
 
 		AttachmentDetails details = res.get(0);
-		System.out.println("Details: " + details.toString());
-		//Details: isImg: true, writable: true, perms:null
 		assertEquals("ro_for_tests:img1.gif", details.id());
 		assertEquals((Integer) 67, details.size());
-		//TODO: study timezones more in depth to strenghten this assertion
+		//TODO: study timezones more in depth to strengthen this assertion
 		assertNotNull(details.lastModified());
 		assertEquals(true, details.isImg());
 		assertEquals(true, details.writable());
