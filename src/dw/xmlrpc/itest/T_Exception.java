@@ -25,9 +25,10 @@ import dw.xmlrpc.exception.DokuWordblockException;
 
 @RunWith(value = Parameterized.class)
 public class T_Exception {
-	private DokuJClient _client;
-	private DokuJClient _unauthorizedClient;
-	private TestParams _params;
+	private final DokuJClient _client;
+	private final DokuJClient _unauthorizedClient;
+	private final TestParams _params;
+	private final File _file = new File(TestParams.localFileToUpload);
 
 	public T_Exception(TestParams params) throws MalformedURLException, DokuException {
 		_params = params;
@@ -89,21 +90,11 @@ public class T_Exception {
 		_client.getAttachment("unexistingFile.gif", "file.gif");
 	}
 
-	@org.junit.Test
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
 	public void unauthorizedToGetMedia() throws Exception {
 		String attachmentId = "forTestUnauthorizedWithMedia.gif";
 		_client.putAttachment(attachmentId, TestParams.localFileToUpload, true);
-
-		boolean getRelevantException = false;
-		try {
-			_unauthorizedClient.getAttachment(attachmentId, "file.gif");
-		} catch (DokuUnauthorizedException e){
-			getRelevantException = true;
-		}
-
-		_client.deleteAttachment(attachmentId);
-
-		assertTrue(getRelevantException);
+		_unauthorizedClient.getAttachment(attachmentId, "file.gif");
 	}
 
 	@org.junit.Test(expected=DokuAttachmentStillReferenced.class)
@@ -142,28 +133,28 @@ public class T_Exception {
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadForbiddenBecauseOfForbiddenExtension() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
-		_client.putAttachment("file.sh", file, true);
+		_client.putAttachment("file.sh", _file, true);
 	}
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadForbiddenBecauseOfBadExtension() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
-
 		//jpg is authorized, but the file is in fact a gif
-		_client.putAttachment("file.jpg", file, true);
+		_client.putAttachment("file.jpg", _file, true);
 	}
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadBecauseFileAlreadyExists() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
 		String attachmentId = "file.gif";
+		uploadWithoutThrowing(attachmentId);
+		_client.putAttachment(attachmentId, _file, false);
+	}
+
+	private void uploadWithoutThrowing(String attachmentId){
 		try {
-			_client.putAttachment(attachmentId, file, true);
+			_client.putAttachment(attachmentId, _file, true);
 		} catch (Exception e){
 			fail();
 		}
-		_client.putAttachment(attachmentId, file, false);
 	}
 
 	@org.junit.Test(expected=DokuEmptyNewPageException.class)
