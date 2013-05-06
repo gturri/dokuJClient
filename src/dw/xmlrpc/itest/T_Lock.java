@@ -48,9 +48,7 @@ public class T_Lock extends TestHelper {
 		String pageId  = "ns1:start";
 		_client.lock(pageId);
 
-		//Make sure you can't write
 		assertPageIsLockForMe(pageId, _otherClient);
-
 		assertTrue(_client.unlock("ns1:start"));
 		assertPageIsUnlockForMe(pageId, _otherClient);
 	}
@@ -70,7 +68,7 @@ public class T_Lock extends TestHelper {
 		assertPagesAreLockForMe(pagesToLock, _otherClient);
 		assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
 
-		//2nd round: lock some pages, some of which are already lock. Play with unlock too
+		//2nd round: lock some pages, some of which are already locked. Play with unlock too
 		pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
 		pagesToLock.add("ns2:p3");
