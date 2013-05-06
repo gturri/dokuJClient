@@ -23,7 +23,7 @@ import dw.xmlrpc.MediaChange;
 import dw.xmlrpc.exception.DokuException;
 
 @RunWith(value = Parameterized.class)
-public class T_Attacher {
+public class T_Attacher extends TestHelper {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
 
@@ -117,7 +117,7 @@ public class T_Attacher {
 		String mediaId = "ro_for_tests:img1.gif";
 		MediaChange change = findOneMediaChange(changes, mediaId);
 		assertEquals(mediaId, change.id());
-		TestHelper.assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
+		assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
 		assertEquals("fifi", change.author());
 		assertEquals((Integer) 1356383460, change.version());
 		assertEquals((Integer) 255, change.perms());
@@ -143,11 +143,11 @@ public class T_Attacher {
 		String oldMediaChange = "ro_for_tests:img1.gif";
 		String recentMediaChange = "ro_for_tests:img2.gif";
 
-		List<MediaChange> changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 10, 59));
+		List<MediaChange> changes = _client.getRecentMediaChanges(buildDate(2012, 11, 24, 21, 10, 59));
 		assertNotNull(findOneMediaChange(changes,oldMediaChange));
 		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 
-		changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 11, 1));
+		changes = _client.getRecentMediaChanges(buildDate(2012, 11, 24, 21, 11, 1));
 		assertNull(findOneMediaChange(changes,oldMediaChange));
 		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 	}
