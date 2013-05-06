@@ -12,14 +12,6 @@ import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 
 public class TestHelper {
-
-	static Date buildDate(int year, int month, int day, int hour, int minute, int second){
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		cal.set(year,  month, day, hour, minute, second);
-		return cal.getTime();
-	}
-
 	/**
 	 * Assert that the actual Date is equal to the expected one.
 	 * Since we don't want to bother with timezones, we add a margin
@@ -28,6 +20,19 @@ public class TestHelper {
 		Date date = buildDate(year,  month, day, hour, minute, second);
 		int marginInMs = 24 * 3600 * 1000 + 1;
 		assertTrue(Math.abs(date.getTime() - actual.getTime()) < marginInMs);
+	}
+
+	static Date buildDate(int year, int month, int day, int hour, int minute, int second){
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.set(year,  month, day, hour, minute, second);
+		return cal.getTime();
+	}
+
+	public static void assertPagesAreLockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
+		for(String pageId : pageIds){
+			assertPageIsLockForMe(pageId, client);
+		}
 	}
 
 	public static void assertPageIsLockForMe(String pageId, DokuJClient client) throws DokuException{
@@ -41,6 +46,12 @@ public class TestHelper {
 		assertTrue(lockExceptionCaught);
 	}
 
+	public static void assertPagesAreUnlockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
+		for(String pageId : pageIds){
+			assertPageIsUnlockForMe(pageId, client);
+		}
+	}
+
 	public static void assertPageIsUnlockForMe(String pageId, DokuJClient client) throws DokuException{
 		String initialContent = client.getPage(pageId);
 		try {
@@ -51,17 +62,5 @@ public class TestHelper {
 
 		//Clean page content
 		client.putPage(pageId, initialContent);
-	}
-
-	public static void assertPagesAreLockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
-		for(String pageId : pageIds){
-			assertPageIsLockForMe(pageId, client);
-		}
-	}
-
-	public static void assertPagesAreUnlockForMe(Iterable<String> pageIds, DokuJClient client) throws DokuException {
-		for(String pageId : pageIds){
-			assertPageIsUnlockForMe(pageId, client);
-		}
 	}
 }
