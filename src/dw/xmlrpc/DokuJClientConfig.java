@@ -7,7 +7,7 @@ public class DokuJClientConfig {
 	public static final String defaultUserAgent = "DokuJClient - XmlRpc client for Dokuwiki";
 	public static final int defaultTimeoutInSeconds = 30;
 
-	private URL _url = null;
+	private final URL _url;
 	URL url(){
 		return _url;
 	}

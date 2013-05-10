@@ -11,7 +11,7 @@ import java.util.Date;
  * Hence it's better to always check if a given field isn't null before using it.
  */
 public class PageVersion {
-	private String _pageId;
+	private final String _pageId;
 
 	/**
 	 * Page id (namespace + name)
@@ -20,7 +20,7 @@ public class PageVersion {
 		return _pageId;
 	}
 
-	private String _author;
+	private final String _author;
 
 	/**
 	 * Author of the revision
@@ -38,7 +38,7 @@ public class PageVersion {
 		return _author;
 	}
 
-	private String _ip;
+	private final String _ip;
 
 	/**
 	 * Ip who made this revision
@@ -47,7 +47,7 @@ public class PageVersion {
 		return _ip;
 	}
 
-	private String _type;
+	private final String _type;
 
 	/**
 	 * Type of revision (creation, edition, ...)
@@ -56,7 +56,7 @@ public class PageVersion {
 		return _type;
 	}
 
-	private String _summary;
+	private final String _summary;
 
 	/**
 	 * Summary of the revision
@@ -65,7 +65,7 @@ public class PageVersion {
 		return _summary;
 	}
 
-	private Date _modified;
+	private final Date _modified;
 
 	/**
 	 * Date of the revision
@@ -83,7 +83,7 @@ public class PageVersion {
 		return _modified;
 	}
 
-	private Integer _version;
+	private final Integer _version;
 
 	/**
 	 * Version of the revision, as a timestamp

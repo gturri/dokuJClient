@@ -7,7 +7,7 @@ import java.util.Date;
  *
  */
 public class PageChange {
-	private String _pageId;
+	private final String _pageId;
 
 	/**
 	 * Id of the page changed
@@ -25,7 +25,7 @@ public class PageChange {
 		return _pageId;
 	}
 
-	private Integer _perms;
+	private final Integer _perms;
 
 	/**
 	 * Integer representing the permissions on the file
@@ -34,7 +34,7 @@ public class PageChange {
 		return _perms;
 	}
 
-	private Date _lastModified;
+	private final Date _lastModified;
 
 	/**
 	 * Date of the modification
@@ -43,12 +43,12 @@ public class PageChange {
 		return _lastModified;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 	public Integer size(){
 		return _size;
 	}
 
-	private String _author;
+	private final String _author;
 
 	/**
 	 * Author of the page
@@ -57,7 +57,7 @@ public class PageChange {
 		return _author;
 	}
 
-	private Integer _version;
+	private final Integer _version;
 
 	/**
 	 * Version of the page

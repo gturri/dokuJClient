@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import de.timroes.axmlrpc.XMLRPCClient;
 import dw.xmlrpc.exception.DokuException;
 
 /**
@@ -24,9 +23,9 @@ import dw.xmlrpc.exception.DokuException;
  * want to make sure you handle them correcty
  */
 public class DokuJClient {
-	CoreClient _client;
-	Locker _locker;
-	Attacher _attacher;
+	private final CoreClient _client;
+	private final Locker _locker;
+	private final Attacher _attacher;
 
 	private final String COOKIE_PREFIX = "DW";
 
@@ -35,19 +34,6 @@ public class DokuJClient {
 	 */
 	public void setLogger(Logger logger){
 		_client.setLogger(logger);
-	}
-
-	/**
-	 * Instantiate a client for an anonymous user on the given wiki
-	 *
-	 * Likely to be unsuitable for most wiki since anonymous user are often
-	 * not authorized to use the xmlrpc interface
-	 *
-	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
-	 * @throws MalformedURLException
-	 */
-	public DokuJClient(String url) throws MalformedURLException{
-		this(CoreClientFactory.Build(url));
 	}
 
 	/**
@@ -67,15 +53,24 @@ public class DokuJClient {
     	loginWithRetry(user, password, 2);
 	}
 
+	/**
+	 * Instantiate a client for an anonymous user on the given wiki
+	 *
+	 * Likely to be unsuitable for most wiki since anonymous user are often
+	 * not authorized to use the xmlrpc interface
+	 *
+	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
+	 * @throws MalformedURLException
+	 */
+	public DokuJClient(String url) throws MalformedURLException{
+		this(CoreClientFactory.Build(url));
+	}
+
     public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
     	this(CoreClientFactory.Build(dokuConfig));
     	if ( dokuConfig.user() != null){
     		loginWithRetry(dokuConfig.user(), dokuConfig.password(), 2);
     	}
-    }
-
-    public DokuJClient(XMLRPCClient xmlRpcClient){
-    	this(CoreClientFactory.Build(xmlRpcClient));
     }
 
     private DokuJClient(CoreClient client){

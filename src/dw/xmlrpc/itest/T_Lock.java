@@ -16,7 +16,7 @@ import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LockResult;
 
 @RunWith(value = Parameterized.class)
-public class T_Lock {
+public class T_Lock extends TestHelper {
 	private DokuJClient _client;
 	private DokuJClient _otherClient;
 	private TestParams _params;
@@ -48,11 +48,9 @@ public class T_Lock {
 		String pageId  = "ns1:start";
 		_client.lock(pageId);
 
-		//Make sure you can't write
-		TestHelper.assertPageIsLockForMe(pageId, _otherClient);
-
+		assertPageIsLockForMe(pageId, _otherClient);
 		assertTrue(_client.unlock("ns1:start"));
-		TestHelper.assertPageIsUnlockForMe(pageId, _otherClient);
+		assertPageIsUnlockForMe(pageId, _otherClient);
 	}
 
 	@org.junit.Test
@@ -67,10 +65,10 @@ public class T_Lock {
 
 
 		_client.setLocks(pagesToLock, pagesToUnlock);
-		TestHelper.assertPagesAreLockForMe(pagesToLock, _otherClient);
-		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
+		assertPagesAreLockForMe(pagesToLock, _otherClient);
+		assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
 
-		//2nd round: lock some pages, some of which are already lock. Play with unlock too
+		//2nd round: lock some pages, some of which are already locked. Play with unlock too
 		pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
 		pagesToLock.add("ns2:p3");
@@ -80,8 +78,8 @@ public class T_Lock {
 
 
 		_client.setLocks(pagesToLock, pagesToUnlock);
-		TestHelper.assertPagesAreLockForMe(pagesToLock, _otherClient);
-		TestHelper.assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
+		assertPagesAreLockForMe(pagesToLock, _otherClient);
+		assertPagesAreUnlockForMe(pagesToUnlock, _otherClient);
 	}
 
 	//This doesn't really test the client, but it documents Dokuwiki's behavior,

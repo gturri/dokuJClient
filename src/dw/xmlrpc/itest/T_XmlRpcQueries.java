@@ -27,7 +27,7 @@ import dw.xmlrpc.SearchResult;
 import dw.xmlrpc.exception.DokuException;
 
 @RunWith(value = Parameterized.class)
-public class T_XmlRpcQueries {
+public class T_XmlRpcQueries extends TestHelper {
 	private DokuJClient _client;
 	private DokuJClient _clientWriter;
 	private TestParams _params;
@@ -65,7 +65,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("lulu", pageInfo.author());
 		assertEquals((Integer) 1356218419, pageInfo.version());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -77,7 +77,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("fifi", pageInfo.author());
 		assertEquals(version, pageInfo.version());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -92,7 +92,7 @@ public class T_XmlRpcQueries {
 		assertEquals("E", version.type());
 		assertEquals("lulu", version.author());
 		assertEquals("edit 2", version.summary());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
 	}
 
 	@org.junit.Test
@@ -115,7 +115,7 @@ public class T_XmlRpcQueries {
 		assertEquals("rev:start", change.pageId());
 		assertEquals((Integer) 255, change.perms());
 		assertEquals((Integer) 11, change.size());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
 	}
 
 	@org.junit.Test
@@ -130,11 +130,11 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void getRecentChangesRespectMaxDate() throws Exception {
-		List<PageChange> changes = _client.getRecentChanges(TestHelper.buildDate(2012, 11, 20, 0, 0, 0));
+		List<PageChange> changes = _client.getRecentChanges(buildDate(2012, 11, 20, 0, 0, 0));
 		String pageId = "rev:start";
 		assertTrue(hasPageChangeOnce(changes, pageId));
 
-		changes = _client.getRecentChanges(TestHelper.buildDate(2013, 0, 1, 0, 0, 0));
+		changes = _client.getRecentChanges(buildDate(2013, 0, 1, 0, 0, 0));
 		assertFalse(hasPageChangeOnce(changes, pageId));
 	}
 
@@ -374,7 +374,7 @@ public class T_XmlRpcQueries {
 		assertNotNull(page);
 		assertEquals(pageId, page.id());
 		assertEquals((Integer) 255, page.perms());
-		TestHelper.assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
+		assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
 		assertEquals((Integer) 197, page.size());
 	}
 
