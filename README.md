@@ -3,6 +3,7 @@ Description
 
 Java client for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
 Currently tested with:
+* Weatherwax  (dokuwiki-2013-05-10)
 * Adora Belle (dokuwiki-2012-10-03)
 * Angua       (dokuwiki-2012-01-25b)
 
