@@ -4,32 +4,32 @@ package dw.xmlrpc;
  * Result of a text search on the wiki
  */
 public class SearchResult {
-	private String _id;
+	private final String _id;
 	public String id(){
 		return _id;
 	}
 
-	private String _title;
+	private final String _title;
 	public String title(){
 		return _title;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 	public Integer size(){
 		return _size;
 	}
 
-	private Integer _rev;
+	private final Integer _rev;
 	public Integer rev(){
 		return _rev;
 	}
 
-	private Integer _mtime;
+	private final Integer _mtime;
 	public Integer mtime(){
 		return _mtime;
 	}
 
-	private Integer _score;
+	private final Integer _score;
 
 	/**
 	 * Score of the result.
@@ -40,7 +40,7 @@ public class SearchResult {
 		return _score;
 	}
 
-	private String _snippet;
+	private final String _snippet;
 
 	/**
 	 * Snippet of the page matching the search.

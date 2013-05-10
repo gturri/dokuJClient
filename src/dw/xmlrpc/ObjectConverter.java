@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 //! @cond
-public class ObjectConverter {
+class ObjectConverter {
 
 	static List<PageDW> toPageDW(Object[] objs){
 		List<PageDW> result = new ArrayList<PageDW>();
@@ -40,6 +40,10 @@ public class ObjectConverter {
 
 		String id = (String) mapResult.get("id");
 		String title  = (String) mapResult.get("title");
+		if ( title == null){
+			//for DW up to 2012-01-25
+			title = id;
+		}
 		Integer rev = (Integer) mapResult.get("rev");
 		Integer mtime = (Integer) mapResult.get("mtime");
 		Integer size = (Integer) mapResult.get("size");

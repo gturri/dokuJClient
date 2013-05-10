@@ -6,7 +6,7 @@ import java.util.Date;
  * Describes a file uploaded in the wiki as getAttachmentInfo would
  */
 public class AttachmentInfo {
-	private String _id;
+	private final String _id;
 
 	/**
 	 * Media id (namespace + name)
@@ -15,7 +15,7 @@ public class AttachmentInfo {
 		return _id;
 	}
 
-	private Integer _size;
+	private final Integer _size;
 
 	/**
 	 * Size in bytes
@@ -24,7 +24,7 @@ public class AttachmentInfo {
 		return _size;
 	}
 
-	private Date _lastModified;
+	private final Date _lastModified;
 
 	/**
 	 * Date of last modification of the file
@@ -34,7 +34,6 @@ public class AttachmentInfo {
 	}
 
 	public AttachmentInfo(String id, Integer size, Date lastModified){
-
 		_id = id;
 		_size = size;
 		_lastModified = lastModified;

@@ -3,16 +3,12 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import dw.xmlrpc.exception.DokuException;
 
@@ -27,28 +23,17 @@ import dw.xmlrpc.exception.DokuException;
  * want to make sure you handle them correcty
  */
 public class DokuJClient {
-	CoreClient _client;
-	Locker _locker;
-	Attacher _attacher;
+	private final CoreClient _client;
+	private final Locker _locker;
+	private final Attacher _attacher;
+
+	private final String COOKIE_PREFIX = "DW";
 
 	/**
 	 * Let override the default Logger
 	 */
 	public void setLogger(Logger logger){
 		_client.setLogger(logger);
-	}
-
-	/**
-	 * Instantiate a client for an anonymous user on the given wiki
-	 *
-	 * Likely to be unsuitable for most wiki since anonymous user are often
-	 * not authorized to use the xmlrpc interface
-	 *
-	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
-	 * @throws MalformedURLException
-	 */
-	public DokuJClient(String url) throws MalformedURLException{
-		this(url, "", "");
 	}
 
 	/**
@@ -61,49 +46,65 @@ public class DokuJClient {
 	 * @param user Login of the user
 	 * @param password Password of the user
 	 * @throws MalformedURLException
+	 * @throws DokuException
 	 */
-    public DokuJClient(String url, String user, String password) throws MalformedURLException{
-       	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-    	config.setServerURL(new URL(url));
-    	config.setBasicUserName(user);
-    	config.setBasicPassword(password);
-    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
-    	xmlRpcClient.setConfig(config);
-    	config.setUserAgent(DokuJClientConfig.defaultUserAgent);
-
-    	init(xmlRpcClient);
+    public DokuJClient(String url, String user, String password) throws MalformedURLException, DokuException{
+    	this(url);
+    	loginWithRetry(user, password, 2);
 	}
 
-    public DokuJClient(DokuJClientConfig dokuConfig){
-    	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-    	config.setServerURL(dokuConfig.url());
-    	if ( dokuConfig.user() != null ){
-    		config.setBasicUserName(dokuConfig.user());
-    		config.setBasicPassword(dokuConfig.password());
+	/**
+	 * Instantiate a client for an anonymous user on the given wiki
+	 *
+	 * Likely to be unsuitable for most wiki since anonymous user are often
+	 * not authorized to use the xmlrpc interface
+	 *
+	 * @param url Should looks like http[s]://server/mywiki/lib/exe/xmlrpc.php
+	 * @throws MalformedURLException
+	 */
+	public DokuJClient(String url) throws MalformedURLException{
+		this(CoreClientFactory.Build(url));
+	}
+
+    public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
+    	this(CoreClientFactory.Build(dokuConfig));
+    	if ( dokuConfig.user() != null){
+    		loginWithRetry(dokuConfig.user(), dokuConfig.password(), 2);
     	}
-
-    	if ( dokuConfig.userAgent() != null ){
-    		config.setUserAgent(dokuConfig.userAgent());
-    	} else {
-    		config.setUserAgent(DokuJClientConfig.defaultUserAgent);
-    	}
-
-    	XmlRpcClient xmlRpcClient = new XmlRpcClient();
-    	xmlRpcClient.setConfig(config);
-
-    	init(xmlRpcClient);
     }
 
-    public DokuJClient(XmlRpcClient xmlRpcClient){
-    	init(xmlRpcClient);
-    }
-
-    private void init(XmlRpcClient xmlRpcClient){
-    	_client = new CoreClient(xmlRpcClient);
+    private DokuJClient(CoreClient client){
+    	_client = client;
     	_locker = new Locker(_client);
     	_attacher = new Attacher(_client);
     	Logger logger = Logger.getLogger(DokuJClient.class.toString());
     	setLogger(logger);
+    }
+
+    public boolean hasDokuwikiCookies(){
+    	for(String cookieKey : cookies().keySet()){
+    		if ( cookieKey.startsWith(COOKIE_PREFIX) ){
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
+    public Map<String, String> cookies(){
+    	return _client.cookies();
+    }
+
+    //Because it's been observed that some hosting services sometime mess up a bit with cookies...
+    private void loginWithRetry(String user, String password, int nbMaxRetry) throws DokuException {
+    	login(user, password);
+    	for(int retry=1 ; retry < nbMaxRetry && !hasDokuwikiCookies() ; retry++ ){
+    		login(user, password);
+    	}
+    }
+
+    public void login(String user, String password) throws DokuException{
+    	Object[] params = new Object[]{user, password};
+       	genericQuery("dokuwiki.login", params);
     }
 
     /**

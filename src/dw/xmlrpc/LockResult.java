@@ -6,7 +6,7 @@ import java.util.Set;
  * Describes the result of an attempt to (un)lock pages
  */
 public class LockResult {
-	private Set<String> _locked;
+	private final Set<String> _locked;
 
 	/**
 	 * Pages successfully locked
@@ -15,7 +15,7 @@ public class LockResult {
 		return _locked;
 	}
 
-	private Set<String> _lockfail;
+	private final Set<String> _lockfail;
 
 	/**
 	 * Pages we failed to lock
@@ -24,7 +24,7 @@ public class LockResult {
 		return _lockfail;
 	}
 
-	private Set<String> _unlocked;
+	private final Set<String> _unlocked;
 
 	/**
 	 * Pages successfully unlocked
@@ -33,7 +33,7 @@ public class LockResult {
 		return _unlocked;
 	}
 
-	private Set<String> _unlockfail;
+	private final Set<String> _unlockfail;
 
 	/**
 	 * Pages we failed to unlock

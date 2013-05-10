@@ -5,16 +5,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.bind.DatatypeConverter;
 
 import dw.xmlrpc.exception.DokuException;
 
 //! @cond
 class Attacher {
-	private CoreClient _client;
+	private final CoreClient _client;
 
 	public Attacher(CoreClient client){
 		_client = client;
@@ -117,8 +119,21 @@ class Attacher {
 
 	private AttachmentInfo buildAttachmentInfoFromResult(Map<String, Object> m, String fileId){
 		Integer size = (Integer) m.get("size");
-		Date lastModified = (Date) m.get("lastModified");
+		Date lastModified = null;
+		try {
+			lastModified = (Date) m.get("lastModified");
+		} catch (ClassCastException e){
+			//for DW up to 2012-01-25b: when the file doesn't exist,
+			//"lastModified" is int 0
+			lastModified = defaultDate();
+		}
 		return new AttachmentInfo(fileId, size, lastModified);
+	}
+
+	private Date defaultDate(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(1970, 0, 0);
+		return calendar.getTime();
 	}
 
 	public void deleteAttachment(String fileId) throws DokuException{
@@ -127,7 +142,13 @@ class Attacher {
 
 	public byte[] getAttachment(String fileId) throws DokuException{
 		Object result = _client.genericQuery("wiki.getAttachment", fileId);
-		return (byte[]) result;
+		try {
+			return (byte[]) result;
+		} catch (ClassCastException e){
+			//for DW up to 2012-01-25b
+			String base64Encoded = (String) result;
+			return DatatypeConverter.parseBase64Binary(base64Encoded);
+		}
 	}
 //! @endcond
 }

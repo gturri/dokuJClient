@@ -4,6 +4,11 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Collection;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
@@ -12,25 +17,33 @@ import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuDeleteAttachmentException;
 import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
 import dw.xmlrpc.exception.DokuEmptyNewPageException;
+import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
 
+@RunWith(value = Parameterized.class)
 public class T_Exception {
-	private DokuJClient _client;
-	private DokuJClient _unauthorizedClient;
+	private final DokuJClient _client;
+	private final DokuJClient _unauthorizedClient;
+	private final TestParams _params;
+	private final File _file = new File(TestParams.localFileToUpload);
 
-
-	@org.junit.Before
-	public void setup() throws MalformedURLException {
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
-		_unauthorizedClient = new DokuJClient(TestParams.url, TestParams.unauthorizedLogin, TestParams.unauthorizedPwd);
+	public T_Exception(TestParams params) throws MalformedURLException, DokuException {
+		_params = params;
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
+		_unauthorizedClient = new DokuJClient(params.url, TestParams.unauthorizedLogin, TestParams.unauthorizedPwd);
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.Test(expected=DokuUnauthorizedException.class)
 	public void unauthorizedToUseXmlRpc() throws Exception {
-		DokuJClient unauthorizedClient = new DokuJClient(TestParams.url, "wrongUser","wrongPwd");
+		DokuJClient unauthorizedClient = new DokuJClient(_params.url, "wrongUser","wrongPwd");
 		unauthorizedClient.getTime();
 	}
 
@@ -77,21 +90,11 @@ public class T_Exception {
 		_client.getAttachment("unexistingFile.gif", "file.gif");
 	}
 
-	@org.junit.Test
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
 	public void unauthorizedToGetMedia() throws Exception {
 		String attachmentId = "forTestUnauthorizedWithMedia.gif";
 		_client.putAttachment(attachmentId, TestParams.localFileToUpload, true);
-
-		boolean getRelevantException = false;
-		try {
-			_unauthorizedClient.getAttachment(attachmentId, "file.gif");
-		} catch (DokuUnauthorizedException e){
-			getRelevantException = true;
-		}
-
-		_client.deleteAttachment(attachmentId);
-
-		assertTrue(getRelevantException);
+		_unauthorizedClient.getAttachment(attachmentId, "file.gif");
 	}
 
 	@org.junit.Test(expected=DokuAttachmentStillReferenced.class)
@@ -112,13 +115,13 @@ public class T_Exception {
 		String pageId = "ns1:start";
 		_client.lock(pageId);
 
-		DokuJClient otherClient = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+		DokuJClient otherClient = new DokuJClient(_params.url, TestParams.writerLogin, TestParams.writerPwd);
 		otherClient.appendPage(pageId, "something");
 	}
 
 	@org.junit.Test(expected=DokuBadUrlException.class)
 	public void badUrlExceptionWhenPathIsWrong() throws Exception {
-		DokuJClient client = new DokuJClient(TestParams.url + "azerty", TestParams.user, TestParams.password);
+		DokuJClient client = new DokuJClient(_params.url + "azerty", TestParams.user, TestParams.password);
 		client.getTitle();
 	}
 
@@ -130,28 +133,28 @@ public class T_Exception {
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadForbiddenBecauseOfForbiddenExtension() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
-		_client.putAttachment("file.sh", file, true);
+		_client.putAttachment("file.sh", _file, true);
 	}
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadForbiddenBecauseOfBadExtension() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
-
 		//jpg is authorized, but the file is in fact a gif
-		_client.putAttachment("file.jpg", file, true);
+		_client.putAttachment("file.jpg", _file, true);
 	}
 
 	@org.junit.Test(expected=DokuAttachmentUploadException.class)
 	public void uploadBecauseFileAlreadyExists() throws Exception {
-		File file = new File(TestParams.localFileToUpload);
 		String attachmentId = "file.gif";
+		uploadWithoutThrowing(attachmentId);
+		_client.putAttachment(attachmentId, _file, false);
+	}
+
+	private void uploadWithoutThrowing(String attachmentId){
 		try {
-			_client.putAttachment(attachmentId, file, true);
+			_client.putAttachment(attachmentId, _file, true);
 		} catch (Exception e){
 			fail();
 		}
-		_client.putAttachment(attachmentId, file, false);
 	}
 
 	@org.junit.Test(expected=DokuEmptyNewPageException.class)

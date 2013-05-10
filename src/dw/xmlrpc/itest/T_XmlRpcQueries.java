@@ -4,13 +4,19 @@ import static org.junit.Assert.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.LinkInfo;
 import dw.xmlrpc.Page;
 import dw.xmlrpc.PageChange;
@@ -18,21 +24,37 @@ import dw.xmlrpc.PageDW;
 import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.SearchResult;
+import dw.xmlrpc.exception.DokuException;
 
-public class T_XmlRpcQueries {
+@RunWith(value = Parameterized.class)
+public class T_XmlRpcQueries extends TestHelper {
 	private DokuJClient _client;
 	private DokuJClient _clientWriter;
+	private TestParams _params;
 
-	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public T_XmlRpcQueries(TestParams params) throws MalformedURLException, DokuException{
+		_params = params;
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
+		_clientWriter = new DokuJClient(params.url, TestParams.writerLogin, TestParams.writerPwd);
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
-		_clientWriter = new DokuJClient(TestParams.url, TestParams.writerLogin, TestParams.writerPwd);
+	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
+
+	@org.junit.Test
+	public void builtWithAConfig() throws Exception {
+		DokuJClientConfig config = new DokuJClientConfig(_params.url);
+		config.setUser(TestParams.user, TestParams.password);
+		DokuJClient client = new DokuJClient(config);
+		assertEquals(_params.wikiVersion, client.getVersion());
 	}
 
 	@org.junit.Test
 	public void getVersion() throws Exception {
-		assertEquals(TestParams.wikiVersion, _client.getVersion());
+		assertEquals(_params.wikiVersion, _client.getVersion());
 	}
 
 	@org.junit.Test
@@ -43,7 +65,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("lulu", pageInfo.author());
 		assertEquals((Integer) 1356218419, pageInfo.version());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -55,7 +77,7 @@ public class T_XmlRpcQueries {
 		assertEquals(pageId, pageInfo.id());
 		assertEquals("fifi", pageInfo.author());
 		assertEquals(version, pageInfo.version());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 11, pageInfo.modified());
 	}
 
 	@org.junit.Test
@@ -70,7 +92,7 @@ public class T_XmlRpcQueries {
 		assertEquals("E", version.type());
 		assertEquals("lulu", version.author());
 		assertEquals("edit 2", version.summary());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
 	}
 
 	@org.junit.Test
@@ -93,7 +115,7 @@ public class T_XmlRpcQueries {
 		assertEquals("rev:start", change.pageId());
 		assertEquals((Integer) 255, change.perms());
 		assertEquals((Integer) 11, change.size());
-		TestHelper.assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, change.lastModified());
 	}
 
 	@org.junit.Test
@@ -108,11 +130,11 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void getRecentChangesRespectMaxDate() throws Exception {
-		List<PageChange> changes = _client.getRecentChanges(TestHelper.buildDate(2012, 11, 20, 0, 0, 0));
+		List<PageChange> changes = _client.getRecentChanges(buildDate(2012, 11, 20, 0, 0, 0));
 		String pageId = "rev:start";
 		assertTrue(hasPageChangeOnce(changes, pageId));
 
-		changes = _client.getRecentChanges(TestHelper.buildDate(2013, 0, 1, 0, 0, 0));
+		changes = _client.getRecentChanges(buildDate(2013, 0, 1, 0, 0, 0));
 		assertFalse(hasPageChangeOnce(changes, pageId));
 	}
 
@@ -137,12 +159,12 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void getRPCVersionSupported() throws Exception {
-		assertEquals(TestParams.rpcVersionSupported, _client.getRPCVersionSupported());
+		assertEquals(_params.rpcVersionSupported, _client.getRPCVersionSupported());
 	}
 
 	@org.junit.Test
 	public void getXMLRPCAPIVersion() throws Exception {
-		assertEquals(TestParams.apiVersion, _client.getXMLRPCAPIVersion());
+		assertEquals(_params.apiVersion, _client.getXMLRPCAPIVersion());
 	}
 
 	@org.junit.Test
@@ -237,7 +259,7 @@ public class T_XmlRpcQueries {
 
 	@org.junit.Test
 	public void genericQueryWithoutParameters() throws Exception {
-		assertEquals(TestParams.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));
+		assertEquals(_params.wikiVersion, _client.genericQuery("dokuwiki.getVersion"));
 	}
 
 	@org.junit.Test
@@ -317,7 +339,7 @@ public class T_XmlRpcQueries {
 		List<LinkInfo> links = _client.listLinks("links:start");
 		LinkInfo link0 = new LinkInfo(LinkInfo.Type.extern, "http://dokuwiki.org", "http://dokuwiki.org");
 		LinkInfo link1 = new LinkInfo(LinkInfo.Type.extern, "http://github.com/gturri", "http://github.com/gturri");
-		LinkInfo link2 = new LinkInfo(LinkInfo.Type.local, "ns1:dummy","/dokuwikiITestsForXmlRpcClient/doku.php?id=ns1:dummy" );
+		LinkInfo link2 = new LinkInfo(LinkInfo.Type.local, "ns1:dummy","/" + _params.localPath + "/doku.php?id=ns1:dummy" );
 
 		assertEquals(link0, links.get(0));
 		assertEquals(link1, links.get(1));
@@ -352,7 +374,7 @@ public class T_XmlRpcQueries {
 		assertNotNull(page);
 		assertEquals(pageId, page.id());
 		assertEquals((Integer) 255, page.perms());
-		TestHelper.assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
+		assertDatesNear(2013, 7, 1, 17, 0, 0, page.lastModified());
 		assertEquals((Integer) 197, page.size());
 	}
 
@@ -374,7 +396,12 @@ public class T_XmlRpcQueries {
 
 		SearchResult sr = results.get(0);
 		assertEquals("nssearch:page3", sr.id());
-		assertEquals("Page 3 title", sr.title());
+		if ( _client.getXMLRPCAPIVersion() >= 7 ){
+			//Previous version of the API doesn't return a title for this query
+			assertEquals("Page 3 title", sr.title());
+		} else {
+			assertEquals("nssearch:page3", sr.title());
+		}
 		assertEquals((Integer) 1375376400, sr.rev());
 		assertEquals((Integer) 1375376400, sr.mtime());
 		assertEquals((Integer) 2, sr.score());

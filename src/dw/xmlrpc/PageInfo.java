@@ -6,7 +6,7 @@ import java.util.Date;
  * Information about a wiki page
  */
 public class PageInfo {
-	private String _id;
+	private final String _id;
 
 	/**
 	 * Id of the page (namespace + name)
@@ -15,7 +15,7 @@ public class PageInfo {
 		return _id;
 	}
 
-	private Date _modified;
+	private final Date _modified;
 
 	/**
 	 * Date of the modification of this version
@@ -24,7 +24,7 @@ public class PageInfo {
 		return _modified;
 	}
 
-	private String _author;
+	private final String _author;
 
 	/**
 	 * Author of this version
@@ -33,7 +33,7 @@ public class PageInfo {
 		return _author;
 	}
 
-	private Integer _version;
+	private final Integer _version;
 
 	/**
 	 * Version as a timestamp

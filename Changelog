@@ -1,4 +1,10 @@
 
+2.0.0
+* ObjectConverter isn't public anymore
+* Implemented timeout
+* Also handles DW 2012-01-25b
+* Uses aXMLRPC instead of Apache xmlrpc, to enhance cookie handling
+
 1.0.0
 * Let pass options when editing a page
 * Added DokuJClientConfig

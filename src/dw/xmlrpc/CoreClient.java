@@ -1,24 +1,28 @@
 package dw.xmlrpc;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClient;
-
+import de.timroes.axmlrpc.XMLRPCClient;
+import de.timroes.axmlrpc.XMLRPCException;
 import dw.xmlrpc.exception.DokuException;
 
 //! @cond
 class CoreClient {
-	private XmlRpcClient _client;
+	private final XMLRPCClient _client;
 	private Logger _logger = null;
 
 	public void setLogger(Logger logger){
 		_logger = logger;
 	}
 
-    public CoreClient(XmlRpcClient client){
+    public CoreClient(XMLRPCClient client){
     	_client = client;
+    }
+
+    public Map<String, String> cookies(){
+    	return _client.getCookies();
     }
 
 	public Object genericQuery(String action) throws DokuException {
@@ -32,8 +36,8 @@ class CoreClient {
 
 	public Object genericQuery(String action, Object[] params) throws DokuException{
 		try {
-			return _client.execute(action, params);
-		} catch (XmlRpcException e){
+			return _client.call(action, params);
+		} catch (XMLRPCException e){
 			if ( _logger != null ){
 				_logger.log(Level.INFO, "Caught exception when executing action " + action + ": " + e.toString());
 				_logger.log(Level.FINEST, "Details of the exception: ", e);

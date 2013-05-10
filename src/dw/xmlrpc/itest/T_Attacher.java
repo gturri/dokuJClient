@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,25 +12,35 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
+import dw.xmlrpc.exception.DokuException;
 
-public class T_Attacher {
+@RunWith(value = Parameterized.class)
+public class T_Attacher extends TestHelper {
 	private DokuJClient _client;
 	private String _localDownloadedFile = "tempFileForTests.gif";
 
 
 	Set<String> _uploadedFiles;
 
-	@org.junit.Before
-	public void setup() throws MalformedURLException {
+	public T_Attacher(TestParams params) throws MalformedURLException, DokuException {
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-		_client = new DokuJClient(TestParams.url, TestParams.user, TestParams.password);
+		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
 		_uploadedFiles = new HashSet<String>();
 		clean();
 	}
+
+	@Parameters
+	 public static Collection<Object[]> data() {
+		 return TestParams.data();
+	 }
 
 	@org.junit.After
 	public void clean(){
@@ -37,12 +48,16 @@ public class T_Attacher {
 		f.delete();
 
 		for ( String fileId : _uploadedFiles ){
-			try {
-				_client.deleteAttachment(fileId);
-			} catch ( Exception e ){
-				//Too bad we missed one... Hope we'll have better luck for the next...
-				System.out.println("Failed to delete distant attachment " + fileId + " during tear down");
-			}
+			tryToDeleteDistantFile(fileId);
+		}
+	}
+
+	private void tryToDeleteDistantFile(String fileId){
+		try {
+			_client.deleteAttachment(fileId);
+		} catch ( Exception e ){
+			//Too bad we missed one... We'll live with it
+			System.out.println("Failed to delete distant attachment " + fileId + " during tear down");
 		}
 	}
 
@@ -63,19 +78,21 @@ public class T_Attacher {
 		//Filtering on a PREG
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pattern", "/3.gif/");
-		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(2, res.size());
+		testGetAttachmentWithParams(params, 2);
 
 		//without special parameters
 		params = new HashMap<String, Object>();
-		res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(4, res.size());
+		testGetAttachmentWithParams(params, 4);
 
 		//Limiting max depth
 		params = new HashMap<String, Object>();
 		params.put("depth", 1);
-		res = _client.getAttachments("nswithanotherns", params);
-		assertEquals(3, res.size());
+		testGetAttachmentWithParams(params, 3);
+	}
+
+	private void testGetAttachmentWithParams(Map<String, Object> params, int nbExpectedAttachments) throws DokuException{
+		List<AttachmentDetails> res = _client.getAttachments("nswithanotherns", params);
+		assertEquals(nbExpectedAttachments, res.size());
 	}
 
 	@org.junit.Test
@@ -84,11 +101,9 @@ public class T_Attacher {
 		assertEquals(1, res.size());
 
 		AttachmentDetails details = res.get(0);
-		System.out.println("Details: " + details.toString());
-		//Details: isImg: true, writable: true, perms:null
 		assertEquals("ro_for_tests:img1.gif", details.id());
 		assertEquals((Integer) 67, details.size());
-		//TODO: study timezones more in depth to strenghten this assertion
+		//TODO: study timezones more in depth to strengthen this assertion
 		assertNotNull(details.lastModified());
 		assertEquals(true, details.isImg());
 		assertEquals(true, details.writable());
@@ -102,7 +117,7 @@ public class T_Attacher {
 		String mediaId = "ro_for_tests:img1.gif";
 		MediaChange change = findOneMediaChange(changes, mediaId);
 		assertEquals(mediaId, change.id());
-		TestHelper.assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
+		assertDatesNear(2012, 11, 24, 21, 11, 0, change.lastModified());
 		assertEquals("fifi", change.author());
 		assertEquals((Integer) 1356383460, change.version());
 		assertEquals((Integer) 255, change.perms());
@@ -128,11 +143,11 @@ public class T_Attacher {
 		String oldMediaChange = "ro_for_tests:img1.gif";
 		String recentMediaChange = "ro_for_tests:img2.gif";
 
-		List<MediaChange> changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 10, 59));
+		List<MediaChange> changes = _client.getRecentMediaChanges(buildDate(2012, 11, 24, 21, 10, 59));
 		assertNotNull(findOneMediaChange(changes,oldMediaChange));
 		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 
-		changes = _client.getRecentMediaChanges(TestHelper.buildDate(2012, 11, 24, 21, 11, 1));
+		changes = _client.getRecentMediaChanges(buildDate(2012, 11, 24, 21, 11, 1));
 		assertNull(findOneMediaChange(changes,oldMediaChange));
 		assertNotNull(findOneMediaChange(changes, recentMediaChange));
 	}

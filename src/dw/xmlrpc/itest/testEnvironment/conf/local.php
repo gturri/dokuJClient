@@ -13,5 +13,8 @@ $conf['useacl'] = 1;
 $conf['superuser'] = '@admin';
 $conf['remote'] = 1;
 $conf['remoteuser'] = 'xmlrpcuser,writeruser,norightsuser';
+//for DW up to 2012-01-25b
+$conf['xmlrpc'] = 1;
+$conf['xmlrpcuser'] = 'xmlrpcuser,writeruser,norightsuser';
 
 // end auto-generated content
