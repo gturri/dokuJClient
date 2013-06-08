@@ -40,18 +40,29 @@ Getting the binaries
 ====================
 Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
 
+To build them from the sources, see below.
 
-You may also build them:
+Hacking with Eclipse
+====================
+
+To use the Eclipse projet, you need to have aXMLRPC.jar in the 3rdparty directory.
+
+Just compiling once from the command line (see below) will set up the environmnent.
+
+
+Compiling from the command line
+===============================
 
 On ubuntu, at the root of the project run:
 
+    ./bootstrap.sh
     sudo apt-get install ant
     ant
 
 Documentation
 ============
 
-To build documentation you must have doxygen installed and run at the root of the repo:
+To build documentation you must have doxygen installed. Then, run at the root of the repo:
 
     cd scripts
     ./doxygen.sh
@@ -61,10 +72,7 @@ You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
 Dependencies
 ============
-[aXMLRPC](https://github.com/timroes/aXMLRPC)
-
-More precisely:
-  * aXMLRPC_v1.7.0.jar
+* [aXMLRPC.jar](https://github.com/timroes/aXMLRPC)
 
 Running integration tests
 ==========================

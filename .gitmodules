@@ -1,0 +1,3 @@
+[submodule "3rdparty/aXMLRPC"]
+	path = 3rdparty/aXMLRPC
+	url = git@github.com:timroes/aXMLRPC.git
