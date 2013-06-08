@@ -40,11 +40,18 @@ Getting the binaries
 ====================
 Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
 
+To build them from the sources, see below.
 
-You may also build them:
+Hacking with Eclipse
+====================
 
-Compiling
-=========
+To use the Eclipse projet, you need to have aXMLRPC.jar in the 3rdparty directory.
+
+Just compiling once from the command line (see below) will set up the environmnent.
+
+
+Compiling from the command line
+===============================
 
 On ubuntu, at the root of the project run:
 
@@ -55,7 +62,7 @@ On ubuntu, at the root of the project run:
 Documentation
 ============
 
-To build documentation you must have doxygen installed and run at the root of the repo:
+To build documentation you must have doxygen installed. Then, run at the root of the repo:
 
     cd scripts
     ./doxygen.sh
