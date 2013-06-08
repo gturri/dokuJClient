@@ -17,8 +17,10 @@
 
     <!-- aXMLRPC -->
     <target name="aXMLRPC">
-      <ant dir="3rdparty/aXMLRPC" target="jar" />
-      <move file="3rdparty/aXMLRPC/dist/aXMLRPC.jar" todir="3rdparty" />
+      <property name="aXMLRPC.dir" value="3rdparty/aXMLRPC" />
+      <echo message="If this fails, make sure you've initialized git submodules (${aXMLRPC.dir} shouldn't be empty)" />
+      <ant dir="${aXMLRPC.dir}" target="jar" />
+      <move file="${aXMLRPC.dir}/dist/aXMLRPC.jar" todir="3rdparty" />
     </target>
 
 
