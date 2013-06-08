@@ -43,8 +43,12 @@ Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
 
 You may also build them:
 
+Compiling
+=========
+
 On ubuntu, at the root of the project run:
 
+    ./bootstrap.sh
     sudo apt-get install ant
     ant
 
@@ -61,10 +65,7 @@ You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
 Dependencies
 ============
-[aXMLRPC](https://github.com/timroes/aXMLRPC)
-
-More precisely:
-  * aXMLRPC_v1.7.0.jar
+* [aXMLRPC.jar](https://github.com/timroes/aXMLRPC)
 
 Running integration tests
 ==========================
