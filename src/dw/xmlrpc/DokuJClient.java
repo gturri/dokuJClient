@@ -37,7 +37,7 @@ public class DokuJClient {
 	}
 
 	/**
-	 * Instantiance a client for the given user on the given wiki
+	 * Instantiate a client for the given user on the given wiki
 	 *
 	 * The wiki should be configured in a way to let this user access the
 	 * xmlrpc interface
