@@ -1,4 +1,5 @@
 <project name="dokuJClient" default="jar">
+    <property name="javac.target" value="1.6" />
     <property name="version.number" value="2.1.0"/>
     <property name="version.suffix" value="-dev"/>
     <property name="version" value="${version.number}${version.suffix}"/>
@@ -67,7 +68,7 @@
 
     <target name="compileClasses" depends="aXMLRPC">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" debug="on"/>
+        <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" debug="on" target="${javac.target}" source="${javac.target}" />
     </target>
 
     <target name="jar" depends="clean,compileClasses">
