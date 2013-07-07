@@ -83,7 +83,7 @@
 
     <target name="compileAll" depends="cleanLight,aXMLRPC">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false" debug="on">
+        <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false" debug="on" target="${javac.target}" source="${javac.target}" >
           <classpath>
            <path refid="classpath" />
            <pathelement location="${lib.dir}/junit4.jar" />
