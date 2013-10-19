@@ -11,6 +11,7 @@
     <property name="testresults.dir" value="${build.dir}/junitreport" />
     <path id="classpath">
        <pathelement location="./3rdparty/aXMLRPC.jar" />
+       <pathelement location="./3rdparty/JSAP-2.1.jar" />
     </path>
 
     <!-- aXMLRPC -->
@@ -73,8 +74,15 @@
       <jar destfile="${jar.dir}/${jar.name}" basedir="${classes.dir}" excludesfile=".excludesfile">
         <manifest>
           <attribute name="Implementation-Version" value="${version}" />
+          <attribute name="Main-Class" value="dw.cli.Program" />
+          <attribute name="Class-Path" value="./aXMLRPC.jar ./JSAP-2.1.jar" />
         </manifest>
       </jar>
+      <copy file="3rdparty/aXMLRPC.jar" todir="${jar.dir}" />
+      <copy file="3rdparty/JSAP-2.1.jar" todir="${jar.dir}" />
+      <copy file="scripts/dokujclient" todir="${jar.dir}" />
+      <replace file="${jar.dir}/dokujclient" token="@JAR_NAME@" value="${jar.name}" />
+      <chmod file="${jar.dir}/dokujclient" perm="u+x" />
       <echo message="${jar.name} has been built and may be found in ${jar.dir}"/>
     </target>
 
@@ -107,7 +115,7 @@
         <formatter type="xml" />
 
         <batchtest fork="yes" todir="${testresults.dir}" >
-          <fileset dir="src" includes="dw/xmlrpc/*test/T_*java" />
+          <fileset dir="src" includes="dw/*/*test/T_*java" />
         </batchtest>
       </junit>
     </target>

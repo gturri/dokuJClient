@@ -1,2 +1,4 @@
 dw/xmlrpc/itest/
 dw/xmlrpc/utest/
+dw/cli/itest/
+dw/cli/utest/
