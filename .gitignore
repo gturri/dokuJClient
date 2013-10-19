@@ -2,6 +2,7 @@ bin
 tmpForInstallation
 *.jar
 .*.*wp
+*.class
 testResults
 build
 doc
