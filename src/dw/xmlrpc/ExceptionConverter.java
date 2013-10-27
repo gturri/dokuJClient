@@ -29,6 +29,11 @@ class ExceptionConverter {
 					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
 			return new DokuBadUrlException(mess, e);
 		}
+		if ( e.getCause() != null && e.getCause().getClass() == java.net.UnknownHostException.class ){
+			String mess = "Host doesn't exist. Check url";
+			return new DokuBadUrlException(mess, e);
+		}
+
 		if ( message.contains("Positive wordblock check")){
 			return new DokuWordblockException(e);
 		}

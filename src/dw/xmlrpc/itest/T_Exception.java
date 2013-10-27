@@ -125,6 +125,12 @@ public class T_Exception {
 		client.getTitle();
 	}
 
+	@org.junit.Test(expected=DokuBadUrlException.class)
+	public void badUrlExceptionWhenHostIsUnknown() throws Exception {
+		DokuJClient client = new DokuJClient("http://unknownHost/dokuwiki/lib/exe/xmlrpc.php", TestParams.user, TestParams.password);
+		client.getTitle();
+	}
+
 	@org.junit.Test(expected=DokuWordblockException.class)
 	public void wordblockException() throws Exception {
 		String pageId = "ns1:start";
