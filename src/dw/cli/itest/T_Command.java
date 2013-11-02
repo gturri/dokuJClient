@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import dw.cli.Output;
 import dw.cli.Program;
 import dw.xmlrpc.itest.TestParams;
 
@@ -13,19 +14,28 @@ public class T_Command {
 	@org.junit.Test
 	public void getTitle() throws Exception{
 		String[] arguments = buildArguments("getTitle");
-		assertEquals("test xmlrpc", Program.run(arguments));
+		Output output = Program.run(arguments);
+		assertEquals("test xmlrpc", output.out);
+		assertEquals("", output.err);
+		assertEquals(0, output.exitCode);
 	}
 
 	@org.junit.Test
 	public void getAttachments() throws Exception {
 		String[] arguments = buildArguments("getAttachments", "ro_for_tests");
-		assertEquals("ro_for_tests:img1.gif", Program.run(arguments));
+		Output output = Program.run(arguments);
+		assertEquals("ro_for_tests:img1.gif", output.out);
+		assertEquals("", output.err);
+		assertEquals(0, output.exitCode);
 	}
 
 	@org.junit.Test
 	public void getAttachmentsLongListingFormat() throws Exception {
 		String[] arguments = buildArguments("getAttachments", "-l", "ro_for_tests");
-		assertEquals("255 67 Mon Dec 24 20:11:00 CET 2012 ro_for_tests:img1.gif", Program.run(arguments));
+		Output output = Program.run(arguments);
+		assertEquals("255 67 Mon Dec 24 20:11:00 CET 2012 ro_for_tests:img1.gif", output.out);
+		assertEquals("", output.err);
+		assertEquals(0, output.exitCode);
 	}
 
 	private String[] buildArguments(String command, String... extraArguments){

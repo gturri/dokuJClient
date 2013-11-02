@@ -12,21 +12,23 @@ public class Program {
 
 	public static void main(String[] args) throws Exception {
 		try {
-			System.out.println(run(args));
+			Output output = run(args);
+			printOutput(output);
+			System.exit(output.exitCode);
 		} catch (Exception e){
-			System.err.println("Caught exception: " + e.toString());
-
-			for ( StackTraceElement stackElt : e.getStackTrace()){
-				System.err.println("\t" + stackElt.toString());
-			}
+			printException(e);
+			System.exit(-1);
 		}
 	}
 
-	public static String run(String[] args) throws Exception {
+	public static Output run(String[] args) throws Exception {
 		OptionParser parser = new OptionParser(args);
+		Output result = new Output();
+
 		if ( ! parser.success() ){
-			System.err.println(parser.getHelpMessage());
-			System.exit(-1);
+			result.err = parser.getHelpMessage();
+			result.exitCode = -1;
+			return result;
 		}
 
 		_options = parser.getCliOptions();
@@ -37,9 +39,8 @@ public class Program {
 		DokuJClient dokuClient = null;
 		dokuClient = new DokuJClient(clientConfig);
 
-		String result = "";
 		if ( _options.command.equals("getTitle") ){
-			result = dokuClient.getTitle();
+			result.out = dokuClient.getTitle();
 		} else if ( _options.command.equals("getAttachments")){
 			String ns = _options.commandArguments[_options.commandArguments.length -1];
 			List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(ns);
@@ -48,19 +49,37 @@ public class Program {
 				if ( firstLine ){
 					firstLine = false;
 				} else {
-					result += "\n";
+					result.out += "\n";
 				}
 				if ( _options.commandArguments[0].equals("-l") ){
-					result += details.perms()
+					result.out += details.perms()
 							+ " " + details.size()
 							+ " " + details.lastModified().toString()
 							+ " " + details.id();
 				} else {
-					result += details.id();
+					result.out += details.id();
 				}
 			}
 		}
 
 		return result;
+	}
+
+
+	private static void printOutput(Output output) {
+		if ( output.err != null && !output.err.isEmpty() ){
+			System.err.println(output.err);
+		}
+		if ( output.out != null && !output.out.isEmpty() ){
+			System.out.println(output.out);
+		}
+	}
+
+	private static void printException(Exception e) {
+		System.err.println("Caught exception: " + e.toString());
+
+		for ( StackTraceElement stackElt : e.getStackTrace()){
+			System.err.println("\t" + stackElt.toString());
+		}
 	}
 }
