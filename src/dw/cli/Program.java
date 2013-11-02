@@ -1,8 +1,5 @@
 package dw.cli;
 
-import java.util.List;
-
-import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
 
@@ -42,29 +39,11 @@ public class Program {
 		if ( _options.command.equals("getTitle") ){
 			result.out = dokuClient.getTitle();
 		} else if ( _options.command.equals("getAttachments")){
-			String ns = _options.commandArguments[_options.commandArguments.length -1];
-			List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(ns);
-			boolean firstLine = true;
-			for(AttachmentDetails details : attachmentsDetails){
-				if ( firstLine ){
-					firstLine = false;
-				} else {
-					result.out += "\n";
-				}
-				if ( _options.commandArguments[0].equals("-l") ){
-					result.out += details.perms()
-							+ " " + details.size()
-							+ " " + details.lastModified().toString()
-							+ " " + details.id();
-				} else {
-					result.out += details.id();
-				}
-			}
+			result = new AttachmentReader().getAttachments(dokuClient, _options.commandArguments);
 		}
 
 		return result;
 	}
-
 
 	private static void printOutput(Output output) {
 		if ( output.err != null && !output.err.isEmpty() ){

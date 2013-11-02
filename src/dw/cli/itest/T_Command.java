@@ -38,6 +38,24 @@ public class T_Command {
 		assertEquals(0, output.exitCode);
 	}
 
+	@org.junit.Test
+	public void getAttachmentsMissingNamespaceShouldPrintError() throws Exception {
+		String[] arguments = buildArguments("getAttachments");
+		Output output = Program.run(arguments);
+		assertNotNullOrEmpty(output.err);
+		assertEquals("", output.out);
+		assertNotZero(output.exitCode);
+	}
+
+	private void assertNotNullOrEmpty(String str){
+		assertNotNull(str);
+		assertFalse(str.equals(""));
+	}
+
+	private void assertNotZero(int number){
+		assertFalse(number == 0);
+	}
+
 	private String[] buildArguments(String command, String... extraArguments){
 		TestParams params = new TestParams("dokuwiki-2013-05-10", "Release 2013-05-10 \"Weatherwax\"", 8, 2);
 
