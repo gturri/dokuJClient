@@ -172,4 +172,10 @@ public class T_Exception {
 		_client.putPage(pageId, "");
 		_client.putPage(pageId, "");
 	}
+
+	@org.junit.Test(expected=DokuBadUrlException.class)
+	public void status3xxYieldsBadUrlException() throws Exception {
+		String tweakedUrl = _params.url.replaceAll(TestParams.urlSuffix, "");
+		new DokuJClient(tweakedUrl, TestParams.user, TestParams.password);
+	}
 }

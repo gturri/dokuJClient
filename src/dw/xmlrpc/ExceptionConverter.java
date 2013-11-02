@@ -24,7 +24,8 @@ class ExceptionConverter {
 				){
 			return new DokuUnauthorizedException(e);
 		}
-		if ( message.contains("java.io.FileNotFoundException")){
+		if ( message.contains("java.io.FileNotFoundException")
+				|| message.contains("The server responded with a http 301 or 302 status code")){
 			String mess = "Server couldn't find the xmlrpc interface."
 					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
 			return new DokuBadUrlException(mess, e);
