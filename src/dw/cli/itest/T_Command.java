@@ -24,7 +24,7 @@ public class T_Command {
 
 	@org.junit.Test
 	public void getAttachmentsLongListingFormat() throws Exception {
-		String[] arguments = buildArguments("getAttachments", "l", "ro_for_tests");
+		String[] arguments = buildArguments("getAttachments", "-l", "ro_for_tests");
 		assertEquals("255 67 Mon Dec 24 20:11:00 CET 2012 ro_for_tests:img1.gif", Program.run(arguments));
 	}
 

@@ -41,7 +41,7 @@ public class Program {
 		if ( _options.command.equals("getTitle") ){
 			result = dokuClient.getTitle();
 		} else if ( _options.command.equals("getAttachments")){
-			String ns = _options.commandArguments.get(_options.commandArguments.size() -1 );
+			String ns = _options.commandArguments[_options.commandArguments.length -1];
 			List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(ns);
 			boolean firstLine = true;
 			for(AttachmentDetails details : attachmentsDetails){
@@ -50,7 +50,7 @@ public class Program {
 				} else {
 					result += "\n";
 				}
-				if ( _options.commandArguments.get(0).equals("l") ){
+				if ( _options.commandArguments[0].equals("-l") ){
 					result += details.perms()
 							+ " " + details.size()
 							+ " " + details.lastModified().toString()

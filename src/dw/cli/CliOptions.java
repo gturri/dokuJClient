@@ -1,15 +1,13 @@
 package dw.cli;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CliOptions {
 	public URL url;
 	public String user;
 	public String password;
 	public String command;
-	public List<String> commandArguments = new ArrayList<String>();
+	public String[] commandArguments;
 
 	@Override
 	public String toString(){

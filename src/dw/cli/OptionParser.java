@@ -1,5 +1,8 @@
 package dw.cli;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.martiansoftware.jsap.FlaggedOption;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
@@ -12,6 +15,29 @@ public class OptionParser {
 	private final String _helpMessage;
 
 	public OptionParser(String[] args){
+		List<String> genericOptions = new ArrayList<String>();
+		List<String> commandOptions = new ArrayList<String>();
+
+		boolean readCommand = false;
+		for ( int i=0 ; i < args.length ; i++ ){
+			String arg = args[i];
+
+			if ( readCommand){
+				commandOptions.add(arg);
+			} else {
+				genericOptions.add(arg);
+				if ( arg.startsWith("-") ){
+					i++;
+					if ( i < args.length ){
+						genericOptions.add(args[i]);
+					}
+				} else {
+					readCommand = true;
+				}
+			}
+		}
+
+
 		JSAP jsap = new JSAP();
 		boolean success;
 		String helpMessage;
@@ -37,11 +63,10 @@ public class OptionParser {
 				.setLongFlag("password"));
 
 			jsap.registerParameter(new UnflaggedOption("command")
-					.setStringParser(JSAP.STRING_PARSER)
-					.setRequired(true)
-					.setGreedy(true));
+				.setStringParser(JSAP.STRING_PARSER)
+				.setRequired(true));
 
-			JSAPResult config = jsap.parse(args);
+			JSAPResult config = jsap.parse(genericOptions.toArray(new String[]{}));
 			if ( ! config.success() ){
 				success = false;
 				helpMessage = "";
@@ -58,11 +83,8 @@ public class OptionParser {
 				cliOptions.password = config.getString("password");
 				cliOptions.user = config.getString("user");
 				cliOptions.url = config.getURL("url");
-				cliOptions.command = config.getStringArray("command")[0];
-
-				for ( int i = 1 ; i < config.getStringArray("command").length ; i++){
-					cliOptions.commandArguments.add(config.getStringArray("command")[i]);
-				}
+				cliOptions.command = config.getString("command");
+				cliOptions.commandArguments = commandOptions.toArray(new String[]{});
 			}
 		} catch (JSAPException e) {
 			success = false;
