@@ -129,6 +129,11 @@ public class T_XmlRpcQueries extends TestHelper {
 	}
 
 	@org.junit.Test
+	public void handlesTimestampsWithoutChange() throws Exception {
+		assertEquals(0, _client.getRecentChanges(2000000000).size());
+	}
+
+	@org.junit.Test
 	public void getRecentChangesRespectMaxDate() throws Exception {
 		List<PageChange> changes = _client.getRecentChanges(buildDate(2012, 11, 20, 0, 0, 0));
 		String pageId = "rev:start";

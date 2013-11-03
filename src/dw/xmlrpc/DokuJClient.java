@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuNoChangesException;
 
 /**
  * Main public class to actually make an xmlrpc query
@@ -563,8 +564,25 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public List<PageChange> getRecentChanges(Integer timestamp) throws DokuException{
-		Object result = genericQuery("wiki.getRecentChanges", timestamp);
-		return ObjectConverter.toPageChange((Object[]) result);
+		Object result;
+		try {
+			result = genericQuery("wiki.getRecentChanges", timestamp);
+		} catch (DokuNoChangesException e){
+			return new ArrayList<PageChange>();
+		}
+
+		Object[] pageChanges;
+		try {
+			pageChanges = (Object[]) result;
+		} catch (ClassCastException e){
+			//It likely happens when there are no changes, with only a few versions of DW
+			//(newer versions yield a DokuNoChangesException instead)
+			//Hence it might be enough to just return an empty list... but in doubt I'd rather cast
+			@SuppressWarnings("unchecked")
+			Map<String, Object> pageChangesMap = (Map<String, Object>) result;
+			pageChanges = pageChangesMap.values().toArray();
+		}
+		return ObjectConverter.toPageChange(pageChanges);
 	}
 
 	/**

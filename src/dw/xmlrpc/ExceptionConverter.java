@@ -54,7 +54,7 @@ class ExceptionConverter {
 			return new DokuInvalidTimeStampException(e);
 		}
 		if ( message.contains("There are no changes in the specified timeframe")){
-			return new DokuInvalidTimeStampException(e);
+			return new DokuNoChangesException(e);
 		}
 		if ( message.contains("Refusing to write an empty new wiki page")){
 			return new DokuEmptyNewPageException(e);
