@@ -40,6 +40,10 @@ public class Program {
 			result.out = dokuClient.getTitle();
 		} else if ( _options.command.equals("getAttachments")){
 			result = new AttachmentReader().getAttachments(dokuClient, _options.commandArguments);
+		} else if ( _options.command.equals("putAttachment")){
+			result = new AttachmentPutter().putAttachment(dokuClient, _options.commandArguments);
+		} else if ( _options.command.equals("deleteAttachment")){
+			result = new AttachmentDeleter().deleteAttachment(dokuClient, _options.commandArguments);
 		}
 
 		return result;

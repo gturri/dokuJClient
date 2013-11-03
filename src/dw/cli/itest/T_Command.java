@@ -13,8 +13,7 @@ public class T_Command {
 
 	@org.junit.Test
 	public void getTitle() throws Exception{
-		String[] arguments = buildArguments("getTitle");
-		Output output = Program.run(arguments);
+		Output output = runWithArguments("getTitle");
 		assertEquals("test xmlrpc", output.out);
 		assertEquals("", output.err);
 		assertEquals(0, output.exitCode);
@@ -22,8 +21,7 @@ public class T_Command {
 
 	@org.junit.Test
 	public void getAttachments() throws Exception {
-		String[] arguments = buildArguments("getAttachments", "ro_for_tests");
-		Output output = Program.run(arguments);
+		Output output = runWithArguments("getAttachments", "ro_for_tests");
 		assertEquals("ro_for_tests:img1.gif", output.out);
 		assertEquals("", output.err);
 		assertEquals(0, output.exitCode);
@@ -31,11 +29,31 @@ public class T_Command {
 
 	@org.junit.Test
 	public void getAttachmentsLongListingFormat() throws Exception {
-		String[] arguments = buildArguments("getAttachments", "-l", "ro_for_tests");
-		Output output = Program.run(arguments);
+		Output output = runWithArguments("getAttachments", "-l", "ro_for_tests");
 		assertEquals("255 67 Mon Dec 24 20:11:00 CET 2012 ro_for_tests:img1.gif", output.out);
 		assertEquals("", output.err);
 		assertEquals(0, output.exitCode);
+	}
+
+	@org.junit.Test
+	public void putAndDeleteAttachment() throws Exception {
+		String ns = "putAndDelete_ns";
+
+		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
+
+		Output outputPut = runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
+		assertEquals("", outputPut.out);
+		assertEquals("", outputPut.err);
+		assertEquals(0, outputPut.exitCode);
+
+		assertTrue(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
+
+		Output outputDelete = runWithArguments("deleteAttachment", ns + ":toto.gif");
+		assertEquals("", outputDelete.out);
+		assertEquals("", outputDelete.err);
+		assertEquals(0, outputDelete.exitCode);
+
+		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
 	}
 
 	@org.junit.Test
@@ -54,6 +72,11 @@ public class T_Command {
 
 	private void assertNotZero(int number){
 		assertFalse(number == 0);
+	}
+
+	private Output runWithArguments(String command, String... extraArguments) throws Exception{
+		String[] arguments = buildArguments(command, extraArguments);
+		return Program.run(arguments);
 	}
 
 	private String[] buildArguments(String command, String... extraArguments){
