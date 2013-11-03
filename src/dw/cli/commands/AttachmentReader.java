@@ -1,4 +1,4 @@
-package dw.cli;
+package dw.cli.commands;
 
 import java.util.List;
 
@@ -8,25 +8,19 @@ import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
+import dw.cli.Command;
+import dw.cli.Output;
 import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 
-public class AttachmentReader {
-	public Output getAttachments(DokuJClient dokuClient, String[] commandArguments) throws DokuException{
-		Output result = new Output();
-		JSAPResult config;
-		try {
-			config = parseArguments(commandArguments);
-		} catch (ParseOptionException e){
-			result.err = e.getMessage();
-			result.exitCode = -1;
-			return result;
-		}
+public class AttachmentReader extends Command {
 
+	@Override
+	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException{
+		Output result = new Output();
 		List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(config.getString("namespace"));
 		result.out = attachmentDetailsToString(attachmentsDetails, config.getBoolean("longFormat"));
-
 		return result;
 	}
 
@@ -59,26 +53,9 @@ public class AttachmentReader {
 		return details.id();
 	}
 
-	private JSAPResult parseArguments(String[] arguments) throws ParseOptionException {
-		JSAP jsap = new JSAP();
-
-		try {
-			jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
-			jsap.registerParameter(new UnflaggedOption("namespace").setRequired(true));
-		} catch (JSAPException e) {
-			throw new ParseOptionException(e.toString(), e);
-		}
-
-		JSAPResult config = jsap.parse(arguments);
-		if ( ! config.success() ){
-			String helpMessage = "";
-            for (@SuppressWarnings("rawtypes") java.util.Iterator errs = config.getErrorMessageIterator();
-            		errs.hasNext();) {
-            	helpMessage += errs.next() + "\n";
-            }
-            helpMessage += jsap.getUsage();
-            throw new ParseOptionException(helpMessage);
-		}
-		return config;
+	@Override
+	protected void registerParameters(JSAP jsap) throws JSAPException {
+		jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
+		jsap.registerParameter(new UnflaggedOption("namespace").setRequired(true));
 	}
 }

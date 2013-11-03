@@ -3,34 +3,30 @@ package dw.cli;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 
-public class AttachmentDeleter {
-
-	public Output deleteAttachment(DokuJClient dokuClient, String[] commandArguments) throws DokuException {
-		Output result = new Output();
+public abstract class Command {
+	public Output run(DokuJClient dokuClient, String[] commandArguments) throws DokuException{
 		JSAPResult config;
 		try {
 			config = parseArguments(commandArguments);
 		} catch (ParseOptionException e){
-			result.err = e.getMessage();
-			result.exitCode = -1;
-			return result;
+			Output output = new Output();
+			output.err = e.getMessage();
+			output.exitCode = -1;
+			return output;
 		}
 
-		dokuClient.deleteAttachment(config.getString("attachmentId"));
-
-		return result;
+		return run(dokuClient, config);
 	}
 
-	private JSAPResult parseArguments(String[] arguments) throws ParseOptionException {
+	protected JSAPResult parseArguments(String[] arguments) throws ParseOptionException{
 		JSAP jsap = new JSAP();
 
 		try {
-			jsap.registerParameter(new UnflaggedOption("attachmentId").setRequired(true));
+			registerParameters(jsap);
 		} catch (JSAPException e) {
 			throw new ParseOptionException(e.toString(), e);
 		}
@@ -48,4 +44,7 @@ public class AttachmentDeleter {
 		return config;
 	}
 
+	protected abstract void registerParameters(JSAP jsap) throws JSAPException;
+
+	protected abstract Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException;
 }
