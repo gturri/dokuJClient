@@ -34,6 +34,7 @@ public class TestParams {
 	public static final String wikiTitle = "test xmlrpc";
 
 	public static final String localFileToUpload = "dw/xmlrpc/itest/testEnvironment/list-plus.gif";
+	public static final String localFile2ToUpload = "dw/xmlrpc/itest/testEnvironment/at.gif";
 
 	public static final String sleepingWiki = urlPrefix  + "dokuwikiITestsForXmlRpcClient_sleepingWiki" + urlSuffix;
 

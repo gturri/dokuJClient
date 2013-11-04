@@ -20,6 +20,7 @@ import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.AttachmentInfo;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.MediaChange;
+import dw.xmlrpc.exception.DokuAttachmentUploadException;
 import dw.xmlrpc.exception.DokuException;
 
 @RunWith(value = Parameterized.class)
@@ -186,6 +187,39 @@ public class T_Attacher extends TestHelper {
 		_client.deleteAttachment(fileId);
 		info = _client.getAttachmentInfo(fileId);
 		assertEquals((Integer)0, info.size());
+	}
+
+	@org.junit.Test
+	public void putWithoutOverwritingShouldPutOnlyIfTheresNoFileYet() throws Exception {
+		String fileId = "ns1:img2.gif";
+		File file1 = new File(TestParams.localFileToUpload);
+		File file2 = new File(TestParams.localFile2ToUpload);
+
+		_client.putAttachment(fileId, file1, true);
+		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+
+		boolean expectedExceptionCaught = false;
+		try {
+			_client.putAttachment(fileId, file2, false);
+		} catch (DokuAttachmentUploadException e){
+			expectedExceptionCaught = true;
+		}
+
+		assertTrue(expectedExceptionCaught);
+		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+	}
+
+	@org.junit.Test
+	public void putWithOverwritingShouldAlwaysSucceed() throws Exception {
+		String fileId = "ns1:img2.gif";
+		File file1 = new File(TestParams.localFileToUpload);
+		File file2 = new File(TestParams.localFile2ToUpload);
+
+		_client.putAttachment(fileId, file1, true);
+		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+
+		_client.putAttachment(fileId, file2, true);
+		assertEquals(file2.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
 	}
 
 	@org.junit.Test
