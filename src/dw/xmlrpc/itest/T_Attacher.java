@@ -179,9 +179,6 @@ public class T_Attacher extends TestHelper {
 
 		File fileRetrieved = _client.getAttachment(fileId, _localDownloadedFile);
 		assertTrue(fileRetrieved.exists());
-		//Ideally I should check the content of both files are identical.
-		//It seems it would be easy with Java7's Files.readAllBytes(myFile),
-		//but since I'm stuck with java6, this will do the trick
 		assertEquals(file.length(), fileRetrieved.length());
 
 		_client.deleteAttachment(fileId);
@@ -206,7 +203,7 @@ public class T_Attacher extends TestHelper {
 		}
 
 		assertTrue(expectedExceptionCaught);
-		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+		assertFileEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
 	}
 
 	@org.junit.Test
@@ -216,10 +213,10 @@ public class T_Attacher extends TestHelper {
 		File file2 = new File(TestParams.localFile2ToUpload);
 
 		_client.putAttachment(fileId, file1, true);
-		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+		assertFileEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
 
 		_client.putAttachment(fileId, file2, true);
-		assertEquals(file2.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+		assertFileEquals(file2, _client.getAttachment(fileId, _localDownloadedFile));
 	}
 
 	@org.junit.Test
@@ -231,5 +228,13 @@ public class T_Attacher extends TestHelper {
 		assertEquals((Integer) 67, info.size());
 		//TODO: enforced this test once we've clarify how to deal with timezone
 		assertNotNull(info.lastModified());
+	}
+
+	private void assertFileEquals(File file1, File file2){
+		//Ideally I should check the content of both files are identical.
+		//It seems it would be easy with Java7's Files.readAllBytes(myFile),
+		//or with some Apache library, but I'd rather stick with Java6,
+		//and not introduce some dependency just for this
+		assertEquals(file1.length(), file2.length());
 	}
 }
