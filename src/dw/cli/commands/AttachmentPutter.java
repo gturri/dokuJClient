@@ -11,6 +11,7 @@ import com.martiansoftware.jsap.UnflaggedOption;
 import dw.cli.Command;
 import dw.cli.Output;
 import dw.xmlrpc.DokuJClient;
+import dw.xmlrpc.exception.DokuAttachmentUploadException;
 import dw.xmlrpc.exception.DokuException;
 
 public class AttachmentPutter extends Command {
@@ -21,7 +22,9 @@ public class AttachmentPutter extends Command {
 		try {
 			dokuClient.putAttachment(config.getString("attachmentId"), config.getString("localFile"), config.getBoolean("overwrite"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			output.err = e.getMessage();
+			output.exitCode = -1;
+		} catch (DokuAttachmentUploadException e){
 			output.err = e.getMessage();
 			output.exitCode = -1;
 		}

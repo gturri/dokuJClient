@@ -9,12 +9,17 @@ import dw.cli.itest.TestHelper;
 import dw.xmlrpc.itest.TestParams;
 
 public class T_getAttachment extends TestHelper {
+	private final File localFile = new File("myFile.gif");
+
+	@org.junit.Before
+	@org.junit.After
+	public void clean(){
+		localFile.delete();
+	}
+
 	@org.junit.Test
 	public void canGetAttachment() throws Exception {
-		File localFile = new File("myFile.gif");
-
 		//Make sure we're in a clean state
-		localFile.delete();
 		assertFalse(localFile.exists());
 
 		Output output = runWithArguments("getAttachment", "ro_for_tests:img1.gif", "myFile.gif");
