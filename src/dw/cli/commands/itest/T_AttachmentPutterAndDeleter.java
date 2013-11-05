@@ -9,10 +9,10 @@ import dw.xmlrpc.itest.TestParams;
 
 public class T_AttachmentPutterAndDeleter extends TestHelper {
 
+	private static String ns = "putAndDelete_ns";
+
 	@org.junit.Test
 	public void putAndDeleteAttachment() throws Exception {
-		String ns = "putAndDelete_ns";
-
 		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
 
 		Output outputPut = runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
@@ -28,5 +28,15 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		assertEquals(0, outputDelete.exitCode);
 
 		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
+	}
+
+	@org.junit.Test
+	public void putAttachmentWontOverwriteWithoutTheForceOption() throws Exception{
+		//TODO once we're able to retrieve attachments
+	}
+
+	@org.junit.Test
+	public void putAttachmentWillOverwriteWithTheForceOption() throws Exception{
+		//TODO once we're able to retrieve attachments
 	}
 }
