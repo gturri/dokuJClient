@@ -76,4 +76,17 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
 		assertFileEquals(new File(TestParams.localFile2ToUpload), localFile);
 	}
+
+	@org.junit.Test
+	public void deletingAnUnexistingFileYieldsAnErrorOnlyIfNoForceFlagHasBeenProvided() throws Exception {
+		Output outputForceLess = runWithArguments("deleteAttachment", ns + ":unknown_file.gif");
+		assertEquals("", outputForceLess.out);
+		assertNotNullOrEmpty(outputForceLess.err);
+		assertNotZero(outputForceLess.exitCode);
+
+		Output outputForced = runWithArguments("deleteAttachment", "-f", ns + ":unknown_file.gif");
+		assertEquals("", outputForced.out);
+		assertEquals("", outputForced.err);
+		assertEquals(0, outputForced.exitCode);
+	}
 }
