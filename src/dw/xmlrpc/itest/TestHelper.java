@@ -1,8 +1,10 @@
 package dw.xmlrpc.itest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -62,5 +64,13 @@ public class TestHelper {
 
 		//Clean page content
 		client.putPage(pageId, initialContent);
+	}
+
+	public void assertFileEquals(File expected, File actual){
+		//Ideally I should check the content of both files are identical.
+		//It seems it would be easy with Java7's Files.readAllBytes(myFile),
+		//or with some Apache library, but I'd rather stick with Java6,
+		//and not introduce some dependency just for this
+		assertEquals(expected.length(), actual.length());
 	}
 }

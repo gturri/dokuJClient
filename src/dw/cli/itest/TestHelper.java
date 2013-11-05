@@ -9,7 +9,7 @@ import dw.cli.Output;
 import dw.cli.Program;
 import dw.xmlrpc.itest.TestParams;
 
-public class TestHelper {
+public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 	protected void assertNotNullOrEmpty(String str){
 		assertNotNull(str);
 		assertFalse(str.equals(""));
