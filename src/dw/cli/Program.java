@@ -2,11 +2,9 @@ package dw.cli;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
+import dw.xmlrpc.exception.DokuException;
 
 public class Program {
-
-	public static CliOptions _options;
-
 	public static void main(String[] args) throws Exception {
 		try {
 			Output output = run(args);
@@ -28,15 +26,10 @@ public class Program {
 			return result;
 		}
 
-		_options = parser.getCliOptions();
-		DokuJClientConfig clientConfig = new DokuJClientConfig(_options.url);
-		if ( _options.user != null ){
-			clientConfig.setUser(_options.user, _options.password);
-		}
-		DokuJClient dokuClient = null;
-		dokuClient = new DokuJClient(clientConfig);
-		Command command = new CommandFactory().Build(_options.command);
-		return command.run(dokuClient, _options.commandArguments);
+		CliOptions options = parser.getCliOptions();
+		DokuJClient dokuClient = buildDokuClient(options);
+		Command command = new CommandFactory().Build(options.command);
+		return command.run(dokuClient, options.commandArguments);
 	}
 
 	private static void printOutput(Output output) {
@@ -54,5 +47,15 @@ public class Program {
 		for ( StackTraceElement stackElt : e.getStackTrace()){
 			System.err.println("\t" + stackElt.toString());
 		}
+	}
+
+	private static DokuJClient buildDokuClient(CliOptions options) throws DokuException{
+		DokuJClientConfig clientConfig = new DokuJClientConfig(options.url);
+		if ( options.user != null ){
+			clientConfig.setUser(options.user, options.password);
+		}
+		DokuJClient dokuClient = new DokuJClient(clientConfig);
+
+		return dokuClient;
 	}
 }
