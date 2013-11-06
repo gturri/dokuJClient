@@ -55,7 +55,7 @@ public class Program {
 			clientConfig.setUser(options.user, options.password);
 		}
 		DokuJClient dokuClient = new DokuJClient(clientConfig);
-
+		dokuClient.setLogger(null);
 		return dokuClient;
 	}
 }
