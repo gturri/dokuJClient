@@ -1,6 +1,5 @@
 package dw.cli.commands.itest;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -27,17 +26,11 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
 
 		Output outputPut = runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
-		assertEquals("", outputPut.out);
-		assertEquals("", outputPut.err);
-		assertEquals(0, outputPut.exitCode);
-
+		assertSuccess("", outputPut);
 		assertTrue(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
 
 		Output outputDelete = runWithArguments("deleteAttachment", ns + ":toto.gif");
-		assertEquals("", outputDelete.out);
-		assertEquals("", outputDelete.err);
-		assertEquals(0, outputDelete.exitCode);
-
+		assertSuccess("", outputDelete);
 		assertFalse(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
 	}
 
@@ -50,9 +43,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 
 		//Try to override the distant file without providing the flag
 		Output output = runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFile2ToUpload);
-		assertNotNullOrEmpty(output.err);
-		assertEquals("", output.out);
-		assertNotZero(output.exitCode);
+		assertGenericError(output);
 
 		//Assert the attachment hasn't been overrided
 		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
@@ -68,9 +59,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 
 		//Try to override the distant file without providing the flag
 		Output output = runWithArguments("putAttachment", ns + ":toto.gif", "-f", TestParams.localFile2ToUpload);
-		assertEquals("", output.err);
-		assertEquals("", output.out);
-		assertEquals(0, output.exitCode);
+		assertSuccess("", output);
 
 		//Assert the attachment hasn't been overrided
 		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
@@ -80,13 +69,9 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 	@org.junit.Test
 	public void deletingAnUnexistingFileYieldsAnErrorOnlyIfNoForceFlagHasBeenProvided() throws Exception {
 		Output outputForceLess = runWithArguments("deleteAttachment", ns + ":unknown_file.gif");
-		assertEquals("", outputForceLess.out);
-		assertNotNullOrEmpty(outputForceLess.err);
-		assertNotZero(outputForceLess.exitCode);
+		assertGenericError(outputForceLess);
 
 		Output outputForced = runWithArguments("deleteAttachment", "-f", ns + ":unknown_file.gif");
-		assertEquals("", outputForced.out);
-		assertEquals("", outputForced.err);
-		assertEquals(0, outputForced.exitCode);
+		assertSuccess("", outputForced);
 	}
 }

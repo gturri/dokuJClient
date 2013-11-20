@@ -23,10 +23,7 @@ public class T_getAttachment extends TestHelper {
 		assertFalse(localFile.exists());
 
 		Output output = runWithArguments("getAttachment", "ro_for_tests:img1.gif", "myFile.gif");
-		assertEquals("", output.out);
-		assertEquals("", output.err);
-		assertEquals(0, output.exitCode);
-
+		assertSuccess("", output);
 		assertTrue(localFile.exists());
 		assertFileEquals(new File(TestParams.localFileToUpload), new File("myFile.gif"));
 	}
@@ -34,8 +31,6 @@ public class T_getAttachment extends TestHelper {
 	@org.junit.Test
 	public void attachmentDoesntExist() throws Exception {
 		Output output = runWithArguments("getAttachment", "ro_for_tests:unexisting_file.gif", "myFile.gif");
-		assertNotNullOrEmpty(output.err);
-		assertEquals("", output.out);
-		assertNotZero(output.exitCode);
+		assertGenericError(output);
 	}
 }
