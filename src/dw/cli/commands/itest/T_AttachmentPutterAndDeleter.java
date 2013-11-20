@@ -12,7 +12,8 @@ import dw.xmlrpc.itest.TestParams;
 public class T_AttachmentPutterAndDeleter extends TestHelper {
 
 	private static String ns = "putAndDelete_ns";
-	private final File localFile = new File("localToto.gif");
+	private static String localFileName = "localToto.gif";
+	private final File localFile = new File(localFileName);
 
 	@org.junit.Before
 	@org.junit.After
@@ -38,7 +39,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 	public void putAttachmentWontOverwriteWithoutTheForceOption() throws Exception{
 		//Ensure we start in a clean state
 		runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
-		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
+		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
 		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
 
 		//Try to override the distant file without providing the flag
@@ -46,7 +47,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		assertGenericError(output);
 
 		//Assert the attachment hasn't been overrided
-		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
+		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
 		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
 	}
 
@@ -54,7 +55,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 	public void putAttachmentWillOverwriteWithTheForceOption() throws Exception{
 		//Ensure we start in a clean state
 		runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
-		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
+		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
 		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
 
 		//Try to override the distant file without providing the flag
@@ -62,7 +63,7 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		assertSuccess("", output);
 
 		//Assert the attachment hasn't been overrided
-		runWithArguments("getAttachment", ns + ":toto.gif", "localToto.gif");
+		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
 		assertFileEquals(new File(TestParams.localFile2ToUpload), localFile);
 	}
 
