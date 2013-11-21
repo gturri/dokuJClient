@@ -75,4 +75,22 @@ public class T_AttachmentPutterAndDeleter extends TestHelper {
 		Output outputForced = runWithArguments("deleteAttachment", "-f", ns + ":unknown_file.gif");
 		assertSuccess("", outputForced);
 	}
+
+	@org.junit.Test
+	public void getAFileToANonWritablePlaceDoesntCrash() throws Exception{
+		//Ensure we start in a clean state
+		runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
+		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
+		assertTrue(runWithArguments("getAttachments", ns).out.contains("toto.gif"));
+
+		//Actually test
+		Output output = runWithArguments("getAttachment", ns + ":toto.gif", "/home/whatever/icantwrite/here.jpg");
+		assertGenericError(output);
+	}
+
+	@org.junit.Test
+	public void putAFileWhichDoesntExistDoesntCrash() throws Exception {
+		Output output = runWithArguments("putAttachment", ns + ":toto.gif", "unexistingFile.jpg");
+		assertGenericError(output);
+	}
 }
