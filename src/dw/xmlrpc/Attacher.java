@@ -36,7 +36,7 @@ class Attacher {
 		fileOutputStream.close();
 	}
 
-	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws IOException, DokuException{
+	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws DokuException{
 		Map<String, Object> additionalParam = new HashMap<String, Object>();
 		additionalParam.put("ow", overwrite);
 

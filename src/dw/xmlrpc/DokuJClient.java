@@ -143,7 +143,7 @@ public class DokuJClient {
      * @throws IOException
      * @throws DokuException
      */
-	public void putAttachment(String attachmentId, byte[] localFile, boolean overwrite) throws IOException, DokuException{
+	public void putAttachment(String attachmentId, byte[] localFile, boolean overwrite) throws DokuException{
 		_attacher.putAttachment(attachmentId, localFile, overwrite);
 	}
 
