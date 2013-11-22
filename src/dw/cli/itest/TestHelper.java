@@ -39,6 +39,10 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 
 	protected void assertSuccess(String expectedOutput, Output actualOutput){
 		assertEquals(expectedOutput, actualOutput.out);
+		assertGenericSuccess(actualOutput);
+	}
+
+	protected void assertGenericSuccess(Output actualOutput){
 		assertEquals("", actualOutput.err);
 		assertEquals(0, actualOutput.exitCode);
 	}

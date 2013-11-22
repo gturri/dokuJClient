@@ -4,6 +4,7 @@ import dw.cli.commands.AttachmentDeleter;
 import dw.cli.commands.AttachmentGetter;
 import dw.cli.commands.AttachmentPutter;
 import dw.cli.commands.AttachmentReader;
+import dw.cli.commands.PageListGetter;
 import dw.cli.commands.TitleGetter;
 
 public class CommandFactory {
@@ -18,6 +19,8 @@ public class CommandFactory {
 			return new AttachmentDeleter();
 		} else if ( command.equals("getAttachment")){
 			return new AttachmentGetter();
+		} else if ( command.equals("getPagelist")){
+			return new PageListGetter();
 		}
 		throw new IllegalArgumentException("unknown command " + command);
 	}
