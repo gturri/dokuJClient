@@ -8,6 +8,7 @@ import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.UnflaggedOption;
+import com.martiansoftware.jsap.defaultsources.PropertyDefaultSource;
 
 public class OptionParser {
 	private final boolean _success;
@@ -66,6 +67,8 @@ public class OptionParser {
 				.setStringParser(JSAP.STRING_PARSER)
 				.setRequired(true));
 
+			registerDefaultSource(jsap);
+
 			JSAPResult config = jsap.parse(genericOptions.toArray(new String[]{}));
 			if ( ! config.success() ){
 				success = false;
@@ -95,6 +98,12 @@ public class OptionParser {
 		_success = success;
 		_helpMessage = helpMessage;
 		_cliOptions = cliOptions;
+	}
+
+	private void registerDefaultSource(JSAP jsap) {
+		String home = System.getProperty("user.home");
+		PropertyDefaultSource source = new PropertyDefaultSource(home + "/.dokujclientrc", false);
+		jsap.registerDefaultSource(source);
 	}
 
 	public boolean success(){
