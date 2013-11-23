@@ -11,6 +11,7 @@ import dw.cli.commands.AttachmentReader;
 import dw.cli.commands.HelpPrinter;
 import dw.cli.commands.PageListGetter;
 import dw.cli.commands.TitleGetter;
+import dw.cli.commands.VersionGetter;
 
 public class CommandFactory {
 	public Command Build(String command){
@@ -32,6 +33,7 @@ public class CommandFactory {
 		mapping.put("getAttachment", new AttachmentGetter());
 		mapping.put("getPagelist", new PageListGetter());
 		mapping.put("help", new HelpPrinter(true));
+		mapping.put("getVersion", new VersionGetter());
 
 		return mapping;
 	}

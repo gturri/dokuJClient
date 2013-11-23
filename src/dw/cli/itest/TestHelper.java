@@ -10,6 +10,8 @@ import dw.cli.Program;
 import dw.xmlrpc.itest.TestParams;
 
 public class TestHelper extends dw.xmlrpc.itest.TestHelper {
+	protected final TestParams  params = new TestParams("dokuwiki-2013-05-10", "Release 2013-05-10 \"Weatherwax\"", 8, 2);
+
 	protected void assertNotNullOrEmpty(String str){
 		assertNotNull(str);
 		assertFalse(str.equals(""));
@@ -24,8 +26,6 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 	}
 
 	private String[] buildArguments(String command, String... extraArguments){
-		TestParams params = new TestParams("dokuwiki-2013-05-10", "Release 2013-05-10 \"Weatherwax\"", 8, 2);
-
 		List<String> args = new ArrayList<String>();
 		args.add("-u"); args.add(TestParams.user);
 		args.add("-p"); args.add(TestParams.password);
