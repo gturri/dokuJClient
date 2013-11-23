@@ -22,7 +22,7 @@ public class Program {
 
 		if ( ! parser.success() ){
 			result.err = parser.getHelpMessage();
-			result.exitCode = -1;
+			result.exitCode = parser.success() ? 0 : -1;
 			return result;
 		}
 

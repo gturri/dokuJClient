@@ -47,4 +47,17 @@ public abstract class Command {
 	protected abstract void registerParameters(JSAP jsap) throws JSAPException;
 
 	protected abstract Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException;
+
+	public String getUsage() {
+		JSAP jsap = new JSAP();
+
+		try {
+			registerParameters(jsap);
+		} catch (JSAPException e) {
+			throw new RuntimeException("Something wrong happened", e);
+		}
+
+		return jsap.getUsage();
+
+	}
 }
