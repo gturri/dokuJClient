@@ -48,7 +48,7 @@ public class OptionParser {
 		registerDefaultSource(jsap);
 
 		JSAPResult config = jsap.parse(genericOptions.toArray(new String[]{}));
-		if ( ! config.success() || (command == null && !config.getBoolean("help")) ){
+		if ( ! config.success() || (command == null && !config.getBoolean("help") && !config.getBoolean("version")) ){
 			success = false;
 			helpMessage = "";
 			for (@SuppressWarnings("rawtypes") java.util.Iterator errs = config.getErrorMessageIterator();
@@ -63,6 +63,10 @@ public class OptionParser {
 			if ( command == null && config.getBoolean("help")){
 				command = "help";
 			}
+			if ( command == null && config.getBoolean("version")){
+				command = "version";
+			}
+
 			cliOptions = new CliOptions();
 			cliOptions.password = config.getString("password");
 			cliOptions.user = config.getString("user");
@@ -101,6 +105,9 @@ public class OptionParser {
 			jsap.registerParameter(new Switch("help")
 			.setShortFlag('h')
 			.setLongFlag("help"));
+
+			jsap.registerParameter(new Switch("version")
+			.setLongFlag("version"));
 		} catch (JSAPException e){
 			throw new RuntimeException("Something went really wrong", e);
 		}

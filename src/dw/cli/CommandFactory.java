@@ -8,6 +8,7 @@ import dw.cli.commands.AttachmentDeleter;
 import dw.cli.commands.AttachmentGetter;
 import dw.cli.commands.AttachmentPutter;
 import dw.cli.commands.AttachmentReader;
+import dw.cli.commands.CliVersion;
 import dw.cli.commands.HelpPrinter;
 import dw.cli.commands.PageListGetter;
 import dw.cli.commands.TitleGetter;
@@ -34,6 +35,7 @@ public class CommandFactory {
 		mapping.put("getPagelist", new PageListGetter());
 		mapping.put("help", new HelpPrinter(true));
 		mapping.put("getVersion", new VersionGetter());
+		mapping.put("version",  new CliVersion());
 
 		return mapping;
 	}

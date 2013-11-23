@@ -66,6 +66,7 @@
 
     <target name="compileClasses" depends="aXMLRPC">
         <mkdir dir="${classes.dir}"/>
+        <replaceregexp file="src/dw/cli/commands/CliVersion.java" match="(.*CliVersion = )+.*$" byline="true" replace='\1"${version}";' />
         <javac srcdir="src" destdir="${classes.dir}" excludesfile=".excludesfile" includeantruntime="false" classpathref="classpath" debug="on" target="${javac.target}" source="${javac.target}" />
     </target>
 
