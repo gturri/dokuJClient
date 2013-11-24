@@ -67,6 +67,7 @@ function installFakeWiki {
   touch -t201212230020.19 $destDir/data/attic/rev/start.1356218419.txt.gz
   touch -t201212230020.19 $destDir/data/pages/rev/start.txt
   touch -t201308011800.00 $destDir/data/pages/nswithanotherns/otherns/page.txt
+  touch -t201311040647.25 $destDir/data/pages/nssearch/start.txt
   touch -t201308011900.00 $destDir/data/pages/nssearch/page3.txt
   touch -t201212242111.00 $destDir/data/media/ro_for_tests/img1.gif
   

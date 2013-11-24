@@ -30,6 +30,7 @@ public class CommandFactory {
 		mapping.put("version",  new CliVersion());
 		mapping.put("getTime", new TimeGetter());
 		mapping.put("getXMLRPCAPIVersion", new XMLRPCAPIVersionGetter());
+		mapping.put("search", new Searcher());
 
 		return mapping;
 	}
