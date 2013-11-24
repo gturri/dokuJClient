@@ -4,15 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import dw.cli.commands.AttachmentDeleter;
-import dw.cli.commands.AttachmentGetter;
-import dw.cli.commands.AttachmentPutter;
-import dw.cli.commands.AttachmentReader;
-import dw.cli.commands.CliVersion;
-import dw.cli.commands.HelpPrinter;
-import dw.cli.commands.PageListGetter;
-import dw.cli.commands.TitleGetter;
-import dw.cli.commands.VersionGetter;
+import dw.cli.commands.*;
 
 public class CommandFactory {
 	public Command Build(String command){
@@ -36,6 +28,7 @@ public class CommandFactory {
 		mapping.put("help", new HelpPrinter(true));
 		mapping.put("getVersion", new VersionGetter());
 		mapping.put("version",  new CliVersion());
+		mapping.put("getTime", new TimeGetter());
 
 		return mapping;
 	}
