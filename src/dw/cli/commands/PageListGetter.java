@@ -49,21 +49,17 @@ public class PageListGetter extends Command {
 	}
 
 	private String pagesToString(List<PageDW> pages, boolean longFormat) {
-		String result = "";
-		boolean firstLine = true;
+		LineConcater concater = new LineConcater();
+
 		for(PageDW page : pages){
-			if ( firstLine ){
-				firstLine = false;
-			} else {
-				result += "\n";
-			}
 			if ( longFormat ){
-				result += pageToLongString(page);
+				concater.addLine(pageToLongString(page));
 			} else {
-				result += pageToString(page);
+				concater.addLine(pageToString(page));
 			}
 		}
-		return result;
+
+		return concater.toString();
 	}
 
 	private String pageToLongString(PageDW page) {

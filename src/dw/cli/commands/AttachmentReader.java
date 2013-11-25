@@ -25,21 +25,15 @@ public class AttachmentReader extends Command {
 	}
 
 	private String attachmentDetailsToString(List<AttachmentDetails> attachmentsDetails, boolean longFormat){
-		String result = "";
-		boolean firstLine = true;
+		LineConcater concater = new LineConcater();
 		for(AttachmentDetails details : attachmentsDetails){
-			if ( firstLine ){
-				firstLine = false;
-			} else {
-				result += "\n";
-			}
 			if ( longFormat ){
-				result += attachmentDetailsToLongString(details);
+				concater.addLine(attachmentDetailsToLongString(details));
 			} else {
-				result += attachmentDetailsToString(details);
+				concater.addLine(attachmentDetailsToString(details));
 			}
 		}
-		return result;
+		return concater.toString();
 	}
 
 	private String attachmentDetailsToLongString(AttachmentDetails details){

@@ -33,25 +33,28 @@ public class Searcher extends Command {
 	}
 
 	private String searchResultsToString(List<SearchResult> searchResults,	boolean longFormat, boolean withSnippet) {
-		String result = "";
-		boolean firstLine = true;
+		LineConcater concater = new LineConcater();
+
 		for(SearchResult searchResult : searchResults){
-			if ( firstLine ){
-				firstLine = false;
-			} else {
-				result += "\n";
-			}
 			if ( longFormat ){
-				result += searchResultToLongString(searchResult);
+				concater.addLine(searchResultToLongString(searchResult));
 			} else {
-				result += searchResultToString(searchResult);
+				concater.addLine(searchResultToString(searchResult));
 			}
 
 			if ( withSnippet ){
-				result += "\n\t" + searchResult.snippet();
+				addSnippet(concater, searchResult);
 			}
 		}
-		return result;
+
+		return concater.toString();
+	}
+
+	private void addSnippet(LineConcater concater, SearchResult searchResult) {
+		for ( String line : searchResult.snippet().split("\n")){
+			concater.addLine("> " + line);
+		}
+		concater.addLine("");
 	}
 
 	private String searchResultToString(SearchResult searchResult) {
