@@ -1,21 +1,30 @@
 package dw.cli.commands;
 
 class LineConcater {
-	boolean firstLinePrinted = false;
-	String concatenation = "";
+	private boolean _firstLinePrinted = false;
+	private final String _separator;
+	private String _concatenation = "";
+
+	public LineConcater(){
+		this("\n");
+	}
+
+	public LineConcater(String separator){
+		_separator = separator;
+	}
 
 	public void addLine(String line){
-		if ( firstLinePrinted ){
-			concatenation += "\n";
+		if ( _firstLinePrinted ){
+			_concatenation += _separator;
 		} else {
-			firstLinePrinted = true;
+			_firstLinePrinted = true;
 		}
 
-		concatenation += line;
+		_concatenation += line;
 	}
 
 	@Override
 	public String toString(){
-		return concatenation;
+		return _concatenation;
 	}
 }

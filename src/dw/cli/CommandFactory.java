@@ -31,6 +31,8 @@ public class CommandFactory {
 		mapping.put("getTime", new TimeGetter());
 		mapping.put("getXMLRPCAPIVersion", new XMLRPCAPIVersionGetter());
 		mapping.put("search", new Searcher());
+		mapping.put("getPage",  new PageGetter());
+		mapping.put("putPage", new PagePutter());
 
 		return mapping;
 	}
