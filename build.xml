@@ -105,7 +105,7 @@
 
       <echo message="If tests fail, please make sure you've installed the fake wiki. See README for more information." />
 
-      <junit printsummary="yes" dir="src" haltonfailure="on" fork="yes" forkmode="once">
+      <junit printsummary="yes" dir="src" haltonfailure="on" fork="yes" forkmode="once" showoutput="no">
       <sysproperty key="net.sourceforge.cobertura.datafile" file="${instrumented.file}" />
         <classpath location="${instrumented.dir}"/>
         <classpath>
