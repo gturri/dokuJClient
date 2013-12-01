@@ -34,6 +34,7 @@ public class CommandFactory {
 		mapping.put("getPage",  new PageGetter());
 		mapping.put("putPage", new PagePutter());
 		mapping.put("getPageVersions", new PageVersionsGetter());
+		mapping.put("appendPage", new PagePutter(true));
 
 		return mapping;
 	}

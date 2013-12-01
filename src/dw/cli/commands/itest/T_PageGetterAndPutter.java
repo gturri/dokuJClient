@@ -1,8 +1,5 @@
 package dw.cli.commands.itest;
 
-import static org.junit.Assert.*;
-
-import dw.cli.Output;
 import dw.cli.itest.TestHelper;
 
 public class T_PageGetterAndPutter extends TestHelper {
@@ -43,11 +40,5 @@ public class T_PageGetterAndPutter extends TestHelper {
 		Thread.sleep(1000, 0);
 		assertSuccess("", runWithArguments("putPage", pageId, "--summary", "my other summary", "some other content"));
 		assertLastModificationSummary("my other summary", runWithArguments("getPageVersions", pageId));
-	}
-
-	private void assertLastModificationSummary(String expectedSummary, Output actualOutput) {
-		String lastModification = actualOutput.out.split("\n")[0];
-		String actualSummary = lastModification.split(" - ")[1];
-		assertEquals(expectedSummary, actualSummary);
 	}
 }

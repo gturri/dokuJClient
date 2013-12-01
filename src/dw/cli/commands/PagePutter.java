@@ -13,6 +13,15 @@ import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 
 public class PagePutter extends Command {
+	private final boolean _appendInsteadOfPut;
+
+	public PagePutter(){
+		this(false);
+	}
+
+	public PagePutter(boolean appendInsteadOfPut){
+		_appendInsteadOfPut = appendInsteadOfPut;
+	}
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
@@ -34,7 +43,12 @@ public class PagePutter extends Command {
 		String summary = config.getString("summary");
 		boolean minor = config.getBoolean("minor");
 
-		dokuClient.putPage(pageId, rawWikiText, summary, minor);
+		if ( _appendInsteadOfPut ){
+			dokuClient.appendPage(pageId, rawWikiText, summary, minor);
+		} else {
+			dokuClient.putPage(pageId, rawWikiText, summary, minor);
+		}
+
 		return new Output();
 	}
 

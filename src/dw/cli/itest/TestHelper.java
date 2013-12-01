@@ -52,4 +52,10 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 		assertEquals("", actualOutput.out);
 		assertNotZero(actualOutput.exitCode);
 	}
+
+	protected void assertLastModificationSummary(String expectedSummary, Output actualOutput) {
+		String lastModification = actualOutput.out.split("\n")[0];
+		String actualSummary = lastModification.split(" - ")[1];
+		assertEquals(expectedSummary, actualSummary);
+	}
 }
