@@ -6,20 +6,34 @@ import com.martiansoftware.jsap.JSAPResult;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuUnauthorizedException;
 
 public abstract class Command {
-	public Output run(DokuJClient dokuClient, String[] commandArguments) throws DokuException{
+	public Output run(DokuJClient dokuClient, String[] commandArguments){
 		JSAPResult config;
 		try {
 			config = parseArguments(commandArguments);
 		} catch (ParseOptionException e){
-			Output output = new Output();
-			output.err = e.getMessage();
-			output.exitCode = -1;
-			return output;
+			return new Output("", e.getMessage(), -1);
 		}
 
-		return run(dokuClient, config);
+		try {
+			return run(dokuClient, config);
+		} catch (DokuUnauthorizedException e){
+			String helpMessage = getCauseMessage(e)
+					+ "\nYou can check permissions with command 'aclCheck'";
+			return new Output("", helpMessage, -1);
+		} catch (DokuException e){
+			return new Output("", getCauseMessage(e), -1);
+		}
+	}
+
+	private String getCauseMessage(Throwable e){
+		if ( e.getCause() != null ){
+			return e.getCause().getMessage();
+		} else {
+			return e.getMessage();
+		}
 	}
 
 	protected JSAPResult parseArguments(String[] arguments) throws ParseOptionException{

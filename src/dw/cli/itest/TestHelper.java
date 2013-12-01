@@ -31,6 +31,11 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 		return Program.run(arguments);
 	}
 
+	protected Output runWithArgumentAsPermissionLessUser(String command, String...extraArguments) throws Exception {
+		String[] arguments = buildArguments("badUser", "badPassword", command, extraArguments);
+		return Program.run(arguments);
+	}
+
 	private String[] buildArguments(String user, String password, String command, String... extraArguments){
 		List<String> args = new ArrayList<String>();
 		args.add("-u"); args.add(user);

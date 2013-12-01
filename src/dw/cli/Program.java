@@ -5,7 +5,7 @@ import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.exception.DokuException;
 
 public class Program {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		try {
 			Output output = run(args);
 			printOutput(output);
@@ -16,7 +16,7 @@ public class Program {
 		}
 	}
 
-	public static Output run(String[] args) throws Exception {
+	public static Output run(String[] args) throws DokuException {
 		OptionParser parser = new OptionParser(args);
 		Output result = new Output();
 
