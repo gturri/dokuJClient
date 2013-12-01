@@ -37,6 +37,7 @@ public class CommandFactory {
 		mapping.put("appendPage", new PagePutter(true));
 		mapping.put("getRPCVersionSupported", new RPCVersionSupportedGetter());
 		mapping.put("aclCheck", new AclChecker());
+		mapping.put("getPageVersion", new PageVersionGetter());
 
 		return mapping;
 	}
