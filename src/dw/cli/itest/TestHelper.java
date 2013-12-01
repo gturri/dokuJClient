@@ -20,15 +20,21 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 	protected void assertNotZero(int number){
 		assertFalse(number == 0);
 	}
+
 	protected Output runWithArguments(String command, String... extraArguments) throws Exception{
-		String[] arguments = buildArguments(command, extraArguments);
+		String[] arguments = buildArguments(TestParams.user, TestParams.password, command, extraArguments);
 		return Program.run(arguments);
 	}
 
-	private String[] buildArguments(String command, String... extraArguments){
+	protected Output runWithArgumentAsWriterUser(String command, String... extraArguments) throws Exception {
+		String[] arguments = buildArguments(TestParams.writerLogin, TestParams.writerPwd, command, extraArguments);
+		return Program.run(arguments);
+	}
+
+	private String[] buildArguments(String user, String password, String command, String... extraArguments){
 		List<String> args = new ArrayList<String>();
-		args.add("-u"); args.add(TestParams.user);
-		args.add("-p"); args.add(TestParams.password);
+		args.add("-u"); args.add(user);
+		args.add("-p"); args.add(password);
 		args.add("--url"); args.add(params.url);
 		args.add(command);
 		for(String extraArg : extraArguments){
