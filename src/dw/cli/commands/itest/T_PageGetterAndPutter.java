@@ -1,9 +1,17 @@
 package dw.cli.commands.itest;
 
+import static org.junit.Assert.*;
+
+import dw.cli.Output;
 import dw.cli.itest.TestHelper;
 
 public class T_PageGetterAndPutter extends TestHelper {
 	private final String pageId = "ns1:dummy";
+
+	@org.junit.Before
+	public void setUp() throws Exception{
+		runWithArguments("putPage", pageId, "");
+	}
 
 
 	@org.junit.Test
@@ -20,14 +28,26 @@ public class T_PageGetterAndPutter extends TestHelper {
 
 	@org.junit.Test
 	public void putPageWithSeveralParts() throws Exception {
-		//Put page in a known state
-		runWithArguments("putPage", pageId, "");
-		assertSuccess("", runWithArguments("getPage", pageId));
-
-		//Actually test
 		runWithArguments("putPage",  pageId, "toto", "tata");
 		assertSuccess("toto tata", runWithArguments("getPage", pageId));
 	}
 
-	//TODO: test 'sum' and 'minor' options
+	@org.junit.Test
+	public void canPutAPageWithASummary() throws Exception {
+		//Sleep because DW behaves badly wrt revisions,when there are more than 1 version per second
+		Thread.sleep(1000, 0);
+		assertSuccess("", runWithArguments("putPage", pageId, "--summary", "my summary 1", "some content 2"));
+		assertLastModificationSummary("my summary 1", runWithArguments("getPageVersions", pageId));
+
+		//Sleep because DW behaves badly wrt revisions,when there are more than 1 version per second
+		Thread.sleep(1000, 0);
+		assertSuccess("", runWithArguments("putPage", pageId, "--summary", "my other summary", "some other content"));
+		assertLastModificationSummary("my other summary", runWithArguments("getPageVersions", pageId));
+	}
+
+	private void assertLastModificationSummary(String expectedSummary, Output actualOutput) {
+		String lastModification = actualOutput.out.split("\n")[0];
+		String actualSummary = lastModification.split(" - ")[1];
+		assertEquals(expectedSummary, actualSummary);
+	}
 }
