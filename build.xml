@@ -98,7 +98,7 @@
         <jar destfile="${jar.dir}/${ant.project.name}.tests.jar" basedir="${classes.dir}" />
     </target>
 
-    <target name="fulltest" depends="junitfullreport,jar" />
+    <target name="fulltest" depends="jar,junitfullreport" />
 
     <target name="junit" depends="compileAll">
       <mkdir dir="${testresults.dir}" />
