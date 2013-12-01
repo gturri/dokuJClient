@@ -19,8 +19,6 @@ public class PageGetter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		Output output = new Output();
-		output.out = dokuClient.getPage(config.getString("pageId"));
-		return output;
+		return new Output(dokuClient.getPage(config.getString("pageId")));
 	}
 }

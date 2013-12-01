@@ -29,26 +29,16 @@ public class HelpPrinter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
-		Output output = new Output();
-
 		if ( ! _helpExplicitlyWanted ){
-			output.exitCode = -1;
-			output.out = "";
-			output.err = OptionParser.getUsage();
+			return new Output(OptionParser.getUsage(), -1);
 		} else {
-			output.exitCode = 0;
-			output.err = "";
-
 			if ( config.contains("command") ){
 				String commandName = config.getString("command");
 				Command command = new CommandFactory().Build(commandName);
-				output.out = "Syntax for " + commandName + ": " + command.getUsage();
+				return new Output("Syntax for " + commandName + ": " + command.getUsage());
 			} else {
-				output.out = OptionParser.getUsage();
+				return new Output(OptionParser.getUsage());
 			}
 		}
-
-		return output;
 	}
-
 }

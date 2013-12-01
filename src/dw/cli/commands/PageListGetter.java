@@ -31,11 +31,9 @@ public class PageListGetter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		Output result = new Output();
 		Map<String, Object> clientOptions = buildClientOption(config);
 		List<PageDW> pages = dokuClient.getPagelist(config.getString("namespace"), clientOptions);
-		result.out = pagesToString(pages, config.getBoolean("long"));
-		return result;
+		return new Output(pagesToString(pages, config.getBoolean("long")));
 	}
 
 	private Map<String, Object> buildClientOption(JSAPResult config) {

@@ -14,7 +14,7 @@ public abstract class Command {
 		try {
 			config = parseArguments(commandArguments);
 		} catch (ParseOptionException e){
-			return new Output("", e.getMessage(), -1);
+			return new Output(e.getMessage(), -1);
 		}
 
 		try {
@@ -22,9 +22,9 @@ public abstract class Command {
 		} catch (DokuUnauthorizedException e){
 			String helpMessage = getCauseMessage(e)
 					+ "\nYou can check permissions with command 'aclCheck'";
-			return new Output("", helpMessage, -1);
+			return new Output(helpMessage, -1);
 		} catch (DokuException e){
-			return new Output("", getCauseMessage(e), -1);
+			return new Output(getCauseMessage(e), -1);
 		}
 	}
 

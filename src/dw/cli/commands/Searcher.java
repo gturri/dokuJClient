@@ -26,10 +26,7 @@ public class Searcher extends Command {
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
 		List<SearchResult> searchResults = dokuClient.search(config.getString("searchQuery"));
-
-		Output result = new Output();
-		result.out = searchResultsToString(searchResults, config.getBoolean("longFormat"), config.getBoolean("snippet"));
-		return result;
+		return new Output(searchResultsToString(searchResults, config.getBoolean("longFormat"), config.getBoolean("snippet")));
 	}
 
 	private String searchResultsToString(List<SearchResult> searchResults,	boolean longFormat, boolean withSnippet) {

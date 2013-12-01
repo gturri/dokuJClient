@@ -19,9 +19,7 @@ public class AclChecker extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
-		Output output = new Output();
 		String pageId = config.getString("pageId");
-		output.out = dokuClient.aclCheck(pageId).toString();
-		return output;
+		return new Output(dokuClient.aclCheck(pageId).toString());
 	}
 }

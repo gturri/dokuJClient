@@ -18,10 +18,8 @@ public class AttachmentReader extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException{
-		Output result = new Output();
 		List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(config.getString("namespace"));
-		result.out = attachmentDetailsToString(attachmentsDetails, config.getBoolean("longFormat"));
-		return result;
+		return new Output(attachmentDetailsToString(attachmentsDetails, config.getBoolean("longFormat")));
 	}
 
 	private String attachmentDetailsToString(List<AttachmentDetails> attachmentsDetails, boolean longFormat){

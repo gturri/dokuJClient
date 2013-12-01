@@ -36,10 +36,7 @@ public class PageVersionsGetter extends Command {
 			versions = dokuClient.getPageVersions(pageId);
 		}
 
-		Output output = new Output();
-		output.out = pageVersionsToString(versions);
-
-		return output;
+		return new Output(pageVersionsToString(versions));
 	}
 
 	private String pageVersionsToString(List<PageVersion> versions) {

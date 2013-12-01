@@ -7,8 +7,11 @@ public class Output {
 
 	public Output(){ }
 
-	public Output(String out, String err, int exitCode){
+	public Output(String out){
 		this.out = out;
+	}
+
+	public Output(String err, int exitCode){
 		this.err = err;
 		this.exitCode = exitCode;
 	}

@@ -23,17 +23,14 @@ public class AttachmentGetter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
-		Output output = new Output();
 		try {
 			dokuClient.getAttachment(config.getString("fileId"), config.getString("localFile"));
 		} catch (IOException e) {
-			output.err = e.getMessage();
-			output.exitCode = -1;
+			return new Output(e.getMessage(), -1);
 		} catch (DokuDistantFileDoesntExistException e){
-			output.err = e.getMessage();
-			output.exitCode = -1;
+			return new Output(e.getMessage(), -1);
 		}
-		return output;
+		return new Output();
 	}
 
 }

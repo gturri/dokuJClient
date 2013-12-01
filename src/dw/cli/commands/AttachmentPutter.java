@@ -18,17 +18,14 @@ public class AttachmentPutter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		Output output = new Output();
 		try {
 			dokuClient.putAttachment(config.getString("attachmentId"), config.getString("localFile"), config.getBoolean("overwrite"));
 		} catch (IOException e) {
-			output.err = e.getMessage();
-			output.exitCode = -1;
+			return new Output(e.getMessage(), -1);
 		} catch (DokuAttachmentUploadException e){
-			output.err = e.getMessage();
-			output.exitCode = -1;
+			return new Output(e.getMessage(), -1);
 		}
-		return output;
+		return new Output();
 	}
 
 	@Override

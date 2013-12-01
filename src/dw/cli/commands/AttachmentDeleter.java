@@ -16,16 +16,14 @@ public class AttachmentDeleter extends Command {
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		Output output = new Output();
 		try {
 			dokuClient.deleteAttachment(config.getString("attachmentId"));
 		} catch (DokuDeleteAttachmentException e){
 			if ( ! config.getBoolean("force") ){
-				output.err = e.getMessage();
-				output.exitCode = -1;
+				return new Output(e.getMessage(), -1);
 			}
 		}
-		return output;
+		return new Output();
 	}
 
 	@Override
