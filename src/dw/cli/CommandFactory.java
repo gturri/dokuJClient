@@ -40,6 +40,8 @@ public class CommandFactory {
 		mapping.put("getPageVersion", new PageVersionGetter());
 		mapping.put("getPageInfo", new PageInfoGetter());
 		mapping.put("getPageInfoVersion", new PageInfoGetter(true));
+		mapping.put("getPageHTML", new PageHtmlGetter());
+		mapping.put("getPageHTMLVersion", new PageHtmlGetter(true));
 
 		return mapping;
 	}
