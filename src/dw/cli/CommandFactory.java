@@ -39,6 +39,7 @@ public class CommandFactory {
 		mapping.put("aclCheck", new AclChecker());
 		mapping.put("getPageVersion", new PageVersionGetter());
 		mapping.put("getPageInfo", new PageInfoGetter());
+		mapping.put("getPageInfoVersion", new PageInfoGetter(true));
 
 		return mapping;
 	}

@@ -12,15 +12,37 @@ import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.exception.DokuException;
 
 public class PageInfoGetter extends Command {
+	private final boolean _withVersion;
+
+	public PageInfoGetter(){
+		this(false);
+	}
+
+	public PageInfoGetter(boolean withVersion){
+		_withVersion = withVersion;
+	}
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
 		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+
+		if (_withVersion){
+			jsap.registerParameter(new UnflaggedOption("timestamp").setStringParser(JSAP.INTEGER_PARSER).setRequired(true));
+		}
 	}
 
 	@Override
 	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		PageInfo pageInfo = dokuClient.getPageInfo(config.getString("pageId"));
+		String pageId = config.getString("pageId");
+		PageInfo pageInfo;
+
+		if ( _withVersion ){
+			int timestamp = config.getInt("timestamp");
+			pageInfo = dokuClient.getPageInfoVersion(pageId, timestamp);
+		} else {
+			pageInfo = dokuClient.getPageInfo(pageId);
+		}
+
 		return new Output(pageInfoToString(pageInfo));
 	}
 
