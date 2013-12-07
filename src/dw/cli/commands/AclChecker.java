@@ -2,8 +2,6 @@ package dw.cli.commands;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.cli.Command;
 import dw.cli.Output;
@@ -14,12 +12,12 @@ public class AclChecker extends Command {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+		addPageIdOption(jsap);
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
-		String pageId = config.getString("pageId");
+	protected Output run(DokuJClient dokuClient)	throws DokuException {
+		String pageId = _config.getString("pageId");
 		return new Output(dokuClient.aclCheck(pageId).toString());
 	}
 }

@@ -2,7 +2,6 @@ package dw.cli.commands;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.cli.Command;
@@ -28,12 +27,12 @@ public class HelpPrinter extends Command {
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
+	protected Output run(DokuJClient dokuClient) throws DokuException {
 		if ( ! _helpExplicitlyWanted ){
 			return new Output(OptionParser.getUsage(), -1);
 		} else {
-			if ( config.contains("command") ){
-				String commandName = config.getString("command");
+			if ( _config.contains("command") ){
+				String commandName = _config.getString("command");
 				Command command = new CommandFactory().Build(commandName);
 				return new Output("Syntax for " + commandName + ": " + command.getUsage());
 			} else {

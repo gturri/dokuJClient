@@ -5,20 +5,16 @@ import java.util.List;
 import com.martiansoftware.jsap.FlaggedOption;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.UnflaggedOption;
 
-import dw.cli.Command;
-import dw.cli.Output;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.exception.DokuException;
 
-public class PageVersionsGetter extends Command {
+public class PageVersionsGetter extends ItemListToStringCommand<PageVersion> {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+		addPageIdOption(jsap);
 		jsap.registerParameter(new FlaggedOption("offset")
 			.setStringParser(JSAP.INTEGER_PARSER)
 			.setRequired(false)
@@ -26,30 +22,18 @@ public class PageVersionsGetter extends Command {
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		String pageId = config.getString("pageId");
-		List<PageVersion> versions;
+	protected List<PageVersion> query(DokuJClient dokuClient) throws DokuException {
+		String pageId = _config.getString("pageId");
 
-		if ( config.contains("offset" ) ){
-			versions = dokuClient.getPageVersions(pageId, config.getInt("offset"));
+		if ( _config.contains("offset" ) ){
+			return dokuClient.getPageVersions(pageId, _config.getInt("offset"));
 		} else {
-			versions = dokuClient.getPageVersions(pageId);
+			return dokuClient.getPageVersions(pageId);
 		}
-
-		return new Output(pageVersionsToString(versions));
 	}
 
-	private String pageVersionsToString(List<PageVersion> versions) {
-		LineConcater concater = new LineConcater();
-
-		for(PageVersion version : versions){
-			concater.addLine(pageVersionToString(version));
-		}
-
-		return concater.toString();
-	}
-
-	private String pageVersionToString(PageVersion version) {
+	@Override
+	protected String itemToString(PageVersion version) {
 		return version.pageId()
 				+ " " + version.version()
 				+ " " + version.ip()

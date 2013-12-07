@@ -21,6 +21,6 @@ public class T_Searcher extends TestHelper {
 	public void searchWithSnippetSwitch() throws Exception {
 		Output output = runWithArguments("search", "--snippet", "amet");
 		assertGenericSuccess(output);
-		assertTrue(output.out.contains("<strong class=\"search_hit\">Amet</strong> in hac"));
+		assertTrue(output.out.contains("nssearch:page3\n> ======Page 3 title======"));
 	}
 }

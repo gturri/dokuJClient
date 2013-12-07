@@ -3,22 +3,25 @@ package dw.cli;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.JSAPResult;
+import com.martiansoftware.jsap.Switch;
+import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 
 public abstract class Command {
+	protected JSAPResult _config;
+
 	public Output run(DokuJClient dokuClient, String[] commandArguments){
-		JSAPResult config;
 		try {
-			config = parseArguments(commandArguments);
+			parseArguments(commandArguments);
 		} catch (ParseOptionException e){
 			return new Output(e.getMessage(), -1);
 		}
 
 		try {
-			return run(dokuClient, config);
+			return run(dokuClient);
 		} catch (DokuUnauthorizedException e){
 			String helpMessage = getCauseMessage(e)
 					+ "\nYou can check permissions with command 'aclCheck'";
@@ -26,6 +29,14 @@ public abstract class Command {
 		} catch (DokuException e){
 			return new Output(getCauseMessage(e), -1);
 		}
+	}
+
+	protected void addLongFormatSwitch(JSAP jsap) throws JSAPException{
+		jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
+	}
+
+	protected void addPageIdOption(JSAP jsap) throws JSAPException {
+		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
 	}
 
 	private String getCauseMessage(Throwable e){
@@ -36,7 +47,7 @@ public abstract class Command {
 		}
 	}
 
-	protected JSAPResult parseArguments(String[] arguments) throws ParseOptionException{
+	protected void parseArguments(String[] arguments) throws ParseOptionException{
 		JSAP jsap = new JSAP();
 
 		try {
@@ -45,22 +56,21 @@ public abstract class Command {
 			throw new ParseOptionException(e.toString(), e);
 		}
 
-		JSAPResult config = jsap.parse(arguments);
-		if ( ! config.success() ){
+		_config = jsap.parse(arguments);
+		if ( ! _config.success() ){
 			String helpMessage = "";
-            for (@SuppressWarnings("rawtypes") java.util.Iterator errs = config.getErrorMessageIterator();
+            for (@SuppressWarnings("rawtypes") java.util.Iterator errs = _config.getErrorMessageIterator();
             		errs.hasNext();) {
             	helpMessage += errs.next() + "\n";
             }
             helpMessage += jsap.getUsage();
             throw new ParseOptionException(helpMessage);
 		}
-		return config;
 	}
 
 	protected abstract void registerParameters(JSAP jsap) throws JSAPException;
 
-	protected abstract Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException;
+	protected abstract Output run(DokuJClient dokuClient) throws DokuException;
 
 	public String getUsage() {
 		JSAP jsap = new JSAP();

@@ -4,34 +4,32 @@ import java.util.List;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
-import dw.cli.Command;
-import dw.cli.Output;
 import dw.xmlrpc.AttachmentDetails;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.exception.DokuException;
 
-public class AttachmentReader extends Command {
+public class AttachmentReader extends ItemListToStringCommand<AttachmentDetails> {
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException{
-		List<AttachmentDetails> attachmentsDetails  = dokuClient.getAttachments(config.getString("namespace"));
-		return new Output(attachmentDetailsToString(attachmentsDetails, config.getBoolean("longFormat")));
+	protected void registerParameters(JSAP jsap) throws JSAPException {
+		addLongFormatSwitch(jsap);
+		jsap.registerParameter(new UnflaggedOption("namespace").setRequired(true));
 	}
 
-	private String attachmentDetailsToString(List<AttachmentDetails> attachmentsDetails, boolean longFormat){
-		LineConcater concater = new LineConcater();
-		for(AttachmentDetails details : attachmentsDetails){
-			if ( longFormat ){
-				concater.addLine(attachmentDetailsToLongString(details));
-			} else {
-				concater.addLine(attachmentDetailsToString(details));
-			}
+	@Override
+	protected List<AttachmentDetails> query(DokuJClient dokuClient) throws DokuException{
+		return dokuClient.getAttachments(_config.getString("namespace"));
+	}
+
+	@Override
+	protected String itemToString(AttachmentDetails attachmentsDetails){
+		if ( _config.getBoolean("longFormat") ){
+			return attachmentDetailsToLongString(attachmentsDetails);
+		} else {
+			return attachmentDetailsToString(attachmentsDetails);
 		}
-		return concater.toString();
 	}
 
 	private String attachmentDetailsToLongString(AttachmentDetails details){
@@ -43,11 +41,5 @@ public class AttachmentReader extends Command {
 
 	private String attachmentDetailsToString(AttachmentDetails details){
 		return details.id();
-	}
-
-	@Override
-	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
-		jsap.registerParameter(new UnflaggedOption("namespace").setRequired(true));
 	}
 }

@@ -4,54 +4,50 @@ import java.util.List;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
-import dw.cli.Command;
-import dw.cli.Output;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.SearchResult;
 import dw.xmlrpc.exception.DokuException;
 
-public class Searcher extends Command {
+public class Searcher extends ItemListToStringCommand<SearchResult> {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
 		jsap.registerParameter(new UnflaggedOption("searchQuery").setRequired(true));
-		jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
+		addLongFormatSwitch(jsap);
 		jsap.registerParameter(new Switch("snippet").setLongFlag("snippet"));
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		List<SearchResult> searchResults = dokuClient.search(config.getString("searchQuery"));
-		return new Output(searchResultsToString(searchResults, config.getBoolean("longFormat"), config.getBoolean("snippet")));
+	protected List<SearchResult> query(DokuJClient dokuClient) throws DokuException {
+		return dokuClient.search(_config.getString("searchQuery"));
 	}
 
-	private String searchResultsToString(List<SearchResult> searchResults,	boolean longFormat, boolean withSnippet) {
-		LineConcater concater = new LineConcater();
-
-		for(SearchResult searchResult : searchResults){
-			if ( longFormat ){
-				concater.addLine(searchResultToLongString(searchResult));
-			} else {
-				concater.addLine(searchResultToString(searchResult));
-			}
-
-			if ( withSnippet ){
-				addSnippet(concater, searchResult);
-			}
+	@Override
+	protected String itemToString(SearchResult searchResult) {
+		String result;
+		if ( _config.getBoolean("longFormat") ){
+			result = searchResultToLongString(searchResult);
+		} else {
+			result = searchResultToString(searchResult);
 		}
 
-		return concater.toString();
+		if ( _config.getBoolean("snippet") ){
+			result += "\n" + addSnippet( searchResult);
+		}
+
+		return result;
 	}
 
-	private void addSnippet(LineConcater concater, SearchResult searchResult) {
+	private String addSnippet(SearchResult searchResult) {
+		LineConcater concater = new LineConcater();
 		for ( String line : searchResult.snippet().split("\n")){
 			concater.addLine("> " + line);
 		}
 		concater.addLine("");
+		return concater.toString();
 	}
 
 	private String searchResultToString(SearchResult searchResult) {

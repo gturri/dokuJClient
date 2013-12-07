@@ -8,7 +8,7 @@ public class CliVersion extends SimpleCommand {
 	public static final String CliVersion = "2.1.0-dev";
 
 	@Override
-	protected String run(DokuJClient dokuClient) throws DokuException {
+	protected String query(DokuJClient dokuClient) throws DokuException {
 		return CliVersion;
 	}
 }

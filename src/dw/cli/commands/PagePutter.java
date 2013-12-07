@@ -3,7 +3,6 @@ package dw.cli.commands;
 import com.martiansoftware.jsap.FlaggedOption;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
@@ -30,18 +29,18 @@ public class PagePutter extends Command {
 			.setDefault("")
 			.setStringParser(JSAP.STRING_PARSER));
 
-		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+		addPageIdOption(jsap);
 		jsap.registerParameter(new UnflaggedOption("rawWikiText").setRequired(true).setGreedy(true));
 
 		jsap.registerParameter(new Switch("minor").setLongFlag("minor"));
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config)throws DokuException {
-		String pageId = config.getString("pageId");
-		String rawWikiText = buildContent(config);
-		String summary = config.getString("summary");
-		boolean minor = config.getBoolean("minor");
+	protected Output run(DokuJClient dokuClient)throws DokuException {
+		String pageId = _config.getString("pageId");
+		String rawWikiText = buildContent();
+		String summary = _config.getString("summary");
+		boolean minor = _config.getBoolean("minor");
 
 		if ( _appendInsteadOfPut ){
 			dokuClient.appendPage(pageId, rawWikiText, summary, minor);
@@ -52,9 +51,9 @@ public class PagePutter extends Command {
 		return new Output();
 	}
 
-	private String buildContent(JSAPResult config) {
+	private String buildContent() {
 		LineConcater concater = new LineConcater(" ");
-		for(String text : config.getStringArray("rawWikiText")){
+		for(String text : _config.getStringArray("rawWikiText")){
 			concater.addLine(text);
 		}
 		return concater.toString();

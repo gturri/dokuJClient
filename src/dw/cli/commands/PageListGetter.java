@@ -7,21 +7,17 @@ import java.util.TreeMap;
 import com.martiansoftware.jsap.FlaggedOption;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
-import dw.cli.Command;
-import dw.cli.Output;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.PageDW;
 import dw.xmlrpc.exception.DokuException;
 
-public class PageListGetter extends Command {
+public class PageListGetter extends ItemListToStringCommand<PageDW> {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new Switch("long").setShortFlag('l'));
+		addLongFormatSwitch(jsap);
 		jsap.registerParameter(new UnflaggedOption("namespace").setRequired(true));
 		jsap.registerParameter(new FlaggedOption("depth")
 			.setStringParser(JSAP.INTEGER_PARSER)
@@ -30,34 +26,28 @@ public class PageListGetter extends Command {
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		Map<String, Object> clientOptions = buildClientOption(config);
-		List<PageDW> pages = dokuClient.getPagelist(config.getString("namespace"), clientOptions);
-		return new Output(pagesToString(pages, config.getBoolean("long")));
+	protected List<PageDW> query(DokuJClient dokuClient) throws DokuException {
+		Map<String, Object> clientOptions = buildClientOption();
+		return dokuClient.getPagelist(_config.getString("namespace"), clientOptions);
 	}
 
-	private Map<String, Object> buildClientOption(JSAPResult config) {
+	private Map<String, Object> buildClientOption() {
 		Map<String, Object> result = new TreeMap<String, Object>();
 
-		if ( config.contains("depth") ){
-			result.put("depth",  config.getInt("depth"));
+		if ( _config.contains("depth") ){
+			result.put("depth",  _config.getInt("depth"));
 		}
 
 		return result;
 	}
 
-	private String pagesToString(List<PageDW> pages, boolean longFormat) {
-		LineConcater concater = new LineConcater();
-
-		for(PageDW page : pages){
-			if ( longFormat ){
-				concater.addLine(pageToLongString(page));
-			} else {
-				concater.addLine(pageToString(page));
-			}
+	@Override
+	protected String itemToString(PageDW page) {
+		if ( _config.getBoolean("longFormat") ){
+			return pageToLongString(page);
+		} else {
+			return pageToString(page);
 		}
-
-		return concater.toString();
 	}
 
 	private String pageToLongString(PageDW page) {

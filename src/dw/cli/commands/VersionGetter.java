@@ -5,7 +5,7 @@ import dw.xmlrpc.exception.DokuException;
 
 public class VersionGetter extends SimpleCommand {
 	@Override
-	protected String run(DokuJClient dokuClient) throws DokuException {
+	protected String query(DokuJClient dokuClient) throws DokuException {
 		return dokuClient.getVersion();
 	}
 }

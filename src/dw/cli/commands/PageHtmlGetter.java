@@ -2,7 +2,6 @@ package dw.cli.commands;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.cli.Command;
@@ -23,7 +22,7 @@ public class PageHtmlGetter extends Command {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+		addPageIdOption(jsap);
 
 		if (_withVersion){
 			jsap.registerParameter(new UnflaggedOption("timestamp").setStringParser(JSAP.INTEGER_PARSER).setRequired(true));
@@ -31,11 +30,11 @@ public class PageHtmlGetter extends Command {
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		String pageId = config.getString("pageId");
+	protected Output run(DokuJClient dokuClient) throws DokuException {
+		String pageId = _config.getString("pageId");
 
 		if ( _withVersion ){
-			int timestamp = config.getInt("timestamp");
+			int timestamp = _config.getInt("timestamp");
 			return new Output(dokuClient.getPageHTMLVersion(pageId, timestamp));
 		} else {
 			return new Output(dokuClient.getPageHTML(pageId));

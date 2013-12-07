@@ -6,7 +6,7 @@ import dw.xmlrpc.exception.DokuException;
 public class RPCVersionSupportedGetter extends SimpleCommand {
 
 	@Override
-	protected String run(DokuJClient dokuClient) throws DokuException {
+	protected String query(DokuJClient dokuClient) throws DokuException {
 		return dokuClient.getRPCVersionSupported().toString();
 	}
 }

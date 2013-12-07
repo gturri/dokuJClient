@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
 import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.cli.Command;
@@ -22,9 +21,9 @@ public class AttachmentGetter extends Command {
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config)	throws DokuException {
+	protected Output run(DokuJClient dokuClient)	throws DokuException {
 		try {
-			dokuClient.getAttachment(config.getString("fileId"), config.getString("localFile"));
+			dokuClient.getAttachment(_config.getString("fileId"), _config.getString("localFile"));
 		} catch (IOException e) {
 			return new Output(e.getMessage(), -1);
 		} catch (DokuDistantFileDoesntExistException e){

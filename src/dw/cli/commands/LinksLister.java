@@ -4,40 +4,27 @@ import java.util.List;
 
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
-import com.martiansoftware.jsap.JSAPResult;
-import com.martiansoftware.jsap.Switch;
-import com.martiansoftware.jsap.UnflaggedOption;
 
-import dw.cli.Command;
-import dw.cli.Output;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LinkInfo;
 import dw.xmlrpc.exception.DokuException;
 
-public class LinksLister extends Command {
+public class LinksLister extends ItemListToStringCommand<LinkInfo> {
 
 	@Override
 	protected void registerParameters(JSAP jsap) throws JSAPException {
-		jsap.registerParameter(new Switch("longFormat").setShortFlag('l'));
-		jsap.registerParameter(new UnflaggedOption("pageId").setRequired(true));
+		addLongFormatSwitch(jsap);
+		addPageIdOption(jsap);
 	}
 
 	@Override
-	protected Output run(DokuJClient dokuClient, JSAPResult config) throws DokuException {
-		List<LinkInfo> links = dokuClient.listLinks(config.getString("pageId"));
-		return new Output(linkInfosToString(links, config.getBoolean("longFormat")));
+	protected List<LinkInfo> query(DokuJClient dokuClient) throws DokuException {
+		return dokuClient.listLinks(_config.getString("pageId"));
 	}
 
-	private String linkInfosToString(List<LinkInfo> links, boolean longFormat) {
-		LineConcater concater = new LineConcater();
-		for(LinkInfo link : links){
-			concater.addLine(linkInfoToString(link, longFormat));
-		}
-		return concater.toString();
-	}
-
-	private String linkInfoToString(LinkInfo link, boolean longFormat){
-		if ( !longFormat ){
+	@Override
+	protected String itemToString(LinkInfo link){
+		if ( !_config.getBoolean("longFormat") ){
 			return link.page();
 		} else {
 			return link.type()
