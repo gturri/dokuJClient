@@ -19,30 +19,31 @@ public class CommandFactory {
 	private static Map<String, Command> BuildMapping(){
 		Map<String, Command> mapping = new HashMap<String, Command>();
 
-		mapping.put("getTitle", new TitleGetter());
-		mapping.put("getAttachments", new AttachmentReader());
-		mapping.put("putAttachment", new AttachmentPutter());
+		mapping.put("aclCheck", new AclChecker());
+		mapping.put("appendPage", new PagePutter(true));
 		mapping.put("deleteAttachment", new AttachmentDeleter());
 		mapping.put("getAttachment", new AttachmentGetter());
-		mapping.put("getPagelist", new PageListGetter());
-		mapping.put("help", new HelpPrinter(true));
-		mapping.put("getVersion", new VersionGetter());
-		mapping.put("version",  new CliVersion());
-		mapping.put("getTime", new TimeGetter());
-		mapping.put("getXMLRPCAPIVersion", new XMLRPCAPIVersionGetter());
-		mapping.put("search", new Searcher());
+		mapping.put("getAttachments", new AttachmentReader());
 		mapping.put("getPage",  new PageGetter());
-		mapping.put("putPage", new PagePutter());
-		mapping.put("getPageVersions", new PageVersionsGetter());
-		mapping.put("appendPage", new PagePutter(true));
-		mapping.put("getRPCVersionSupported", new RPCVersionSupportedGetter());
-		mapping.put("aclCheck", new AclChecker());
-		mapping.put("getPageVersion", new PageVersionGetter());
-		mapping.put("getPageInfo", new PageInfoGetter());
-		mapping.put("getPageInfoVersion", new PageInfoGetter(true));
 		mapping.put("getPageHTML", new PageHtmlGetter());
 		mapping.put("getPageHTMLVersion", new PageHtmlGetter(true));
+		mapping.put("getPageInfo", new PageInfoGetter());
+		mapping.put("getPageInfoVersion", new PageInfoGetter(true));
+		mapping.put("getPageVersion", new PageVersionGetter());
+		mapping.put("getPageVersions", new PageVersionsGetter());
+		mapping.put("getPagelist", new PageListGetter());
+		mapping.put("getRPCVersionSupported", new RPCVersionSupportedGetter());
+		mapping.put("getTime", new TimeGetter());
+		mapping.put("getTitle", new TitleGetter());
+		mapping.put("getVersion", new VersionGetter());
+		mapping.put("getXMLRPCAPIVersion", new XMLRPCAPIVersionGetter());
+		mapping.put("help", new HelpPrinter(true));
 		mapping.put("listLinks", new LinksLister());
+		mapping.put("putAttachment", new AttachmentPutter());
+		mapping.put("putPage", new PagePutter());
+		mapping.put("search", new Searcher());
+		mapping.put("version",  new CliVersion());
+		mapping.put("getAllPages", new AllPageGetter());
 
 		return mapping;
 	}
