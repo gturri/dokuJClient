@@ -44,9 +44,11 @@ public class CommandFactory {
 		mapping.put("getXMLRPCAPIVersion", new XMLRPCAPIVersionGetter());
 		mapping.put("help", new HelpPrinter(true));
 		mapping.put("listLinks", new LinksLister());
+		mapping.put("lock", new LocksSetter(false));
 		mapping.put("putAttachment", new AttachmentPutter());
 		mapping.put("putPage", new PagePutter());
 		mapping.put("search", new Searcher());
+		mapping.put("unlock", new LocksSetter(true));
 		mapping.put("version",  new CliVersion());
 
 		return mapping;

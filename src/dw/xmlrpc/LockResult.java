@@ -42,6 +42,10 @@ public class LockResult {
 		return _unlockfail;
 	}
 
+	public boolean hasFailure(){
+		return !_unlockfail.isEmpty() || !_lockfail.isEmpty();
+	}
+
 	public LockResult(Set<String> locked,
 			Set<String> lockfail,
 			Set<String> unlocked,
