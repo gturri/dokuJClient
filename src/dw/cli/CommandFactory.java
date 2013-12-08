@@ -46,6 +46,7 @@ public class CommandFactory {
 		mapping.put("getAllPages", new AllPageGetter());
 		mapping.put("getBackLinks", new BackLinksGetter());
 		mapping.put("getRecentChanges", new RecentChangesGetter());
+		mapping.put("getRecentMediaChanges", new RecentMediaChangesGetter());
 
 		return mapping;
 	}
