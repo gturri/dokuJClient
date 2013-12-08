@@ -41,6 +41,10 @@ public class T_Lock extends TestHelper {
 		pagesToUnlock.add("ns2:p3");
 		pagesToUnlock.add("ns2:p4");
 		_client.setLocks(null, pagesToUnlock);
+
+		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
+		otherClient.unlock("ns2:p1");
+		otherClient.unlock("ns2:p2");
 	}
 
 	@org.junit.Test
@@ -118,7 +122,7 @@ public class T_Lock extends TestHelper {
 		pagesToUnlock.add("ns2:p3");
 		pagesToUnlock.add("ns2:p4");
 
-		LockResult expected = new LockResult(new HashSet<String>(pagesToLock), emptySet, emptySet, emptySet);
+		LockResult expected = new LockResult(new HashSet<String>(pagesToLock), emptySet, emptySet, new HashSet<String>(pagesToUnlock));
 		LockResult actual = _client.setLocks(pagesToLock, pagesToUnlock);
 		assertEquals(expected, actual);
 
@@ -135,10 +139,31 @@ public class T_Lock extends TestHelper {
 		locked.add("ns2:p3");
 		Set<String> unlocked = new HashSet<String>();
 		unlocked.add("ns2:p2");
+		Set<String> failedUnlock = new HashSet<String>();
+		failedUnlock.add("ns2:p4");
 
-		expected = new LockResult(locked, emptySet, unlocked, emptySet);
+		expected = new LockResult(locked, emptySet, unlocked, failedUnlock);
 		actual = _client.setLocks(pagesToLock, pagesToUnlock);
 		assertEquals(expected, actual);
+	}
 
+	@org.junit.Test
+	public void getFailedLockedAndUnlockedPages() throws Exception {
+		Set<String> emptySet = new HashSet<String>();
+
+		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
+		otherClient.lock("ns2:p1");
+		otherClient.lock("ns2:p2");
+
+		List<String> pagesToLock = new ArrayList<String>();
+		pagesToLock.add("ns2:p1");
+		List<String> pagesToUnlock = new ArrayList<String>();
+		pagesToUnlock.add("ns2:p2");
+
+
+		LockResult expected = new LockResult(emptySet, new HashSet<String>(pagesToLock), emptySet, new HashSet<String>(pagesToUnlock));
+		LockResult actual = _client.setLocks(pagesToLock, pagesToUnlock);
+
+		assertEquals(expected, actual);
 	}
 }
