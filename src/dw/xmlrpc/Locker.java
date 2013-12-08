@@ -47,7 +47,7 @@ class Locker {
 		Object lockedObj = data.get("locked");
 		Object lockfailObj = data.get("lockfail");
 		Object unlockedObj = data.get("unlocked");
-		Object unlockfailObj = data.get("unlockfailObj");
+		Object unlockfailObj = data.get("unlockfail");
 
 		return new LockResult(objToStr(lockedObj),
 				objToStr(lockfailObj),
