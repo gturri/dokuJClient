@@ -226,7 +226,7 @@ public class T_Attacher extends TestHelper {
 
 		assertEquals(id, info.id());
 		assertEquals((Integer) 67, info.size());
-		//TODO: enforced this test once we've clarify how to deal with timezone
+		//TODO: enforce this test once we've clarify how to deal with timezone
 		assertNotNull(info.lastModified());
 	}
 }

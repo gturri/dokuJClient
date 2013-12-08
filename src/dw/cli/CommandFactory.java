@@ -22,8 +22,11 @@ public class CommandFactory {
 		mapping.put("aclCheck", new AclChecker());
 		mapping.put("appendPage", new PagePutter(true));
 		mapping.put("deleteAttachment", new AttachmentDeleter());
+		mapping.put("getAllPages", new AllPageGetter());
 		mapping.put("getAttachment", new AttachmentGetter());
+		mapping.put("getAttachmentInfo", new AttachmentInfoGetter());
 		mapping.put("getAttachments", new AttachmentReader());
+		mapping.put("getBackLinks", new BackLinksGetter());
 		mapping.put("getPage",  new PageGetter());
 		mapping.put("getPageHTML", new PageHtmlGetter());
 		mapping.put("getPageHTMLVersion", new PageHtmlGetter(true));
@@ -32,6 +35,8 @@ public class CommandFactory {
 		mapping.put("getPageVersion", new PageVersionGetter());
 		mapping.put("getPageVersions", new PageVersionsGetter());
 		mapping.put("getPagelist", new PageListGetter());
+		mapping.put("getRecentChanges", new RecentChangesGetter());
+		mapping.put("getRecentMediaChanges", new RecentMediaChangesGetter());
 		mapping.put("getRPCVersionSupported", new RPCVersionSupportedGetter());
 		mapping.put("getTime", new TimeGetter());
 		mapping.put("getTitle", new TitleGetter());
@@ -43,10 +48,6 @@ public class CommandFactory {
 		mapping.put("putPage", new PagePutter());
 		mapping.put("search", new Searcher());
 		mapping.put("version",  new CliVersion());
-		mapping.put("getAllPages", new AllPageGetter());
-		mapping.put("getBackLinks", new BackLinksGetter());
-		mapping.put("getRecentChanges", new RecentChangesGetter());
-		mapping.put("getRecentMediaChanges", new RecentMediaChangesGetter());
 
 		return mapping;
 	}
