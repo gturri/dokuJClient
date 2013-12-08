@@ -44,6 +44,7 @@ public class CommandFactory {
 		mapping.put("search", new Searcher());
 		mapping.put("version",  new CliVersion());
 		mapping.put("getAllPages", new AllPageGetter());
+		mapping.put("getBackLinks", new BackLinksGetter());
 
 		return mapping;
 	}
