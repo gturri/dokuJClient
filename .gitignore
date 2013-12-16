@@ -7,3 +7,7 @@ testResults
 build
 doc
 Doxyfile
+build.dot
+ant2dot.xsl
+build.png
+temp.dot
