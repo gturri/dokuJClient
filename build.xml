@@ -55,13 +55,8 @@
     </target>
 
     <!-- targets -->
-    <target name="clean" depends="cleanLight">
+    <target name="clean">
         <delete dir="${build.dir}"/>
-    </target>
-
-    <!--To avoid deleting the main jar if we just want to run tests-->
-    <target name="cleanLight">
-      <delete dir="${classes.dir}"/>
     </target>
 
     <target name="compileClasses" depends="aXMLRPC">
@@ -87,7 +82,7 @@
       <echo message="${jar.name} has been built and may be found in ${jar.dir}"/>
     </target>
 
-    <target name="compileAll" depends="cleanLight,aXMLRPC">
+    <target name="compileAll" depends="clean,aXMLRPC">
         <mkdir dir="${classes.dir}"/>
         <javac srcdir="src" destdir="${classes.dir}" includeantruntime="false" debug="on" target="${javac.target}" source="${javac.target}" >
           <classpath>
@@ -98,7 +93,7 @@
         <jar destfile="${jar.dir}/${ant.project.name}.tests.jar" basedir="${classes.dir}" />
     </target>
 
-    <target name="fulltest" depends="jar,junitfullreport" />
+    <target name="fulltest" depends="tarball,junitfullreport" />
 
     <target name="junit" depends="compileAll">
       <mkdir dir="${testresults.dir}" />
@@ -134,5 +129,12 @@
     <target name="junitfullreport" depends="cobertura,junitreport">
       <cobertura-report srcdir="src" destdir="${build.dir}/coverage" datafile="${instrumented.file}"/>
       <echo message="Test coverage is available at ${build.dir}/coverage/index.html"/>
+    </target>
+
+    <target name="tarball" depends="jar">
+      <tar destfile="${build.dir}/dokujclient-${version}.tar.gz" compression="gzip">
+        <tarfileset prefix="dokujclient" dir="${jar.dir}" includes="*.jar" />
+        <tarfileset prefix="dokujclient" filemode="744" file="${jar.dir}/dokujclient"/>
+      </tar>
     </target>
 </project>
