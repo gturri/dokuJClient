@@ -1,4 +1,4 @@
-escription
+Description
 ===========
 
 Dokujclient is both a command line tool to interact with instances of Dokwiki,
@@ -46,15 +46,14 @@ Here's a glimpse of what this tool can do:
 
     dokujclient putAttachment some:file.jpg ~/results.jpg
 
-Just make sure that your wiki is configured so that xmlrpc interface is enabled, and so that your user is allowed to use it (ie: "remote" and "remoteuser" entries in your configuration), you 
+Just make sure that your wiki is configured so that the xmlrpc interface is enabled, and so that your user is allowed to use it (ie: "remote" and "remoteuser" entries in your configuration).
 
 Installation
 ------------
 * Download the [binaries](http://turri.fr/dokujclient).
-* Unzip it, and add the extracted directoy to your path:
-    tar -xzf dokujclient-xxx.tar.gz
-    PATH=$PATH:$(pwd)/dokujclient #or add it in your .bashrc
-* Ensure it's correctly installed:
+* Extract it, and add the extracted directoy to your path
+* Ensure it's correctly installed, typing e.g.:
+
     dokujclient --version
 
 Config file
