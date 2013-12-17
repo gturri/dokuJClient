@@ -5,6 +5,7 @@ Dokujclient is both a command line tool to interact with instances of Dokwiki,
 and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
 
 Currently tested with:
+* Binky       (dokuwiki-2013-12-08)
 * Weatherwax  (dokuwiki-2013-05-10)
 * Adora Belle (dokuwiki-2012-10-03)
 * Angua       (dokuwiki-2012-01-25b)

@@ -43,6 +43,7 @@ public class TestParams {
 		 result.add(new Object[]{new TestParams("dokuwiki-2012-01-25b", "Release 2012-01-25b \"Angua\"", 6, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2012-10-13", "Release 2012-10-13 \"Adora Belle\"", 7, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2013-05-10", "Release 2013-05-10 \"Weatherwax\"", 8, 2)});
+		 result.add(new Object[]{new TestParams("dokuwiki-2013-12-08", "Release 2013-12-08 \"Binky\"", 8, 2)});
 		 return result;
 	}
 }
