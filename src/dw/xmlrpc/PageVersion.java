@@ -32,7 +32,7 @@ public class PageVersion {
 	/**
 	 * Alias of {@link #author()}
 	 *
-	 * Provided because this is how this fields is names by the xmlrpc query
+	 * Provided because this is how this fields is named by the xmlrpc query
 	 */
 	public String user(){
 		return _author;
