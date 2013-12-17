@@ -8,19 +8,7 @@ public class DokuEmptyNewPageException extends DokuException {
 
 	private static final long serialVersionUID = 3088375008770606694L;
 
-	public DokuEmptyNewPageException() {
-	}
-
-	public DokuEmptyNewPageException(String message) {
-		super(message);
-	}
-
 	public DokuEmptyNewPageException(Throwable cause) {
 		super(cause);
 	}
-
-	public DokuEmptyNewPageException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
 }
