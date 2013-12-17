@@ -1,4 +1,7 @@
 
+* Added a command line tool
+* Fixed a few bugs
+
 2.0.0
 * ObjectConverter isn't public anymore
 * Implemented timeout
