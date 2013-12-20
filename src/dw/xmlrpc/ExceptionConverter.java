@@ -9,7 +9,7 @@ import dw.xmlrpc.exception.*;
  * Converts an XmlRpcException into a the most relevant DokuException.
  */
 class ExceptionConverter {
-	public static DokuException Convert(XMLRPCException e){
+	public static DokuException Convert(XMLRPCException e, String url){
 		String message = e.getMessage();
 		if ( message.contains("The page is currently locked") ){
 			return new DokuPageLockedException(e);
@@ -26,9 +26,7 @@ class ExceptionConverter {
 		}
 		if ( message.contains("java.io.FileNotFoundException")
 				|| message.contains("The server responded with a http 301 or 302 status code")){
-			String mess = "Server couldn't find the xmlrpc interface."
-					+ "Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
-			return new DokuBadUrlException(mess, e);
+			return buildGenericBadUrlException(e);
 		}
 		if ( e.getCause() != null && e.getCause().getClass() == java.net.UnknownHostException.class ){
 			String mess = "Host doesn't exist. Check url";
@@ -67,7 +65,18 @@ class ExceptionConverter {
 			return new DokuAttachmentUploadException(message, e);
 		}
 
+		//If we reach this point, we don't know what went wrong.
+		//We try a final educated guess before giving up
+		if ( ! url.endsWith("/lib/exe/xmlrpc.php") ){
+			return buildGenericBadUrlException(e);
+		}
+
 		return new DokuUnknownException(e);
+	}
+
+	private static DokuBadUrlException buildGenericBadUrlException(Throwable e){
+		String mess = "Couldn't find the xmlrpc interface. Make sure url looks like http[s]://server/mywiki/lib/exe/xmlrpc.php";
+		return new DokuBadUrlException(mess, e);
 	}
 //! @endcond
 }

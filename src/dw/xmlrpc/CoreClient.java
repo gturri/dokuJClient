@@ -42,7 +42,7 @@ class CoreClient {
 				_logger.log(Level.INFO, "Caught exception when executing action " + action + ": " + e.toString());
 				_logger.log(Level.FINEST, "Details of the exception: ", e);
 			}
-			throw ExceptionConverter.Convert(e);
+			throw ExceptionConverter.Convert(e, _client.getURL().toString());
 		}
 	}
 //! @endcond

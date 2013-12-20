@@ -42,11 +42,7 @@ public class Program {
 	}
 
 	private static void printException(Exception e) {
-		System.err.println("Caught exception: " + e.toString());
-
-		for ( StackTraceElement stackElt : e.getStackTrace()){
-			System.err.println("\t" + stackElt.toString());
-		}
+		System.err.println("Error: " + e.getMessage());
 	}
 
 	private static DokuJClient buildDokuClient(CliOptions options) throws DokuException{
