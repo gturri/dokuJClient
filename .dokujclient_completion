@@ -1,0 +1,16 @@
+#!bash
+
+#Completion support for dokujclient
+
+_dokujclient ()
+{
+  local cur
+
+  cur=${COMP_WORDS[COMP_CWORD]}
+
+  COMPREPLY=($(compgen -W "$(dokujclient --help | grep -v "\[" | grep -v "To get help" | tr "\n" " " )" -- $cur))
+}
+
+
+complete -o default -o nospace -F _dokujclient dokujclient
+
