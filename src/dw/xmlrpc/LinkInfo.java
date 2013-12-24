@@ -40,6 +40,12 @@ public class LinkInfo {
 		this(Type.valueOf(type), page, href);
 	}
 
+	public LinkInfo(Type type, String page, String href){
+		_type = type;
+		_page = page;
+		_href = href;
+	}
+
 	@Override
 	public boolean equals(Object other){
 		if ( this == other ){
@@ -59,12 +65,6 @@ public class LinkInfo {
 		return _type == link._type
 				&& _page.equals(link._page)
 				&& _href.equals(link._href);
-	}
-
-	public LinkInfo(Type type, String page, String href){
-		_type = type;
-		_page = page;
-		_href = href;
 	}
 
 	@Override

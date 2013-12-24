@@ -1,7 +1,5 @@
 package dw.cli;
 
-import java.net.URL;
-
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.exception.DokuException;

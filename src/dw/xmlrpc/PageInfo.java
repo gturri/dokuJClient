@@ -45,6 +45,10 @@ public class PageInfo {
 	}
 
 	public PageInfo(String id, Date modified, String author, Integer version){
+		if ( id == null ){
+			throw new IllegalArgumentException("Can't build a PageInfo with a null id");
+		}
+
 		_id = id;
 		_modified = modified;
 		_author = author;
@@ -55,7 +59,7 @@ public class PageInfo {
 	public String toString(){
 		return "id:" + _id
 				+ ", modified:" + (_modified == null ? "null" : _modified.toString())
-				+ ", author:" + _author
-				+ ", version:" + _version;
+				+ ", author:" + (_author == null ? "null" : _author)
+				+ ", version:" + (_version == null ? "null" : _version);
 	}
 }
