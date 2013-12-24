@@ -93,7 +93,7 @@
         <jar destfile="${jar.dir}/${ant.project.name}.tests.jar" basedir="${classes.dir}" />
     </target>
 
-    <target name="fulltest" depends="tarball,junitfullreport" />
+    <target name="fulltest" depends="tarball,junitfullreport,doc" />
 
     <target name="junit" depends="compileAll">
       <mkdir dir="${testresults.dir}" />
@@ -136,5 +136,11 @@
         <tarfileset prefix="dokujclient" dir="${jar.dir}" includes="*.jar" />
         <tarfileset prefix="dokujclient" filemode="744" file="${jar.dir}/dokujclient"/>
       </tar>
+    </target>
+
+    <target name="doc">
+      <exec dir="scripts" executable="bash">
+        <arg value="doxygen.sh" />
+      </exec>
     </target>
 </project>

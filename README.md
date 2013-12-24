@@ -125,8 +125,7 @@ Documentation
 
 To build documentation you must have doxygen installed. Then, run at the root of the repo:
 
-    cd scripts
-    ./doxygen.sh
+    ant doc
 
 You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
