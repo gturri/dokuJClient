@@ -1,7 +1,7 @@
 bin
 tmpForInstallation
 *.jar
-.*.*wp
+.*.sw*
 *.class
 testResults
 build
@@ -11,3 +11,4 @@ build.dot
 ant2dot.xsl
 build.png
 temp.dot
+target
