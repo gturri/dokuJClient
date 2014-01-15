@@ -1,0 +1,3 @@
+#!/bin/bash
+cpBase=$(cd $(dirname $0); pwd)
+java -cp $cpBase/aXMLRPC-1.7.1.jar:$cpBase/jsap-2.1.jar:$cpBase/dokujclient-${pom.version}.jar dw.cli.Program $@
