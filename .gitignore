@@ -3,12 +3,6 @@ tmpForInstallation
 *.jar
 .*.sw*
 *.class
-testResults
-build
-doc
-Doxyfile
-build.dot
-ant2dot.xsl
-build.png
-temp.dot
 target
+maven-build.properties
+maven-build.xml
