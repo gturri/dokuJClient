@@ -33,7 +33,7 @@ public class TestParams {
 	public static final String unauthorizedPwd = "norights";
 	public static final String wikiTitle = "test xmlrpc";
 
-    private static final String localRoot = "src/test/java/dw/xmlrpc/itest/testEnvironment";
+    private static final String localRoot = "src/test/resources/testEnvironment";
 	public static final String localFileToUpload = localRoot +  "/list-plus.gif";
 	public static final String localFile2ToUpload = localRoot + "/at.gif";
 

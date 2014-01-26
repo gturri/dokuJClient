@@ -362,7 +362,7 @@ public class Test_XmlRpcQueries extends TestHelper {
 		List<Page> pages = _client.getAllPages();
 
 		//Not an Equals assertion because other tests may create new pages
-		assertTrue(pages.size() >= 12);
+		assertTrue(pages.size() >= 11);
 
 		//We check thoroughly an arbitrary page
 		String pageId = "nssearch:page3";

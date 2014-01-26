@@ -149,28 +149,20 @@ You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
 Running integration tests
 --------------------------
-To run the tests you'll need junit 4.
-You will also need to set up a fake wiki.
-Please see src/dw/xmlrpc/itest/README.md to know how to set it up.
+To run the tests you'll need to set up a fake wiki.
+Please see src/test/resources/README.md to know how to set it up.
 
 
 After that, to run the tests, just run, at the root of the repo:
 
-    ant junit
+    mvn junit
 
 
-or
+You can also run
 
-    ant junitreport
+    mvn site
 
-if you have [Cobertura](http://cobertura.sourceforge.net/introduction.html) installed you
-may also compute test coverage with:
-
-    ant junitfullreport
-
-You may want to run the tests in Eclipse. If so, please set the current working directory to "src".
-ie: in the 'Run Configurations' window, choose its 'Arguments' tab, and set the
-'Working directory' to '${workspace_loc:dokuJClient/src}
+in order to generate a test report and a test coverage report.
 
 Compatibility
 =============
