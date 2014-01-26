@@ -6,3 +6,6 @@ tmpForInstallation
 target
 maven-build.properties
 maven-build.xml
+.classpath
+.project
+aXMLRPC/
