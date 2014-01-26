@@ -103,36 +103,49 @@ Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
 
 To build them from the sources, see below.
 
-Hacking with Eclipse
---------------------
-
-To use the Eclipse projet, you need to have aXMLRPC.jar in the 3rdparty directory.
-
-Just compiling once from the command line (see below) will set up the environmnent.
-
-
 Compiling from the command line
 -------------------------------
 
 On ubuntu, at the root of the project run:
 
+    # You need maven to compiler
+    sudo apt-get install maven
+
+    # Install the dependency aXMLRPC which isn't in maven central repo
     ./bootstrap.sh
-    sudo apt-get install ant
-    ant
+
+    #Actually build
+    maven package
+
+Hacking with Eclipse
+--------------------
+
+This project uses Maven. To be able [to use Eclipse](http://maven.apache.org/guides/mini/guide-ide-eclipse.html) you should:
+
+    # Install Maven
+    sudo apt-get install maven
+
+    # Set the M2_REPO classpath variable
+    mvn -Declipse.workspace=<path-to-eclipse-workspace> eclipse:add-maven-repo
+
+    # Generate the Eclipe project files
+    mvn eclipse:eclipse
+
+To use the Eclipse projet, you need to ensure every dependencies are available.
+
+Just compile once from the command line (see above) to ensure it will be ok.
 
 Documentation
 ------------
 
 To build documentation you must have doxygen installed. Then, run at the root of the repo:
 
-    ant doc
+    mvn javadoc:javadoc
+
+To browse the generated docs, point your browser to target/site/apidocs/index.html
 
 You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
 
-
-Dependencies
-------------
-* [aXMLRPC.jar](https://github.com/timroes/aXMLRPC)
 
 Running integration tests
 --------------------------
