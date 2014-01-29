@@ -113,6 +113,44 @@
             </execution>
         </executions>
      </plugin>
+     <plugin>
+       <groupId>com.soebes.maven.plugins</groupId>
+       <artifactId>maven-echo-plugin</artifactId>
+       <version>0.1</version>
+       <executions>
+         <execution>
+           <phase>process-test-classes</phase>
+           <goals>
+             <goal>echo</goal>
+           </goals>
+         </execution>
+       </executions>
+       <configuration>
+         <echos>
+           <echo>*** If most tests fail, make sure you've installed the fake wiki. See README for more info ***</echo>
+         </echos>
+       </configuration>
+     </plugin>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <version>2.16</version>
+       <executions>
+           <execution>
+               <id>skip-tests-pre-warning</id>
+               <configuration>
+                   <skip>true</skip>
+               </configuration>
+           </execution>
+           <execution>
+               <id>actual-tests</id>
+               <phase>test</phase>
+               <goals>
+                   <goal>test</goal>
+               </goals>
+           </execution>
+       </executions>
+     </plugin>
   </plugins>
     <resources>
       <resource>
