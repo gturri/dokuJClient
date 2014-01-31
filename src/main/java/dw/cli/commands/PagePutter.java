@@ -1,5 +1,6 @@
 package dw.cli.commands;
 
+import com.google.common.base.Joiner;
 import com.martiansoftware.jsap.FlaggedOption;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
@@ -52,10 +53,6 @@ public class PagePutter extends Command {
 	}
 
 	private String buildContent() {
-		LineConcater concater = new LineConcater(" ");
-		for(String text : _config.getStringArray("rawWikiText")){
-			concater.addLine(text);
-		}
-		return concater.toString();
+		return Joiner.on(" ").join(_config.getStringArray("rawWikiText"));
 	}
 }

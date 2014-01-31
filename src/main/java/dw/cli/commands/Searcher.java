@@ -1,7 +1,11 @@
 package dw.cli.commands;
 
+import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.martiansoftware.jsap.JSAP;
 import com.martiansoftware.jsap.JSAPException;
 import com.martiansoftware.jsap.Switch;
@@ -42,12 +46,14 @@ public class Searcher extends ItemListToStringCommand<SearchResult> {
 	}
 
 	private String addSnippet(SearchResult searchResult) {
-		LineConcater concater = new LineConcater();
-		for ( String line : searchResult.snippet().split("\n")){
-			concater.addLine("> " + line);
-		}
-		concater.addLine("");
-		return concater.toString();
+		Function<String, String> linePrefixer = new Function<String, String>(){
+			@Override
+			public String apply(String line) { return "> " + line; }
+		};
+
+		List<String> splittedText = Arrays.asList(searchResult.snippet().split("\n"));
+		List<String> prefixedText = Lists.transform(splittedText, linePrefixer);
+		return Joiner.on("\n").join(prefixedText) + "\n";
 	}
 
 	private String searchResultToString(SearchResult searchResult) {
