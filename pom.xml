@@ -75,14 +75,22 @@
     <groupId>org.pitest</groupId>
     <artifactId>pitest-maven</artifactId>
     <version>0.33</version>
-    <configuration>
-      <targetClasses>
-        <param>dw*</param>
-      </targetClasses>
-      <targetTests>
-        <param>dw*</param>
-      </targetTests>
-    </configuration>
+    <executions>
+      <execution>
+        <phase>test</phase>
+        <goals>
+          <goal>mutationCoverage</goal>
+        </goals>
+        <configuration>
+          <targetClasses>
+            <param>dw*</param>
+          </targetClasses>
+          <targetTests>
+            <param>dw*</param>
+          </targetTests>
+        </configuration>
+      </execution>
+    </executions>
   </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
