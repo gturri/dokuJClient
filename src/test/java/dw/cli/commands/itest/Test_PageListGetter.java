@@ -20,11 +20,16 @@ public class Test_PageListGetter extends TestHelper {
 
 	@org.junit.Test
 	public void getPageListWithDepth() throws Exception {
-		Output output = runWithArguments("getPagelist", "--depth", "3", "nswithanotherns");
+		Output shallowOutput = runWithArguments("getPagelist", "--depth", "2", "nswithanotherns");
+		assertGenericSuccess(shallowOutput);
+		assertTrue(shallowOutput.out.contains("nswithanotherns:start"));
+		assertTrue(shallowOutput.out.contains("nswithanotherns:dummy"));
+		assertFalse(shallowOutput.out.contains("nswithanotherns:dummy"));
 
-		assertGenericSuccess(output);
-		assertTrue(output.out.contains("nswithanotherns:start"));
-		assertTrue(output.out.contains("nswithanotherns:dummy"));
-		assertTrue(output.out.contains("nswithanotherns:otherns:page"));
+		Output deepOutput = runWithArguments("getPagelist", "--depth", "3", "nswithanotherns");
+		assertGenericSuccess(deepOutput);
+		assertTrue(deepOutput.out.contains("nswithanotherns:start"));
+		assertTrue(deepOutput.out.contains("nswithanotherns:dummy"));
+		assertTrue(deepOutput.out.contains("nswithanotherns:otherns:page"));
 	}
 }
