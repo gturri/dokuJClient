@@ -7,8 +7,8 @@ import java.util.Set;
 import dw.cli.commands.*;
 
 public class CommandFactory {
-	public Command Build(String command){
-		Map<String, Command> mapping = BuildMapping();
+	public Command build(String command){
+		Map<String, Command> mapping = buildMapping();
 		if ( mapping.containsKey(command) ){
 			return mapping.get(command);
 		}
@@ -16,7 +16,7 @@ public class CommandFactory {
 		return new HelpPrinter(false);
 	}
 
-	private static Map<String, Command> BuildMapping(){
+	private static Map<String, Command> buildMapping(){
 		Map<String, Command> mapping = new HashMap<String, Command>();
 
 		mapping.put("aclCheck", new AclChecker());
@@ -54,7 +54,7 @@ public class CommandFactory {
 		return mapping;
 	}
 
-	public static Set<String> CommandList(){
-		return BuildMapping().keySet();
+	public static Set<String> commandList(){
+		return buildMapping().keySet();
 	}
 }

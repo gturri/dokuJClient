@@ -137,7 +137,7 @@ public class OptionParser {
 		String message = buildJsap().getUsage() + " command";
 
 		message += "\n\nAvailable commands:";
-		for(String command : CommandFactory.CommandList()){
+		for(String command : CommandFactory.commandList()){
 			message += "\n\t" + command;
 		}
 

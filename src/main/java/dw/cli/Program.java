@@ -28,7 +28,7 @@ public class Program {
 
 		CliOptions options = parser.getCliOptions();
 		DokuJClient dokuClient = buildDokuClient(options);
-		Command command = new CommandFactory().Build(options.command);
+		Command command = new CommandFactory().build(options.command);
 		return command.run(dokuClient, options.commandArguments);
 	}
 

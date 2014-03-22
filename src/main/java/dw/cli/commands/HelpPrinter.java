@@ -33,7 +33,7 @@ public class HelpPrinter extends Command {
 		} else {
 			if ( _config.contains("command") ){
 				String commandName = _config.getString("command");
-				Command command = new CommandFactory().Build(commandName);
+				Command command = new CommandFactory().build(commandName);
 				return new Output("Syntax for " + commandName + ": " + command.getUsage());
 			} else {
 				return new Output(OptionParser.getUsage());
