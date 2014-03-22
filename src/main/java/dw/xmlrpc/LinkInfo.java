@@ -68,6 +68,12 @@ public class LinkInfo {
 	}
 
 	@Override
+	public int hashCode(){
+		//Any arbitrary constant will do
+		return 0;
+	}
+
+	@Override
 	public String toString(){
 		return "type:" + _type.toString()
 				+ ", page:" + _page

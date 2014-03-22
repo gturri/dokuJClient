@@ -84,4 +84,10 @@ public class LockResult {
 				&& _unlocked.equals(other._unlocked)
 				&& _unlockfail.equals(other._unlockfail);
 	}
+
+	@Override
+	public int hashCode(){
+		//Any arbitrary constant will do
+		return 0;
+	}
 }

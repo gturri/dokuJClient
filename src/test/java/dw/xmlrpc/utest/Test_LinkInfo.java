@@ -29,4 +29,11 @@ public class Test_LinkInfo {
 		LinkInfo link = new LinkInfo(LinkInfo.Type.local, null, null);
 		link.toString();
 	}
+
+	@org.junit.Test
+	public void equalsLinkInfoHaveSameHashCode(){
+		LinkInfo link1 = new LinkInfo("local", "start", "http://something");
+		LinkInfo link2 = new LinkInfo("local", "start", "http://something");
+		assertEquals(link1.hashCode(), link2.hashCode());
+	}
 }
