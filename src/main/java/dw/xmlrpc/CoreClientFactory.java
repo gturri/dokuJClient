@@ -15,15 +15,15 @@ class CoreClientFactory {
 	}
 
 	public static CoreClient Build(DokuJClientConfig dokuConfig){
-		return Build(dokuConfig.url(), dokuConfig.userAgent(), dokuConfig.timeoutInSeconds());
+		return Build(dokuConfig.url(), dokuConfig.userAgent(), dokuConfig.timeoutInSeconds(), dokuConfig.xmlRpcClientFlags());
 	}
 
 	public static CoreClient Build(URL url, String userAgent) {
-		return Build(url, userAgent, DokuJClientConfig.defaultTimeoutInSeconds);
+		return Build(url, userAgent, DokuJClientConfig.defaultTimeoutInSeconds, DokuJClientConfig.defaultXMLRPCClientFlags);
 	}
 
-	public static CoreClient Build(URL url, String userAgent, int timeoutInSeconds) {
-		XMLRPCClient xmlRpcClient = new XMLRPCClient(url, userAgent, XMLRPCClient.FLAGS_ENABLE_COOKIES | XMLRPCClient.FLAGS_IGNORE_STATUSCODE);
+	public static CoreClient Build(URL url, String userAgent, int timeoutInSeconds, int xMLRPCClientFlags) {
+		XMLRPCClient xmlRpcClient = new XMLRPCClient(url, userAgent, xMLRPCClientFlags);
 		xmlRpcClient.setTimeout(timeoutInSeconds);
 		return Build(xmlRpcClient);
 	}

@@ -3,9 +3,12 @@ package dw.xmlrpc;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import de.timroes.axmlrpc.XMLRPCClient;
+
 public class DokuJClientConfig {
 	public static final String defaultUserAgent = "DokuJClient - XmlRpc client for Dokuwiki";
 	public static final int defaultTimeoutInSeconds = 30;
+	public static final int defaultXMLRPCClientFlags = XMLRPCClient.FLAGS_ENABLE_COOKIES | XMLRPCClient.FLAGS_IGNORE_STATUSCODE;
 
 	private final URL _url;
 	URL url(){
@@ -51,5 +54,14 @@ public class DokuJClientConfig {
 
 	public int timeoutInSeconds(){
 		return _timeoutInSeconds;
+	}
+
+	private int _xmlRpcClientFlags = defaultXMLRPCClientFlags;
+	public void setXMLRPCClientFlags(int flags){
+		_xmlRpcClientFlags = flags;
+	}
+
+	public int xmlRpcClientFlags(){
+		return _xmlRpcClientFlags;
 	}
 }
