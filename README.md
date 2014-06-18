@@ -156,7 +156,7 @@ Please see src/test/resources/README.md to know how to set it up.
 
 After that, to run the tests, just run, at the root of the repo:
 
-    mvn junit
+    mvn test
 
 
 You can also run
