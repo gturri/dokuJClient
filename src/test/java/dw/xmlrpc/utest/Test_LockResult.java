@@ -42,8 +42,6 @@ public class Test_LockResult {
 		LockResult result1 = BuildLockResult(locked1);
 		LockResult result2 = BuildLockResult(locked2);
 
-		System.out.println(result1.hashCode());
-		System.out.println(result2.hashCode());
 		assertEquals(result1.hashCode(), result2.hashCode());
 	}
 

@@ -72,7 +72,7 @@ function installFakeWiki {
   touch -t201212242111.00 $destDir/data/media/ro_for_tests/img1.gif
   
   echo " Running the indexer"
-  cd ../testEnvironment/data/pages
+  cd ../$relativeTestFileDir/data/pages
   for f in $(find . -name "*txt"); do
     f=$(echo $f | cut -d '.' -f 2 | tr / :)
     wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f
