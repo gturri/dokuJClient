@@ -24,7 +24,12 @@ public class PageDW {
 		return _mtime;
 	}
 
-	public PageDW(String id, Integer size, Integer version, Integer mtime){
+	private final String _hash;
+	public String hash(){
+		return _hash;
+	}
+
+	public PageDW(String id, Integer size, Integer version, Integer mtime, String hash){
 		if ( id == null ){
 			throw new IllegalArgumentException("Can't build a PageDW with a null id");
 		}
@@ -33,6 +38,7 @@ public class PageDW {
 		_size = size;
 		_version = version;
 		_mtime = mtime;
+		_hash = hash;
 	}
 
 	@Override
@@ -40,6 +46,7 @@ public class PageDW {
 		return "id=" + _id
 				+ ", size=" + (_size == null ? "null" : _size)
 				+ ", version=" + (_version == null ? "null" : _version)
-				+ ", mtime=" + (_mtime == null ? "null" : _mtime);
+				+ ", mtime=" + (_mtime == null ? "null" : _mtime)
+				+ ", hash=" + (_hash == null ? "null" : _hash);
 	}
 }

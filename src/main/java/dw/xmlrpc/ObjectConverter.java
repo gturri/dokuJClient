@@ -23,7 +23,8 @@ class ObjectConverter {
 		Integer size = (Integer) map.get("size");
 		Integer version = (Integer) map.get("rev");
 		Integer mtime = (Integer) map.get("mtime");
-		return new PageDW(id, size, version, mtime);
+		String hash = (String) map.get("hash");
+		return new PageDW(id, size, version, mtime, hash);
 	}
 
 	static List<SearchResult> toSearchResult(Object[] objs){

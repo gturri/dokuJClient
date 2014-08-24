@@ -317,10 +317,23 @@ public class DokuJClient {
 	public List<PageDW> getPagelist(String namespace, Map<String, Object> options) throws DokuException {
 		List<Object> params = new ArrayList<Object>();
 		params.add(namespace);
-		params.add(options == null ? "" : options);
+		params.add(ensureWeComputeThePageHash(options));
 
 		Object result = genericQuery("dokuwiki.getPagelist", params.toArray());
 		return ObjectConverter.toPageDW((Object[]) result);
+	}
+
+	private Map<String, Object> ensureWeComputeThePageHash(Map<String, Object> initialOptions){
+		Map<String, Object> result;
+		if ( initialOptions == null ){
+			result = new HashMap<String, Object>();
+		} else {
+			result = new HashMap<String, Object>(initialOptions);
+		}
+		if ( !result.containsKey("hash") ){
+			result.put("hash", true);
+		}
+		return result;
 	}
 
 	/**

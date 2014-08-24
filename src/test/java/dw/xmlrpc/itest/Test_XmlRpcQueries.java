@@ -220,6 +220,7 @@ public class Test_XmlRpcQueries extends TestHelper {
 		assertEquals((Integer) 4, page.size());
 		assertEquals((Integer) 1375372800, page.version());
 		assertEquals((Integer) 1375372800, page.mtime());
+		assertEquals("71860c77c6745379b0d44304d66b6a13", page.hash());
 	}
 
 
