@@ -1,5 +1,7 @@
 package dw.cli;
 
+import java.net.URL;
+
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.exception.DokuException;
@@ -46,16 +48,21 @@ public class Program {
 	}
 
 	private static DokuJClient buildDokuClient(CliOptions options) throws DokuException{
-		if ( ! options.url.toString().endsWith("lib/exe/xmlrpc.php") ){
+		return buildDokuClient(options.url, options.user, options.password);
+	}
+	
+	public static DokuJClient buildDokuClient(URL url, String user, String password) throws DokuException{
+		if ( ! url.toString().endsWith("lib/exe/xmlrpc.php") ){
 			throw new RuntimeException("Url should look like http[s]://server/mywiki/lib/exe/xmlrpc.php");
 		}
-		DokuJClientConfig clientConfig = new DokuJClientConfig(options.url);
-		if ( options.user != null ){
-			clientConfig.setUser(options.user, options.password);
+		DokuJClientConfig clientConfig = new DokuJClientConfig(url);
+		if ( user != null ){
+			clientConfig.setUser(user, password);
 		}
 		DokuJClient dokuClient = new DokuJClient(clientConfig);
 		dokuClient.setLogger(null);
 		return dokuClient;
+		
 	}
 
 }

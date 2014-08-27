@@ -48,6 +48,7 @@ public class CommandFactory {
 		mapping.put("putAttachment", new AttachmentPutter());
 		mapping.put("putPage", new PagePutter());
 		mapping.put("search", new Searcher());
+		mapping.put("sync", new Syncer());
 		mapping.put("unlock", new LocksSetter(true));
 		mapping.put("version",  new CliVersion());
 
