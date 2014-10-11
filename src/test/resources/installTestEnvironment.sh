@@ -8,7 +8,7 @@ serverFileSystemOwner=www-data
 baseUrl=http://localhost
 dirNamePrefix=dokuwikiITestsForXmlRpcClient_
 
-dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05"
+dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a"
 installDir=tmpForInstallation
 relativeTestFileDir=testEnvironment
 
@@ -21,7 +21,7 @@ function installFakeWiki {
   dwVersion=$1
   echo "Going to install $dwVersion"
   pushd . >/dev/null
-  
+
   #Avoid downloading the tarball again if we already have it
   if [ ! -e $dwVersion.tgz ]; then
     echo " Starting to download $dwVersion.tgz"
@@ -29,11 +29,11 @@ function installFakeWiki {
   else
     echo " $dwVersion.tgz found. No need to download it again."
   fi
-  
+
   rm -rf $dwVersion
   tar -xzf $dwVersion.tgz
-  
-  
+
+
   echo " Copying files to the server"
   dirName=${dirNamePrefix}${dwVersion}
 
@@ -44,7 +44,7 @@ function installFakeWiki {
     destDir=$serverFileSystemRoot/$dirName
   fi
 
-  rm -rf $destDir 
+  rm -rf $destDir
   cp -r $dwVersion $destDir
 
   #Make the wiki sleeps
@@ -54,13 +54,13 @@ function installFakeWiki {
     tail -n +2 $destDir/lib/exe/xmlrpc.php >> temp.php
     mv temp.php $destDir/lib/exe/xmlrpc.php
   fi
-  
+
   echo " Configuring the wiki"
   cp ../$relativeTestFileDir/conf/* $destDir/conf
   rm -rf $destDir/data/pages
   cp -r ../$relativeTestFileDir/data/* $destDir/data
   chown -R $serverFileSystemOwner $destDir
-  
+
   echo " Reseting some mtimes"
   touch -t201212230020.00 $destDir/data/attic/rev/start.1356218400.txt.gz
   touch -t201212230020.11 $destDir/data/attic/rev/start.1356218411.txt.gz
@@ -70,7 +70,7 @@ function installFakeWiki {
   touch -t201311040647.25 $destDir/data/pages/nssearch/start.txt
   touch -t201308011900.00 $destDir/data/pages/nssearch/page3.txt
   touch -t201212242111.00 $destDir/data/media/ro_for_tests/img1.gif
-  
+
   echo " Running the indexer"
   cd ../$relativeTestFileDir/data/pages
   for f in $(find . -name "*txt"); do
