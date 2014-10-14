@@ -113,9 +113,6 @@ On ubuntu, at the root of the project run:
     # You need maven to compiler
     sudo apt-get install maven
 
-    # Install the dependency aXMLRPC which isn't in maven central repo
-    ./bootstrap.sh
-
     #Actually build
     maven package
 
