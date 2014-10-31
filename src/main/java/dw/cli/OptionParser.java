@@ -14,8 +14,17 @@ public class OptionParser {
 	private final boolean _success;
 	private final CliOptions _cliOptions;
 	private final String _helpMessage;
+	private final PasswordReader _pwdReader;
+
+	private static final String PASSWORD_OPTION = "password";
+	private static final String PASSWORD_INTERACTIVE_OPTION = "password-interactive";
 
 	public OptionParser(String[] args){
+		this(args, new PasswordReader());
+	}
+
+	public OptionParser(String[] args, PasswordReader pwdReader){
+		_pwdReader = pwdReader;
 		List<String> genericOptions = new ArrayList<String>();
 		List<String> commandOptions = new ArrayList<String>();
 
@@ -29,9 +38,11 @@ public class OptionParser {
 			} else {
 				if ( arg.startsWith("-") ){
 					genericOptions.add(arg);
-					i++;
-					if ( i < args.length ){
-						genericOptions.add(args[i]);
+					if ( ! arg.equals("--" + PASSWORD_INTERACTIVE_OPTION)){
+						i++;
+						if ( i < args.length ){
+							genericOptions.add(args[i]);
+						}
 					}
 				} else {
 					command = arg;
@@ -48,7 +59,7 @@ public class OptionParser {
 		registerDefaultSource(jsap);
 
 		JSAPResult config = jsap.parse(genericOptions.toArray(new String[]{}));
-		if ( ! config.success() || (command == null && !config.getBoolean("help") && !config.getBoolean("version")) ){
+		if ( ! config.success() || !checkOptionsAreConsistent(config, command) ){
 			success = false;
 			helpMessage = "";
 			for (@SuppressWarnings("rawtypes") java.util.Iterator errs = config.getErrorMessageIterator();
@@ -68,7 +79,7 @@ public class OptionParser {
 			}
 
 			cliOptions = new CliOptions();
-			cliOptions.password = config.getString("password");
+			cliOptions.password = getPassword(config);
 			cliOptions.user = config.getString("user");
 			cliOptions.url = config.getURL("url");
 			cliOptions.command = command;
@@ -96,11 +107,11 @@ public class OptionParser {
 			.setShortFlag(JSAP.NO_SHORTFLAG)
 			.setLongFlag("url"));
 
-			jsap.registerParameter(new FlaggedOption("password")
+			jsap.registerParameter(new FlaggedOption(PASSWORD_OPTION)
 			.setStringParser(JSAP.STRING_PARSER)
 			.setRequired(false)
 			.setShortFlag('p')
-			.setLongFlag("password"));
+			.setLongFlag(PASSWORD_OPTION));
 
 			jsap.registerParameter(new Switch("help")
 			.setShortFlag('h')
@@ -108,6 +119,9 @@ public class OptionParser {
 
 			jsap.registerParameter(new Switch("version")
 			.setLongFlag("version"));
+
+			jsap.registerParameter(new Switch(PASSWORD_INTERACTIVE_OPTION)
+			.setLongFlag(PASSWORD_INTERACTIVE_OPTION));
 		} catch (JSAPException e){
 			throw new RuntimeException("Something went really wrong", e);
 		}
@@ -144,5 +158,25 @@ public class OptionParser {
 		message += "\n\nTo get help for a given command: help <command>";
 
 		return message;
+	}
+
+	private boolean checkOptionsAreConsistent(JSAPResult config, String command){
+		if (command == null && !config.getBoolean("help") && !config.getBoolean("version")){
+			return false;
+		}
+		if (config.contains(PASSWORD_OPTION) && config.getBoolean(PASSWORD_INTERACTIVE_OPTION)) {
+			return false;
+		}
+		return true;
+	}
+
+	private String getPassword(JSAPResult config){
+		if (config.contains(PASSWORD_OPTION)){
+			return config.getString(PASSWORD_OPTION);
+		}
+		if (config.getBoolean(PASSWORD_INTERACTIVE_OPTION)){
+			return _pwdReader.readPassword();
+		}
+		return "";
 	}
 }

@@ -23,7 +23,7 @@ Here's a glimpse of what this tool can do:
     > myWiki title
 
     dokujclient help
-    > [(-u|--user) <user>] --url <url> [(-p|--password) <password>] [-h|--help] [--version] command
+    > [(-u|--user) <user>] --url <url> [(-p|--password) <password>] [-h|--help] [--version] [--password-interactive] command
     >
     > Available commands:
     > [...skipped...]

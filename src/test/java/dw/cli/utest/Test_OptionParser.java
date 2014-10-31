@@ -1,6 +1,9 @@
 package dw.cli.utest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
@@ -45,6 +48,26 @@ public class Test_OptionParser {
 	@org.junit.Test
 	public void failsIfAnArgumentIsMissingItsValue() throws Exception{
 		String[] args = new String[]{"-u", "toto", "-p", "123456", "--url"};
+		OptionParser parser = new OptionParser(args);
+		assertFalse(parser.success());
+	}
+
+	@org.junit.Test
+	public void canReadPasswordInteractively() throws Exception {
+		String[] args = new String[]{"-u", "toto", "--password-interactive", "--url", "http://myUrl", "getTitle", "arg0"};
+		OptionParser parser = new OptionParser(args, new MockPasswordReader("abcdef"));
+
+		assertEquals(true, parser.success());
+		CliOptions options = parser.getCliOptions();
+		assertEquals("abcdef", options.password);
+		assertEquals("toto", options.user);
+		assertEquals(new URL("http://myUrl"), options.url);
+		assertEquals("getTitle", options.command);
+	}
+
+	@org.junit.Test
+	public void failsIfBothFlagsPasswordAndInteractivePassword() throws Exception {
+		String[] args = new String[]{"-u", "toto", "-p", "123456", "--password-interactive", "--url", "http://myUrl", "getTitle", "arg0"};
 		OptionParser parser = new OptionParser(args);
 		assertFalse(parser.success());
 	}

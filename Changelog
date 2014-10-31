@@ -1,3 +1,6 @@
+
+* Added option --password-interactive
+
 3.1.0
 * getPagelist also compute the page hashes
 
