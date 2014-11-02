@@ -114,7 +114,11 @@ On ubuntu, at the root of the project run:
     sudo apt-get install maven
 
     #Actually build
-    maven package
+    mvn package
+
+It will generate in the directory `target` a dokujclient-x.y.z-bin.zip which contains
+both the .jar and the executable command line tool
+
 
 Hacking with Eclipse
 --------------------
