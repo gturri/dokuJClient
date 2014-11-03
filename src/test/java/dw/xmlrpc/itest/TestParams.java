@@ -7,6 +7,7 @@ import java.util.List;
 public class TestParams {
 	public final String localPath;
 	public final String url;
+	public final String urlToWikiNotConfiguredToAcceptRpcQueries;
 	public final String wikiVersion;
 	public final Integer apiVersion;
 	public final Integer rpcVersionSupported;
@@ -17,6 +18,7 @@ public class TestParams {
 	public TestParams(String name, String wikiVersion, Integer apiVersion, Integer rpcVersionSupported){
 		this.localPath = "dokuwikiITestsForXmlRpcClient_" + name;
 		this.url = urlPrefix  + localPath + urlSuffix;
+		this.urlToWikiNotConfiguredToAcceptRpcQueries = urlPrefix + localPath + "_noRpc" + urlSuffix;
 		this.wikiVersion = wikiVersion;
 		this.apiVersion = apiVersion;
 		this.rpcVersionSupported = rpcVersionSupported;

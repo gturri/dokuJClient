@@ -1,6 +1,7 @@
 package dw.xmlrpc.itest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -45,6 +46,12 @@ public class Test_Exception {
 	public void unauthorizedToUseXmlRpc() throws Exception {
 		DokuJClient unauthorizedClient = new DokuJClient(_params.url, "wrongUser","wrongPwd");
 		unauthorizedClient.getTime();
+	}
+
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	public void wikiNotConfiguredToAcceptIncomingRpcQueries() throws Exception {
+		DokuJClient clientForUnconfiguredWiki = new DokuJClient(_params.urlToWikiNotConfiguredToAcceptRpcQueries, TestParams.user, TestParams.password);
+		clientForUnconfiguredWiki.getTitle();
 	}
 
 	@org.junit.Test(expected=DokuUnauthorizedException.class)

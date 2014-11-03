@@ -17,8 +17,16 @@ cd $installDir
 
 function installFakeWiki {
 #Argument 1 is the name of the version of Dokuwiki to install
-#Argument 2 is optional. If provided, it overrides the destination name, and a "sleeping wiki" is installed there
+#Argument 2 is optional. It can be "sleep" or "norpc". It asks for the setup of a particular wiki
+#Argument 3 is required if arg2 is provided. It overrides the destination name
   dwVersion=$1
+  if [ $# -eq 3 ]; then
+    typeOfWiki=$2
+    customDestDir=$3
+  else
+    unset typeOfWiki
+    unset customDestDir
+  fi
   echo "Going to install $dwVersion"
   pushd . >/dev/null
 
@@ -37,8 +45,8 @@ function installFakeWiki {
   echo " Copying files to the server"
   dirName=${dirNamePrefix}${dwVersion}
 
-  if [ $# -eq 2 ]; then
-    destDir=$serverFileSystemRoot/$2
+  if [ $# -eq 3 ]; then
+    destDir=$serverFileSystemRoot/$customDestDir
     echo " Installing in $destDir"
   else
     destDir=$serverFileSystemRoot/$dirName
@@ -48,7 +56,7 @@ function installFakeWiki {
   cp -r $dwVersion $destDir
 
   #Make the wiki sleeps
-  if [ $# -eq 2 ]; then
+  if [ x$typeOfWiki = xsleep ]; then
     echo "<?php" > temp.php
     echo "sleep(5);" >> temp.php
     tail -n +2 $destDir/lib/exe/xmlrpc.php >> temp.php
@@ -60,6 +68,11 @@ function installFakeWiki {
   rm -rf $destDir/data/pages
   cp -r ../$relativeTestFileDir/data/* $destDir/data
   chown -R $serverFileSystemOwner $destDir
+
+  if [ x$typeOfWiki = xnorpc ]; then
+    echo " Using conf to not accept rpc queries"
+    cp ../$relativeTestFileDir/conf/local.disabled_rpc.php $destDir/conf/local.php
+  fi
 
   echo " Reseting some mtimes"
   touch -t201212230020.00 $destDir/data/attic/rev/start.1356218400.txt.gz
@@ -83,9 +96,10 @@ function installFakeWiki {
 
 for dwVersion in $dwVersions; do
   installFakeWiki $dwVersion
+  installFakeWiki $dwVersion norpc ${dirNamePrefix}${dwVersion}_noRpc
 done
 
 echo Installing wiki for timeout tests
-installFakeWiki dokuwiki-2012-10-13 ${dirNamePrefix}sleepingWiki
+installFakeWiki dokuwiki-2012-10-13 sleep ${dirNamePrefix}sleepingWiki
 
 echo Done.

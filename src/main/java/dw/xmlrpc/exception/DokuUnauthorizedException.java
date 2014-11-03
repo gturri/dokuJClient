@@ -14,4 +14,8 @@ public class DokuUnauthorizedException extends DokuException {
 	public DokuUnauthorizedException(Throwable cause) {
 		super(cause);
 	}
+
+	public DokuUnauthorizedException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

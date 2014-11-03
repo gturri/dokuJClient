@@ -1,7 +1,22 @@
 package dw.xmlrpc;
 
+import org.xml.sax.SAXParseException;
+
 import de.timroes.axmlrpc.XMLRPCException;
-import dw.xmlrpc.exception.*;
+import dw.xmlrpc.exception.DokuAttachmentStillReferenced;
+import dw.xmlrpc.exception.DokuAttachmentUploadException;
+import dw.xmlrpc.exception.DokuBadUrlException;
+import dw.xmlrpc.exception.DokuDeleteAttachmentException;
+import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
+import dw.xmlrpc.exception.DokuEmptyNewPageException;
+import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuInvalidTimeStampException;
+import dw.xmlrpc.exception.DokuNoChangesException;
+import dw.xmlrpc.exception.DokuPageLockedException;
+import dw.xmlrpc.exception.DokuTimeoutException;
+import dw.xmlrpc.exception.DokuUnauthorizedException;
+import dw.xmlrpc.exception.DokuUnknownException;
+import dw.xmlrpc.exception.DokuWordblockException;
 
 //! @cond
 
@@ -63,6 +78,11 @@ class ExceptionConverter {
 				|| ( message.contains("The uploaded content did not match the ") && message.contains("file extension."))
 				|| message.contains("File already exists. Nothing done.")){
 			return new DokuAttachmentUploadException(message, e);
+		}
+
+		if ( e.getCause().getClass() == SAXParseException.class){
+			return new DokuUnauthorizedException("The wiki doesn't seem to be configured to accept incoming xmlrpc requests." +
+					" Check the 'remote' option in Dokuwiki's configuration manager.", e);
 		}
 
 		//If we reach this point, we don't know what went wrong.
