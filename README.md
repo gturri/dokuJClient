@@ -79,7 +79,7 @@ Here is a quick example which displays the title of the wiki and the list of its
 
     import dw.xmlrpc.DokuJClient;
     import dw.xmlrpc.Page;
-    
+
     public class Main {
       public static void main(String[] args) throws Exception{
         String url = "http://mywiki/lib/exe/xmlrpc.php";
@@ -101,7 +101,17 @@ allowed to use it (ie: "remote" and "remoteuser" entries in your configuration)
 
 Getting the binaries
 --------------------
-Binaries may be [downloaded](http://turri.fr/dokujclient) directly.
+JAR files are available via [Maven Central](http://repo1.maven.org/maven2/fr/turri/):
+
+```xml
+<dependency>
+    <groupId>fr.turri</groupId>
+    <artifactId>dokujclient</artifactId>
+    <version>3.2.0</version>
+</dependency>
+```
+
+Binaries may alse be [downloaded](http://turri.fr/dokujclient) directly.
 
 To build them from the sources, see below.
 
