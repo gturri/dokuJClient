@@ -20,6 +20,7 @@ import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
 import dw.xmlrpc.exception.DokuEmptyNewPageException;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
+import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
@@ -184,5 +185,16 @@ public class Test_Exception {
 	public void status3xxYieldsBadUrlException() throws Exception {
 		String tweakedUrl = _params.url.replaceAll(TestParams.urlSuffix, "");
 		new DokuJClient(tweakedUrl, TestParams.user, TestParams.password);
+	}
+
+	@org.junit.Test
+	public void recognizeIfAMethodDoesNotExistAndContainsTheNameOfTheCalledMethod() throws Exception{
+		try {
+			_client.genericQuery("some.dummy.action");
+		} catch(DokuMethodDoesNotExistsException e){
+			assertTrue(e.getMessage().contains("some.dummy.action"));
+			return;
+		}
+		fail("We should have caught a DokuMethodDoesNotExistsException");
 	}
 }

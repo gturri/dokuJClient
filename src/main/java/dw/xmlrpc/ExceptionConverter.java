@@ -11,6 +11,7 @@ import dw.xmlrpc.exception.DokuDistantFileDoesntExistException;
 import dw.xmlrpc.exception.DokuEmptyNewPageException;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
+import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
 import dw.xmlrpc.exception.DokuNoChangesException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuTimeoutException;
@@ -24,7 +25,7 @@ import dw.xmlrpc.exception.DokuWordblockException;
  * Converts an XmlRpcException into a the most relevant DokuException.
  */
 class ExceptionConverter {
-	public static DokuException Convert(XMLRPCException e, String url){
+	public static DokuException Convert(XMLRPCException e, String url, String action){
 		String message = e.getMessage();
 		if ( message.contains("The page is currently locked") ){
 			return new DokuPageLockedException(e);
@@ -72,6 +73,10 @@ class ExceptionConverter {
 		if ( message.contains("Refusing to write an empty new wiki page")){
 			return new DokuEmptyNewPageException(e);
 		}
+		if ((message.contains("requested method") && message.contains("not specified"))
+				|| message.contains("Method does not exist")){
+			return new DokuMethodDoesNotExistsException("Method does not exists: " + action, e);
+		}
 
 		//Won't match if the wiki's locale isn't 'en'
 		if ( message.contains("Upload denied. This file extension is forbidden!")
@@ -80,7 +85,7 @@ class ExceptionConverter {
 			return new DokuAttachmentUploadException(message, e);
 		}
 
-		if ( e.getCause().getClass() == SAXParseException.class){
+		if ( e.getCause() != null && e.getCause().getClass() == SAXParseException.class){
 			return new DokuUnauthorizedException("The wiki doesn't seem to be configured to accept incoming xmlrpc requests." +
 					" Check the 'remote' option in Dokuwiki's configuration manager.", e);
 		}
