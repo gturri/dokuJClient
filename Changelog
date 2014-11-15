@@ -1,4 +1,7 @@
 
+* Added method logoff
+
+3.2.0
 * Added option --password-interactive
 
 3.1.0

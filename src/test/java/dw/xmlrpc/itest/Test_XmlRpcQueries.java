@@ -1,6 +1,10 @@
 package dw.xmlrpc.itest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ import dw.xmlrpc.PageInfo;
 import dw.xmlrpc.PageVersion;
 import dw.xmlrpc.SearchResult;
 import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuUnauthorizedException;
 
 @RunWith(value = Parameterized.class)
 public class Test_XmlRpcQueries extends TestHelper {
@@ -416,5 +421,18 @@ public class Test_XmlRpcQueries extends TestHelper {
 
 		assertEquals("nssearch:start", results.get(1).id());
 		assertEquals((Integer) 1, results.get(1).score());
+	}
+
+	@org.junit.Test
+	public void logoff() throws Exception {
+		_client.search("amet");
+		boolean actuallyLogoff = false;
+		_client.logoff();
+		try {
+			_client.search("amet");
+		} catch(DokuUnauthorizedException e){
+			actuallyLogoff = true;
+		}
+		assertTrue(actuallyLogoff);
 	}
 }

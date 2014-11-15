@@ -3,14 +3,16 @@ package dw.xmlrpc;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
 import dw.xmlrpc.exception.DokuNoChangesException;
 
 /**
@@ -27,6 +29,7 @@ public class DokuJClient {
 	private final CoreClient _client;
 	private final Locker _locker;
 	private final Attacher _attacher;
+	private Logger _logger;
 
 	private final String COOKIE_PREFIX = "DW";
 
@@ -34,6 +37,7 @@ public class DokuJClient {
 	 * Let override the default Logger
 	 */
 	public void setLogger(Logger logger){
+		_logger = logger;
 		_client.setLogger(logger);
 	}
 
@@ -604,6 +608,22 @@ public class DokuJClient {
 	 */
 	public List<PageChange> getRecentChanges(Date date) throws DokuException {
 		return getRecentChanges((int)(date.getTime() / 1000));
+	}
+
+	/**
+	 * Tries to logoff by expiring auth cookies and the associated PHP session
+	 */
+	public void logoff() throws DokuException {
+		try {
+			_client.genericQuery("dokuwiki.logoff");
+		} catch(DokuMethodDoesNotExistsException e){
+			if (_logger != null){
+				_logger.log(Level.WARNING,
+						"This Dokuwiki instance doesn't support 'logoff' (api version < 9). " +
+						"We're clearing the cookies of this client, but we can't destroy the server side php session");
+			}
+		}
+		_client.clearCookies();
 	}
 
 	/**

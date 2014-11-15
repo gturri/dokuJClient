@@ -17,13 +17,17 @@ class CoreClient {
 		_logger = logger;
 	}
 
-    public CoreClient(XMLRPCClient client){
-    	_client = client;
-    }
+	public CoreClient(XMLRPCClient client){
+		_client = client;
+	}
 
-    public Map<String, String> cookies(){
-    	return _client.getCookies();
-    }
+	public Map<String, String> cookies(){
+		return _client.getCookies();
+	}
+
+	public void clearCookies(){
+		_client.clearCookies();
+	}
 
 	public Object genericQuery(String action) throws DokuException {
 		Object[] params = new Object[]{};
