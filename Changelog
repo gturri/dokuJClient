@@ -1,4 +1,5 @@
 
+* putPage and appendPage can read from stdin
 * Added method logoff
 
 3.2.0

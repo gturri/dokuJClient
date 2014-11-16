@@ -1,5 +1,8 @@
 package dw.cli.commands.itest;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import dw.cli.itest.TestHelper;
 
 public class Test_PageGetterAndPutter extends TestHelper {
@@ -40,5 +43,19 @@ public class Test_PageGetterAndPutter extends TestHelper {
 		Thread.sleep(1000, 0);
 		assertSuccess("", runWithArguments("putPage", pageId, "--summary", "my other summary", "some other content"));
 		assertLastModificationSummary("my other summary", runWithArguments("getPageVersions", pageId));
+	}
+
+	@org.junit.Test
+	public void shouldReadFromStdinIfThereIsNoTextOnTheCommandLine() throws Exception {
+		String data = "Some text on stdin";
+		InputStream stdin = System.in;
+		try {
+			System.setIn(new ByteArrayInputStream(data.getBytes()));
+
+			runWithArguments("putPage",  pageId);
+			assertSuccess("Some text on stdin", runWithArguments("getPage", pageId));
+		} finally {
+			System.setIn(stdin);
+		}
 	}
 }
