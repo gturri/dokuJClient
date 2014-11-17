@@ -11,13 +11,23 @@ import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.defaultsources.PropertyDefaultSource;
 
 public class OptionParser {
-	private final boolean _success;
-	private final CliOptions _cliOptions;
-	private final String _helpMessage;
+	private boolean _success;
+	private CliOptions _cliOptions;
+	private String _helpMessage;
 	private final PasswordReader _pwdReader;
+
+	private List<String> _genericArguments = new ArrayList<String>();
+	private List<String> _commandArguments = new ArrayList<String>();
+	private String _command;
+
+	public String[] getCommandArguments(){
+		return _commandArguments.toArray(new String[]{});
+	}
 
 	private static final String PASSWORD_OPTION = "password";
 	private static final String PASSWORD_INTERACTIVE_OPTION = "password-interactive";
+
+	private JSAP _genericOptionsJSAP = buildJsap();
 
 	public OptionParser(String[] args){
 		this(args, new PasswordReader());
@@ -25,41 +35,16 @@ public class OptionParser {
 
 	public OptionParser(String[] args, PasswordReader pwdReader){
 		_pwdReader = pwdReader;
-		List<String> genericOptions = new ArrayList<String>();
-		List<String> commandOptions = new ArrayList<String>();
+		feedGenericAndCommandOptions(args);
+	}
 
-		String command = null;
-		boolean alreadyReadCommand = false;
-		for ( int i=0 ; i < args.length ; i++ ){
-			String arg = args[i];
-
-			if ( alreadyReadCommand){
-				commandOptions.add(arg);
-			} else {
-				if ( arg.startsWith("-") ){
-					genericOptions.add(arg);
-					if ( ! arg.equals("--" + PASSWORD_INTERACTIVE_OPTION)){
-						i++;
-						if ( i < args.length ){
-							genericOptions.add(args[i]);
-						}
-					}
-				} else {
-					command = arg;
-					alreadyReadCommand = true;
-				}
-			}
-		}
-
-		JSAP jsap = buildJsap();
+	public void parse(){
 		boolean success;
 		String helpMessage;
 		CliOptions cliOptions;
 
-		registerDefaultSource(jsap);
-
-		JSAPResult config = jsap.parse(genericOptions.toArray(new String[]{}));
-		if ( ! config.success() || !checkOptionsAreConsistent(config, command) ){
+		JSAPResult config = _genericOptionsJSAP.parse(_genericArguments.toArray(new String[]{}));
+		if ( ! config.success() || !checkOptionsAreConsistent(config, _command) ){
 			success = false;
 			helpMessage = "";
 			for (@SuppressWarnings("rawtypes") java.util.Iterator errs = config.getErrorMessageIterator();
@@ -71,24 +56,61 @@ public class OptionParser {
 		} else {
 			success = true;
 			helpMessage = getUsage();
-			if ( command == null && config.getBoolean("help")){
-				command = "help";
+			if ( _command == null && config.getBoolean("help")){
+				_command = "help";
 			}
-			if ( command == null && config.getBoolean("version")){
-				command = "version";
+			if ( _command == null && config.getBoolean("version")){
+				_command = "version";
 			}
 
 			cliOptions = new CliOptions();
 			cliOptions.password = getPassword(config);
 			cliOptions.user = config.getString("user");
 			cliOptions.url = config.getURL("url");
-			cliOptions.command = command;
-			cliOptions.commandArguments = commandOptions.toArray(new String[]{});
+			cliOptions.command = _command;
+			cliOptions.commandArguments = _commandArguments.toArray(new String[]{});
 		}
 
 		_success = success;
 		_helpMessage = helpMessage;
 		_cliOptions = cliOptions;
+	}
+
+	private void feedGenericAndCommandOptions(String[] args){
+		boolean alreadyReadCommand = false;
+		for ( int i=0 ; i < args.length ; i++ ){
+			String arg = args[i];
+
+			if ( alreadyReadCommand){
+				_commandArguments.add(arg);
+			} else {
+				if ( arg.startsWith("-") ){
+					_genericArguments.add(arg);
+					if ( ! arg.equals("--" + PASSWORD_INTERACTIVE_OPTION)){
+						i++;
+						if ( i < args.length ){
+							_genericArguments.add(args[i]);
+						}
+					}
+				} else {
+					_command = arg;
+					alreadyReadCommand = true;
+				}
+			}
+		}
+
+
+	}
+
+	public boolean userAskForHelp(){
+		JSAP jsap = new JSAP();
+		try {
+			registerHelpParameter(jsap);
+		} catch (JSAPException e) {
+			throw new RuntimeException("Something went really wrong", e);
+		}
+		JSAPResult parsed = jsap.parse(_genericArguments.toArray(new String[]{}));
+		return (_command != null && _command.equals("help")) || parsed.getBoolean("help");
 	}
 
 	private static JSAP buildJsap(){
@@ -113,23 +135,29 @@ public class OptionParser {
 			.setShortFlag('p')
 			.setLongFlag(PASSWORD_OPTION));
 
-			jsap.registerParameter(new Switch("help")
-			.setShortFlag('h')
-			.setLongFlag("help"));
-
 			jsap.registerParameter(new Switch("version")
 			.setLongFlag("version"));
 
 			jsap.registerParameter(new Switch(PASSWORD_INTERACTIVE_OPTION)
 			.setLongFlag(PASSWORD_INTERACTIVE_OPTION));
+
+			registerHelpParameter(jsap);
 		} catch (JSAPException e){
 			throw new RuntimeException("Something went really wrong", e);
 		}
 
+		registerDefaultSource(jsap);
+
 		return jsap;
 	}
 
-	private void registerDefaultSource(JSAP jsap) {
+	private static void registerHelpParameter(JSAP jsap) throws JSAPException{
+			jsap.registerParameter(new Switch("help")
+			.setShortFlag('h')
+			.setLongFlag("help"));
+	}
+
+	private static void registerDefaultSource(JSAP jsap) {
 		String home = System.getProperty("user.home");
 		PropertyDefaultSource source = new PropertyDefaultSource(home + "/.dokujclientrc", false);
 		jsap.registerDefaultSource(source);

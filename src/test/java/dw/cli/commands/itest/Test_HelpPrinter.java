@@ -1,6 +1,6 @@
 package dw.cli.commands.itest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +13,21 @@ public class Test_HelpPrinter extends TestHelper {
 
 	@org.junit.Test
 	public void commandHelpPrintsGenericHelp() throws Exception {
-		Output output = runWithArguments("help");
+		Output output = runWithoutGenericArguments("help");
 		assertGenericSuccess(output);
 		assertIsGenericHelpMessage(output.out);
 	}
 
 	@org.junit.Test
 	public void commandHelpCanPrintHelpForAGivenCommand() throws Exception {
-		Output output = runWithArguments("help", "getPagelist");
+		Output output = runWithoutGenericArguments("help", "getPagelist");
 		assertGenericSuccess(output);
 		assertTrue(output.out.contains("[-l] <namespace> [--depth <depth>]"));
 	}
 
 	@org.junit.Test
 	public void optionHelpPrintsHelp() throws Exception {
-		Output output = runWithArguments("--help");
+		Output output = runWithoutGenericArguments("--help");
 		assertGenericSuccess(output);
 		assertIsGenericHelpMessage(output.out);
 	}

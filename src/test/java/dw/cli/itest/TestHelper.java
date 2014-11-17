@@ -1,6 +1,9 @@
 package dw.cli.itest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,15 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 	protected Output runWithArguments(String command, String... extraArguments) throws Exception{
 		String[] arguments = buildArguments(TestParams.user, TestParams.password, command, extraArguments);
 		return Program.run(arguments);
+	}
+
+	protected Output runWithoutGenericArguments(String command, String... extraArguments) throws Exception {
+		List<String> args = new ArrayList<String>();
+		args.add(command);
+		for(String extraArg : extraArguments){
+			args.add(extraArg);
+		}
+		return Program.run(args.toArray(new String[]{}));
 	}
 
 	protected Output runWithArgumentAsWriterUser(String command, String... extraArguments) throws Exception {

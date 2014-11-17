@@ -1,5 +1,8 @@
 package dw.cli;
 
+import java.net.MalformedURLException;
+
+import dw.cli.commands.HelpPrinter;
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.exception.DokuException;
@@ -18,9 +21,13 @@ public class Program {
 
 	public static Output run(String[] args) throws DokuException {
 		OptionParser parser = new OptionParser(args);
-		Output result = new Output();
+		if ( parser.userAskForHelp() ){
+			return new HelpPrinter(true).run(buildNullDokuJClient(), parser.getCommandArguments());
+		}
 
+		parser.parse();
 		if ( ! parser.success() ){
+			Output result = new Output();
 			result.err = parser.getHelpMessage();
 			result.exitCode = parser.success() ? 0 : -1;
 			return result;
@@ -56,6 +63,14 @@ public class Program {
 		DokuJClient dokuClient = new DokuJClient(clientConfig);
 		dokuClient.setLogger(null);
 		return dokuClient;
+	}
+
+	private static DokuJClient buildNullDokuJClient() throws DokuException{
+		try {
+			return new DokuJClient("http://whatever");
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

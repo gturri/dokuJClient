@@ -16,6 +16,7 @@ public class Test_OptionParser {
 	public void canParseGenericOptions() throws Exception{
 		String[] args = new String[]{"-u", "toto", "-p", "123456", "--url", "http://myUrl", "getTitle", "arg0"};
 		OptionParser parser = new OptionParser(args);
+		parser.parse();
 
 		System.out.println(parser.getHelpMessage());
 		assertTrue(parser.success());
@@ -35,6 +36,7 @@ public class Test_OptionParser {
 		String[] args = new String[]{"--url", "http://myUrl", "someCommand", "arg0", "-l", "3"};
 
 		OptionParser parser = new OptionParser(args);
+		parser.parse();
 
 		assertTrue(parser.success());
 		CliOptions options = parser.getCliOptions();
@@ -49,6 +51,7 @@ public class Test_OptionParser {
 	public void failsIfAnArgumentIsMissingItsValue() throws Exception{
 		String[] args = new String[]{"-u", "toto", "-p", "123456", "--url"};
 		OptionParser parser = new OptionParser(args);
+		parser.parse();
 		assertFalse(parser.success());
 	}
 
@@ -56,6 +59,7 @@ public class Test_OptionParser {
 	public void canReadPasswordInteractively() throws Exception {
 		String[] args = new String[]{"-u", "toto", "--password-interactive", "--url", "http://myUrl", "getTitle", "arg0"};
 		OptionParser parser = new OptionParser(args, new MockPasswordReader("abcdef"));
+		parser.parse();
 
 		assertEquals(true, parser.success());
 		CliOptions options = parser.getCliOptions();
@@ -69,6 +73,7 @@ public class Test_OptionParser {
 	public void failsIfBothFlagsPasswordAndInteractivePassword() throws Exception {
 		String[] args = new String[]{"-u", "toto", "-p", "123456", "--password-interactive", "--url", "http://myUrl", "getTitle", "arg0"};
 		OptionParser parser = new OptionParser(args);
+		parser.parse();
 		assertFalse(parser.success());
 	}
 }
