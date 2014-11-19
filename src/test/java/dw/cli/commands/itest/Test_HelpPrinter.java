@@ -26,6 +26,13 @@ public class Test_HelpPrinter extends TestHelper {
 	}
 
 	@org.junit.Test
+	public void commandHelpPrintsGenericHelpIfQueriedWithInvalidCommand() throws Exception {
+		Output output = runWithoutGenericArguments("help", "doesntExist");
+		assertGenericSuccess(output);
+		assertIsGenericHelpMessage(output.out);
+	}
+
+	@org.junit.Test
 	public void optionHelpPrintsHelp() throws Exception {
 		Output output = runWithoutGenericArguments("--help");
 		assertGenericSuccess(output);
