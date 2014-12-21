@@ -604,7 +604,7 @@ public class DokuJClient {
 
 	/**
 	 * Wrapper around {@link #getRecentChanges(Integer)}
-	 * @param date Do not return chances older than this date
+	 * @param date Do not return changes older than this date
 	 */
 	public List<PageChange> getRecentChanges(Date date) throws DokuException {
 		return getRecentChanges((int)(date.getTime() / 1000));
