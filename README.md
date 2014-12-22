@@ -184,3 +184,5 @@ There are however, some discrepancies:
 
 * Angua (dokuwiki-2012-01-25b)
 ** getAttachmentInfo can't retrieve the page title. It instead sets it to the page id.
+
+*  addAcl and delAcl are supported for dokuwiki-2013-12-08 (Binky) or newer

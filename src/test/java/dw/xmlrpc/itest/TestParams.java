@@ -11,11 +11,13 @@ public class TestParams {
 	public final String wikiVersion;
 	public final Integer apiVersion;
 	public final Integer rpcVersionSupported;
+	public final String name;
 
 	public static final String urlPrefix = "http://localhost/";
 	public static final String urlSuffix = "/lib/exe/xmlrpc.php";
 
 	public TestParams(String name, String wikiVersion, Integer apiVersion, Integer rpcVersionSupported){
+		this.name = name;
 		this.localPath = "dokuwikiITestsForXmlRpcClient_" + name;
 		this.url = urlPrefix  + localPath + urlSuffix;
 		this.urlToWikiNotConfiguredToAcceptRpcQueries = urlPrefix + localPath + "_noRpc" + urlSuffix;

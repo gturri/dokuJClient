@@ -14,4 +14,8 @@ public class DokuException extends Exception {
 	public DokuException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
+	public DokuException(String message){
+		super(message);
+	}
 }

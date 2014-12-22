@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuIncompatibleVersionException;
 import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
 import dw.xmlrpc.exception.DokuNoChangesException;
 
@@ -624,6 +625,28 @@ public class DokuJClient {
 			}
 		}
 		_client.clearCookies();
+	}
+
+	/**
+	 * Only available for dokuwiki-2013-12-08 (Binky) or newer
+	 */
+	public void addAcl(String scope, String username, int permission) throws DokuException{
+		try {
+			genericQuery("plugin.acl.addAcl", new Object[]{scope, username, permission});
+		} catch (DokuMethodDoesNotExistsException e){
+			throw new DokuIncompatibleVersionException("dokuwiki-2013-12-08 (Binky)");
+		}
+	}
+
+	/**
+	 * Only available for dokuwiki-2013-12-08 (Binky) or newer
+	 */
+	public void delAcl(String scope, String username) throws DokuException{
+		try {
+			genericQuery("plugin.acl.delAcl", new Object[]{scope, username});
+		} catch (DokuMethodDoesNotExistsException e){
+			throw new DokuIncompatibleVersionException("dokuwiki-2013-12-08 (Binky)");
+		}
 	}
 
 	/**
