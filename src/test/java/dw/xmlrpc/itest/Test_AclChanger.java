@@ -1,6 +1,7 @@
 package dw.xmlrpc.itest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.net.MalformedURLException;
@@ -53,9 +54,9 @@ public class Test_AclChanger extends TestHelper {
 
 	private void assertCanAddAndRemoveAcl() throws MalformedURLException, DokuException{
 		assertCanRead(false);
-		_client.addAcl(_pageId, TestParams.unauthorizedLogin, 1);
+		assertTrue(_client.addAcl(_pageId, TestParams.unauthorizedLogin, 1));
 		assertCanRead(true);
-		_client.delAcl(_pageId,  TestParams.unauthorizedLogin);
+		assertTrue(_client.delAcl(_pageId,  TestParams.unauthorizedLogin));
 		assertCanRead(false);
 
 	}
