@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import dw.cli.commands.AclChanger;
 import dw.cli.commands.AclChecker;
 import dw.cli.commands.AllPageGetter;
 import dw.cli.commands.AttachmentDeleter;
@@ -81,6 +82,8 @@ public class CommandFactory {
 		mapping.put("search", new Searcher());
 		mapping.put("unlock", new LocksSetter(true));
 		mapping.put("version",  new CliVersion());
+		mapping.put("addAcl", new AclChanger(AclChanger.aclAction.add));
+		mapping.put("delAcl", new AclChanger(AclChanger.aclAction.delete));
 
 		return mapping;
 	}

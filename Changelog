@@ -1,5 +1,5 @@
 
-* Added methods addAcl and delAcl
+* Added methods and commands addAcl and delAcl
 * putPage and appendPage can read from stdin
 * Added method logoff
 
