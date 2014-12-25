@@ -182,7 +182,6 @@ Compatibility
 dokuJClient aims at providing the same behavior for every supported version of Dokuwiki.
 There are however, some discrepancies:
 
-* Angua (dokuwiki-2012-01-25b)
-** getAttachmentInfo can't retrieve the page title. It instead sets it to the page id.
-
-*  addAcl and delAcl are supported for dokuwiki-2013-12-08 (Binky) or newer
+* getAttachmentInfo can't retrieve the page title with Angua (dokuwiki-2012-01-25b). It will set it to the page id instead
+* addAcl and delAcl are supported for dokuwiki-2013-12-08 (Binky) or newer
+* logoff will always clear the local cookies, but it will clear the server side ones only if you have dokuwiki-2014-05-05 (Ponder Stibbons) or a more recent one
