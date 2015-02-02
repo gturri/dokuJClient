@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ev
 
 #directory where Dokuwiki should be installed in order to be reachable at http://localhost
 serverFileSystemRoot=/var/www
@@ -9,7 +9,7 @@ serverFileSystemOwner=www-data
 baseUrl=http://localhost
 dirNamePrefix=dokuwikiITestsForXmlRpcClient_
 
-dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a"
+dwVersions="dokuwiki-2014-09-29a"
 installDir=tmpForInstallation
 relativeTestFileDir=testEnvironment
 

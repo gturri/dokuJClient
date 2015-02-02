@@ -77,6 +77,13 @@ public class Test_XmlRpcQueries extends TestHelper {
 	public void getPageInfoVersion() throws Exception {
 		String pageId = "rev:start";
 		Integer version = 1356218411;
+
+		List<PageVersion> versions = _client.getPageVersions(pageId);
+		System.out.println("tempGT: got " + versions.size() + " versions");
+		for(PageVersion v : versions){
+			System.out.println("\t" + v.toString());
+		}
+
 		PageInfo pageInfo = _client.getPageInfoVersion(pageId, version);
 
 		assertEquals(pageId, pageInfo.id());

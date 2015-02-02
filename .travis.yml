@@ -10,4 +10,5 @@ script:
   - cd src/test/resources
   - sudo ./installTestEnvironment.sh
   - cd ../../..
+  - ls -lR /var/www/dokuwikiITestsForXmlRpcClient_dokuwiki-2014-09-29a/data
   - mvn -q test
