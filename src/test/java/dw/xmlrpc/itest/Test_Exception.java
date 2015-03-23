@@ -87,6 +87,11 @@ public class Test_Exception {
 		assertTrue(getRelevantException);
 	}
 
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	public void unauthorizedToUploadMedia() throws Exception {
+		_unauthorizedClient.putAttachment("shouldntHavePermissionToBeHere.gif", TestParams.localFileToUpload, true);
+	}
+
 	@org.junit.Test(expected=DokuDeleteAttachmentException.class)
 	public void mediaToDeleteDoesntExist() throws Exception {
 		String attachmentId = "unexistingFile.gif";
