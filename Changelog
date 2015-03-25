@@ -1,4 +1,5 @@
 
+* [FIX] Throw NotAuthorizedException when trying to upload a file without permissions
 * Added methods and commands addAcl and delAcl
 * putPage and appendPage can read from stdin
 * Added method logoff
