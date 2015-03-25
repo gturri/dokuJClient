@@ -21,6 +21,8 @@ import dw.xmlrpc.exception.DokuEmptyNewPageException;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
+import dw.xmlrpc.exception.DokuMisConfiguredWikiException;
+import dw.xmlrpc.exception.DokuPageDoesNotExistException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 import dw.xmlrpc.exception.DokuWordblockException;
@@ -49,7 +51,7 @@ public class Test_Exception {
 		unauthorizedClient.getTime();
 	}
 
-	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	@org.junit.Test(expected=DokuMisConfiguredWikiException.class)
 	public void wikiNotConfiguredToAcceptIncomingRpcQueries() throws Exception {
 		DokuJClient clientForUnconfiguredWiki = new DokuJClient(_params.urlToWikiNotConfiguredToAcceptRpcQueries, TestParams.user, TestParams.password);
 		clientForUnconfiguredWiki.getTitle();
@@ -68,6 +70,22 @@ public class Test_Exception {
 	@org.junit.Test(expected=DokuUnauthorizedException.class)
 	public void unauthorizedToListMedia() throws Exception {
 		_unauthorizedClient.getAttachments("");
+	}
+
+	@org.junit.Test(expected=DokuPageDoesNotExistException.class)
+	public void getUnexistingPage() throws Exception {
+		_client.getPageInfo("doesNotExist");
+	}
+
+	@org.junit.Test(expected=DokuMisConfiguredWikiException.class)
+	public void getPageInfoOnNotConfiguredWiki() throws Exception {
+		DokuJClient clientForUnconfiguredWiki = new DokuJClient(_params.urlToWikiNotConfiguredToAcceptRpcQueries);
+		clientForUnconfiguredWiki.getPageInfo("ns1:start");
+	}
+
+	@org.junit.Test(expected=DokuUnauthorizedException.class)
+	public void getPageInfoWithUnauthorizedUser() throws Exception {
+		_unauthorizedClient.getPageInfo("ns1:start");
 	}
 
 	@org.junit.Test

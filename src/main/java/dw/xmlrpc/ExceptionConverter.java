@@ -12,7 +12,9 @@ import dw.xmlrpc.exception.DokuEmptyNewPageException;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuInvalidTimeStampException;
 import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
+import dw.xmlrpc.exception.DokuMisConfiguredWikiException;
 import dw.xmlrpc.exception.DokuNoChangesException;
+import dw.xmlrpc.exception.DokuPageDoesNotExistException;
 import dw.xmlrpc.exception.DokuPageLockedException;
 import dw.xmlrpc.exception.DokuTimeoutException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
@@ -62,6 +64,9 @@ class ExceptionConverter {
 		if ( message.contains("The requested file does not exist")){
 			return new DokuDistantFileDoesntExistException(e);
 		}
+		if ( message.contains("The requested page does not exist")){
+			return new DokuPageDoesNotExistException(e);
+		}
 		if ( message.contains("File is still referenced")){
 			return new DokuAttachmentStillReferenced(e);
 		}
@@ -87,7 +92,7 @@ class ExceptionConverter {
 		}
 
 		if ( e.getCause() != null && e.getCause().getClass() == SAXParseException.class){
-			return new DokuUnauthorizedException("The wiki doesn't seem to be configured to accept incoming xmlrpc requests." +
+			return new DokuMisConfiguredWikiException("The wiki doesn't seem to be configured to accept incoming xmlrpc requests." +
 					" Check the 'remote' option in Dokuwiki's configuration manager.", e);
 		}
 

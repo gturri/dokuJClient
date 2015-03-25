@@ -1,4 +1,6 @@
 
+* [FIX] Throws DoukMisConfiguredException instead of Unauthorized, when we fail because of the wiki's configuration
+* [FIX] Throw DokuPageDoesNotExistException when trying to getPageInfo on unexisting page
 * [FIX] Throw NotAuthorizedException when trying to upload a file without permissions
 * Added methods and commands addAcl and delAcl
 * putPage and appendPage can read from stdin

@@ -14,7 +14,9 @@ import java.util.logging.Logger;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuIncompatibleVersionException;
 import dw.xmlrpc.exception.DokuMethodDoesNotExistsException;
+import dw.xmlrpc.exception.DokuMisConfiguredWikiException;
 import dw.xmlrpc.exception.DokuNoChangesException;
+import dw.xmlrpc.exception.DokuPageDoesNotExistException;
 
 /**
  * Main public class to actually make an xmlrpc query
@@ -504,8 +506,16 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public PageInfo getPageInfo(String pageId) throws DokuException{
-		Object result = genericQuery("wiki.getPageInfo",pageId);
-		return ObjectConverter.toPageInfo(result);
+		try {
+			Object result = genericQuery("wiki.getPageInfo",pageId);
+			return ObjectConverter.toPageInfo(result);
+		} catch(DokuMisConfiguredWikiException e){
+			//Because "Adora Belle" (DW-2013-05-10) seems to have a bug with this command when the page doesn't exist
+			if ( ! isConfiguredToAcceptXmlRpcQueries() ){
+				throw e;
+			}
+			throw new DokuPageDoesNotExistException(null);
+		}
 	}
 
 	/**
@@ -679,5 +689,14 @@ public class DokuJClient {
 	 */
 	public Object genericQuery(String action, Object[] params) throws DokuException{
 		return _client.genericQuery(action, params);
+	}
+
+	private boolean isConfiguredToAcceptXmlRpcQueries() throws DokuException{
+		try {
+			getTitle();
+		} catch(DokuMisConfiguredWikiException e){
+			return false;
+		}
+		return true;
 	}
 }
