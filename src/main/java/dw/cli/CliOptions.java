@@ -11,9 +11,9 @@ public class CliOptions {
 
 	@Override
 	public String toString(){
-		return "user: " + (user == null ? "null" : user)
-				+ ", password: " + (password == null ? "null" : password)
+		return "user: " + user
+				+ ", password: " + password
 				+ ", url: " + (url == null ? "null" : url.toString()
-				+ ", command: " + (command == null ? "null" : command));
+				+ ", command: " + command);
 	}
 }
