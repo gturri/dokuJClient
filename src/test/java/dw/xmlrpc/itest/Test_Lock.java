@@ -19,10 +19,8 @@ import dw.xmlrpc.LockResult;
 public class Test_Lock extends TestHelper {
 	private DokuJClient _client;
 	private DokuJClient _otherClient;
-	private TestParams _params;
 
 	public Test_Lock(TestParams params) throws Exception{
-		_params = params;
 		_client = new DokuJClient(params.url, TestParams.user, TestParams.password);
 		_otherClient = new DokuJClient(params.url, TestParams.writerLogin, TestParams.writerPwd);
 		clean();
@@ -35,16 +33,13 @@ public class Test_Lock extends TestHelper {
 
 	@org.junit.After
 	public void clean() throws Exception {
-		List<String> pagesToUnlock = new ArrayList<String>();
-		pagesToUnlock.add("ns2:p1");
-		pagesToUnlock.add("ns2:p2");
-		pagesToUnlock.add("ns2:p3");
-		pagesToUnlock.add("ns2:p4");
-		_client.setLocks(null, pagesToUnlock);
+		_client.unlock("ns2:p1");
+		_client.unlock("ns2:p2");
+		_client.unlock("ns2:p3");
+		_client.unlock("ns2:p4");
 
-		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
-		otherClient.unlock("ns2:p1");
-		otherClient.unlock("ns2:p2");
+		_otherClient.unlock("ns2:p1");
+		_otherClient.unlock("ns2:p2");
 	}
 
 	@org.junit.Test
@@ -104,8 +99,7 @@ public class Test_Lock extends TestHelper {
 		_client.appendPage(pageId, addedContent1);
 
 		//And I make sure everyone may now write
-		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
-		otherClient.appendPage(pageId, addedContent2);
+		_otherClient.appendPage(pageId, addedContent2);
 		String currentContent = _client.getPage(pageId);
 		assertEquals(initialContent + addedContent1 + addedContent2, currentContent);
 	}
@@ -151,9 +145,8 @@ public class Test_Lock extends TestHelper {
 	public void getFailedLockedAndUnlockedPages() throws Exception {
 		Set<String> emptySet = new HashSet<String>();
 
-		DokuJClient otherClient = new DokuJClient(_params.url, "writeruser", "writer");
-		otherClient.lock("ns2:p1");
-		otherClient.lock("ns2:p2");
+		_otherClient.lock("ns2:p1");
+		_otherClient.lock("ns2:p2");
 
 		List<String> pagesToLock = new ArrayList<String>();
 		pagesToLock.add("ns2:p1");
