@@ -1,5 +1,6 @@
 package dw.xmlrpc.utest;
 
+import static org.junit.Assert.*;
 import dw.xmlrpc.SearchResult;
 
 public class Test_SearchResult {
@@ -11,6 +12,6 @@ public class Test_SearchResult {
 	@org.junit.Test
 	public void toStringShouldntThrowNullRef(){
 		SearchResult page = new SearchResult("id", null, null, null, null, null, null);
-		page.toString();
+		assertNotNull(page.toString());
 	}
 }

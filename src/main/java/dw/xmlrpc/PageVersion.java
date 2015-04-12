@@ -110,12 +110,12 @@ public class PageVersion {
 
 	@Override
 	public String toString(){
-		return "pageId=" + (_pageId == null ? "null" : _pageId)
-				+ ", author=" + (_author == null ? "null" : _author)
-				+ ", ip=" + (_ip == null ? "null" : _ip)
-				+ ", type=" + (_type == null ? "null" : _type)
-				+ ", summary=" + (_summary == null ? "null" : _summary)
+		return "pageId=" + _pageId
+				+ ", author=" + _author
+				+ ", ip=" + _ip
+				+ ", type=" + _type
+				+ ", summary=" + _summary
 				+ ", modified=" + (_modified == null ? "null" : _modified.toString())
-				+ ", version=" + (_version == null ? "null" : _version);
+				+ ", version=" + _version;
 	}
 }

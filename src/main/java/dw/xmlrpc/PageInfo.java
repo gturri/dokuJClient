@@ -59,7 +59,7 @@ public class PageInfo {
 	public String toString(){
 		return "id:" + _id
 				+ ", modified:" + (_modified == null ? "null" : _modified.toString())
-				+ ", author:" + (_author == null ? "null" : _author)
-				+ ", version:" + (_version == null ? "null" : _version);
+				+ ", author:" + _author
+				+ ", version:" + _version;
 	}
 }

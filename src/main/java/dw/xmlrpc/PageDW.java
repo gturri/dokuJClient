@@ -44,9 +44,9 @@ public class PageDW {
 	@Override
 	public String toString(){
 		return "id=" + _id
-				+ ", size=" + (_size == null ? "null" : _size)
-				+ ", version=" + (_version == null ? "null" : _version)
-				+ ", mtime=" + (_mtime == null ? "null" : _mtime)
-				+ ", hash=" + (_hash == null ? "null" : _hash);
+				+ ", size=" + _size
+				+ ", version=" + _version
+				+ ", mtime=" + _mtime
+				+ ", hash=" + _hash;
 	}
 }

@@ -41,8 +41,8 @@ public class AttachmentInfo {
 
 	@Override
 	public String toString(){
-		return "id: " + (_id == null ? "null" : _id)
-				+ ", size:" + (_size == null ? "unknown" : _size)
+		return "id: " + _id
+				+ ", size:" + _size
 				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString());
 	}
 }

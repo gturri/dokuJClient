@@ -1,5 +1,7 @@
 package dw.xmlrpc.utest;
 
+import static org.junit.Assert.*;
+
 import java.util.Date;
 
 import dw.xmlrpc.PageVersion;
@@ -13,6 +15,6 @@ public class Test_PageVersion {
 	@org.junit.Test
 	public void toStringShouldntThrowNullRef(){
 		PageVersion page = new PageVersion("id", null, null, null, null, null, null);
-		page.toString();
+		assertNotNull(page.toString());
 	}
 }

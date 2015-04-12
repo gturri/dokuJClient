@@ -82,10 +82,10 @@ public class PageChange {
 	@Override
 	public String toString(){
 		return "pageId:" + _pageId
-				+ ", perms:" + (_perms == null ? "null" : _perms)
+				+ ", perms:" + _perms
 				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
-				+ ", size: " + (_size == null ? "null" : _size)
-				+ ", author: " + (_author == null ? "null" : _author)
-				+ ", version: " + (_version == null ? "null" : _version);
+				+ ", size: " + _size
+				+ ", author: " + _author
+				+ ", version: " + _version;
 	}
 }

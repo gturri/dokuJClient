@@ -56,8 +56,8 @@ public class Page {
 	@Override
 	public String toString(){
 		return "id:" + _id
-				+ ", perms:" + (_perms == null ? "null" : _perms)
+				+ ", perms:" + _perms
 				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
-				+ ", size:" + (_size == null ? "null" : _size);
+				+ ", size:" + _size;
 	}
 }

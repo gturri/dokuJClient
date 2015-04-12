@@ -1,5 +1,6 @@
 package dw.xmlrpc.utest;
 
+import static org.junit.Assert.*;
 import dw.xmlrpc.PageDW;
 
 public class Test_PageDW {
@@ -11,6 +12,6 @@ public class Test_PageDW {
 	@org.junit.Test
 	public void toStringShouldntThrowNullRef(){
 		PageDW page = new PageDW("id", null, null, null, null);
-		page.toString();
+		assertNotNull(page.toString());
 	}
 }

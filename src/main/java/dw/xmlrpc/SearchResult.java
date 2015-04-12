@@ -66,11 +66,11 @@ public class SearchResult {
 	@Override
 	public String toString(){
 		return "id: " + _id
-				+ ", title:" + (_title == null ? "null" : _title)
-				+ ", rev:" + (_rev == null ? "null" : _rev)
-				+ ", mtime:" + (_mtime == null ? "null" : _mtime)
-				+ ", score: " + (_score == null ? "null" : _score)
-				+ ", snippet: " + (_snippet == null ? "null" : _snippet)
-				+ ", size: " + (_size == null ? "null" : _size);
+				+ ", title:" + _title
+				+ ", rev:" + _rev
+				+ ", mtime:" + _mtime
+				+ ", score: " + _score
+				+ ", snippet: " + _snippet
+				+ ", size: " + _size;
 	}
 }
