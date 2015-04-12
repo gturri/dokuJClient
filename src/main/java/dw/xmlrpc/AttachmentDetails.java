@@ -71,11 +71,11 @@ public class AttachmentDetails {
 
 	@Override
 	public String toString(){
-		return "id: " + (_id == null ? "null" : _id)
-				+ ", size:" + (_size == null ? "unknown" : _size)
+		return "id: " + _id
+				+ ", size:" + _size
 				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
-				+ ", isImg: " + (_isImg == null ? "null" : _isImg)
-				+ ", writable: " + (_writable == null ? "null" : _writable)
-				+ ", perms:" + (_perms == null ? "null" : _perms);
+				+ ", isImg: " + _isImg
+				+ ", writable: " + _writable
+				+ ", perms:" + _perms;
 	}
 }
