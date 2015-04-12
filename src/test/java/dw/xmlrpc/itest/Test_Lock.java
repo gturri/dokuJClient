@@ -14,6 +14,8 @@ import org.junit.runners.Parameterized.Parameters;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.LockResult;
+import dw.xmlrpc.exception.DokuException;
+import dw.xmlrpc.exception.DokuPageLockedException;
 
 @RunWith(value = Parameterized.class)
 public class Test_Lock extends TestHelper {
@@ -33,13 +35,19 @@ public class Test_Lock extends TestHelper {
 
 	@org.junit.After
 	public void clean() throws Exception {
-		_client.unlock("ns2:p1");
-		_client.unlock("ns2:p2");
-		_client.unlock("ns2:p3");
-		_client.unlock("ns2:p4");
+		tryUnlock(_client, "ns2:p1");
+		tryUnlock(_client, "ns2:p2");
+		tryUnlock(_client, "ns2:p3");
+		tryUnlock(_client, "ns2:p4");
 
-		_otherClient.unlock("ns2:p1");
-		_otherClient.unlock("ns2:p2");
+		tryUnlock(_otherClient, "ns2:p1");
+		tryUnlock(_otherClient, "ns2:p2");
+	}
+
+	private void tryUnlock(DokuJClient client, String pageId) throws DokuException{
+		try {
+			client.unlock(pageId);
+		} catch (DokuPageLockedException e){ }
 	}
 
 	@org.junit.Test
