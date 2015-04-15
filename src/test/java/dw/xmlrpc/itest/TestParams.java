@@ -41,8 +41,6 @@ public class TestParams {
 	public static final String localFileToUpload = localRoot +  "/list-plus.gif";
 	public static final String localFile2ToUpload = localRoot + "/at.gif";
 
-	public static final String sleepingWiki = urlPrefix  + "dokuwikiITestsForXmlRpcClient_sleepingWiki" + urlSuffix;
-
 	 public static Collection<Object[]> data() {
 		 List<Object[]> result = new ArrayList<Object[]>();
 		 result.add(new Object[]{new TestParams("dokuwiki-2012-01-25b", "Release 2012-01-25b \"Angua\"", 6, 2)});

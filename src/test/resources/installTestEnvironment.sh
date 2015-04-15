@@ -17,7 +17,7 @@ cd $installDir
 
 function installFakeWiki {
 #Argument 1 is the name of the version of Dokuwiki to install
-#Argument 2 is optional. It can be "sleep" or "norpc". It asks for the setup of a particular wiki
+#Argument 2 is optional. It can be "norpc". It asks for the setup of a particular wiki
 #Argument 3 is required if arg2 is provided. It overrides the destination name
   dwVersion=$1
   if [ $# -eq 3 ]; then
@@ -55,14 +55,6 @@ function installFakeWiki {
   rm -rf $destDir
   cp -r $dwVersion $destDir
 
-  #Make the wiki sleeps
-  if [ x$typeOfWiki = xsleep ]; then
-    echo "<?php" > temp.php
-    echo "sleep(5);" >> temp.php
-    tail -n +2 $destDir/lib/exe/xmlrpc.php >> temp.php
-    mv temp.php $destDir/lib/exe/xmlrpc.php
-  fi
-
   echo " Configuring the wiki"
   cp ../$relativeTestFileDir/conf/* $destDir/conf
   rm -rf $destDir/data/pages
@@ -98,8 +90,5 @@ for dwVersion in $dwVersions; do
   installFakeWiki $dwVersion
   installFakeWiki $dwVersion norpc ${dirNamePrefix}${dwVersion}_noRpc
 done
-
-echo Installing wiki for timeout tests
-installFakeWiki dokuwiki-2012-10-13 sleep ${dirNamePrefix}sleepingWiki
 
 echo Done.
