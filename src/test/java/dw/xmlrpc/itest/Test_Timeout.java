@@ -16,14 +16,14 @@ public class Test_Timeout {
 	}
 
 	@org.junit.Test
-	public void iCanWaitEvenItResponseTakesLong() throws MalformedURLException, DokuException{
+	public void iCanWaitEvenIfResponseTakesLong() throws MalformedURLException, DokuException{
 		DokuJClient client = buildClientWithTimeOut(60);
 		makeADummyCall(client);
 	}
 
 	@org.junit.Test
 	public void timeoutOfZeroMeansWaitAsLongAsYouNeed() throws MalformedURLException, DokuException{
-		DokuJClient client = buildClientWithTimeOut(60);
+		DokuJClient client = buildClientWithTimeOut(0);
 		makeADummyCall(client);
 	}
 
