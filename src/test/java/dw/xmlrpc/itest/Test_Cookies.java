@@ -35,4 +35,16 @@ public class Test_Cookies {
 		assertTrue(client.cookies().size() > 0);
 		assertTrue(client.hasDokuwikiCookies());
 	}
+
+	@org.junit.Test
+	public void loginSuccess() throws Exception {
+		DokuJClient client = new DokuJClient(_params.url);
+		assertTrue(client.login(TestParams.writerLogin, TestParams.writerPwd));
+	}
+
+	@org.junit.Test
+	public void loginFail() throws Exception {
+		DokuJClient client = new DokuJClient(_params.url);
+		assertFalse(client.login(TestParams.writerLogin, "badPassword"));
+	}
 }

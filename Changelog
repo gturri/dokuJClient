@@ -1,4 +1,6 @@
 
+* login command returns a boolean to indicate whether it succeeded
+
 3.3.0
 * [FIX] Throws DoukMisConfiguredException instead of Unauthorized, when we fail because of the wiki's configuration
 * [FIX] Throw DokuPageDoesNotExistException when trying to getPageInfo on unexisting page

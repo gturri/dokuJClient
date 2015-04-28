@@ -104,15 +104,15 @@ public class DokuJClient {
 
     //Because it's been observed that some hosting services sometime mess up a bit with cookies...
     private void loginWithRetry(String user, String password, int nbMaxRetry) throws DokuException {
-    	login(user, password);
-    	for(int retry=1 ; retry < nbMaxRetry && !hasDokuwikiCookies() ; retry++ ){
-    		login(user, password);
+    	boolean success = false;
+    	for(int retry=0 ; retry < nbMaxRetry && !success ; retry++ ){
+    		success = login(user, password);
     	}
     }
 
-    public void login(String user, String password) throws DokuException{
+    public Boolean login(String user, String password) throws DokuException{
     	Object[] params = new Object[]{user, password};
-       	genericQuery("dokuwiki.login", params);
+    	return (Boolean) genericQuery("dokuwiki.login", params) && hasDokuwikiCookies();
     }
 
     /**
