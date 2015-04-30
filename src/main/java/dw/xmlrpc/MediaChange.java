@@ -73,11 +73,11 @@ public class MediaChange {
 
 	@Override
 	public String toString(){
-		return "id=" + (_id == null ? "null" : _id)
+		return "id=" + _id
 				+ ", lastModified=" + (_lastModified == null ? "null" : _lastModified.toString())
-				+ ", author=" + (_author == null ? "null" : _author)
-				+ ", version=" + (_version == null ? "null" : _version)
-				+ ", perms=" + (_perms == null ? "null" : _perms)
-				+ ", size=" + (_size == null ? "null" : _size);
+				+ ", author=" + _author
+				+ ", version=" + _version
+				+ ", perms=" + _perms
+				+ ", size=" + _size;
 	}
 }
