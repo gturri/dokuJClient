@@ -27,9 +27,6 @@ public abstract class Command {
 			String helpMessage = getCauseMessage(e)
 					+ "\nYou can check permissions with command 'aclCheck'";
 			return new Output(helpMessage, -1);
-		} catch(DokuBadUrlException e){
-			//No need to retrieve the inner message: the user just need to know he got the bad url
-			return new Output(e.getMessage(), -1);
 		} catch (DokuException e){
 			return new Output(getCauseMessage(e), -1);
 		}

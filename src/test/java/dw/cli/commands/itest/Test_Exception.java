@@ -15,4 +15,15 @@ public class Test_Exception extends TestHelper {
 		}
 		fail("Should have thrown");
 	}
+
+	@org.junit.Test
+	public void badUrlYieldErrorWithUsefulHint() throws Exception {
+		try {
+			runWithUrl("http://localhost/badUrl/lib/exe/xmlrpc.php", "getVersion");
+		} catch(Exception e){
+			assertTrue(e.getMessage().contains("lib/exe/xmlrpc.php"));
+			return;
+		}
+		fail("Should have thrown");
+	}
 }
