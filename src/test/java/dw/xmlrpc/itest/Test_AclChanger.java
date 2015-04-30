@@ -1,6 +1,7 @@
 package dw.xmlrpc.itest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -47,6 +48,7 @@ public class Test_AclChanger extends TestHelper {
 			_client.addAcl(_pageId, TestParams.unauthorizedLogin, 1);
 		}
 		catch(DokuIncompatibleVersionException e){
+			assertNotNull(e.getMessage());
 			return;
 		}
 		fail("Didn't receive the expected exception");

@@ -17,4 +17,17 @@ public class Test_PageVersion {
 		PageVersion page = new PageVersion("id", null, null, null, null, null, null);
 		assertNotNull(page.toString());
 	}
+
+	@org.junit.Test
+	public void userAndAuthorReturnTheSameValue(){
+		PageVersion page = new PageVersion("id", "toto", null, null, null, null, null);
+		assertEquals(page.user(), page.author());
+	}
+
+	@org.junit.Test
+	public void returnTheExpectedDate(){
+		Date date = new Date();
+		PageVersion page = new PageVersion("id", "author", "127.0.0.1", "E", "summary", new Date(), 123456789);
+		assertEquals(date, page.lastModified());
+	}
 }

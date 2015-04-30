@@ -30,6 +30,10 @@ public class Test_LockResult {
 		assertFalse(res3.equals(res2));
 		assertFalse(res3.equals(res1));
 		assertTrue(res2.equals(res1));
+
+		assertTrue(res1.equals(res1));
+		assertFalse(res1.equals(null));
+		assertFalse(res1.equals(new Integer(1)));
 	}
 
 	@org.junit.Test

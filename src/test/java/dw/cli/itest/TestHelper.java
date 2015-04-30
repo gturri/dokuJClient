@@ -31,6 +31,11 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 		return Program.run(arguments);
 	}
 
+	protected Output runWithUrl(String url, String command, String... extraArguments) throws Exception {
+		String[] arguments = buildArguments(TestParams.user, TestParams.password, command, url, extraArguments);
+		return Program.run(arguments);
+	}
+
 	protected Output runWithoutGenericArguments(String command, String... extraArguments) throws Exception {
 		List<String> args = new ArrayList<String>();
 		args.add(command);
@@ -51,10 +56,14 @@ public class TestHelper extends dw.xmlrpc.itest.TestHelper {
 	}
 
 	private String[] buildArguments(String user, String password, String command, String... extraArguments){
+		return buildArguments(user, password, command, params.url, extraArguments);
+	}
+
+	private String[] buildArguments(String user, String password, String command, String url, String... extraArguments){
 		List<String> args = new ArrayList<String>();
 		args.add("-u"); args.add(user);
 		args.add("-p"); args.add(password);
-		args.add("--url"); args.add(params.url);
+		args.add("--url"); args.add(url);
 		args.add(command);
 		for(String extraArg : extraArguments){
 			args.add(extraArg);
