@@ -24,10 +24,10 @@ public class Test_Timeout {
 	public void setTimeout(){
 		addRequestProcessingDelay(5*1000);
 		stubFor(post(urlEqualTo("/lib/exe/xmlrpc.php"))
-		.willReturn(aResponse()
-				.withStatus(200)
-				.withBody("<methodResponse><params><param><value><array><data></data></array></value></param></params></methodResponse>")
-				));
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withBody("<methodResponse><params><param><value><array><data></data></array></value></param></params></methodResponse>")
+						));
 	}
 
 	@org.junit.Test(expected=DokuTimeoutException.class)
