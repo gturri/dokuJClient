@@ -36,6 +36,7 @@
       <groupId>com.github.tomakehurst</groupId>
       <artifactId>wiremock</artifactId>
       <version>1.54</version>
+      <scope>test</scope>
       <classifier>standalone</classifier>
       <exclusions>
         <exclusion>
@@ -100,6 +101,7 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.9.5</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.martiansoftware</groupId>
