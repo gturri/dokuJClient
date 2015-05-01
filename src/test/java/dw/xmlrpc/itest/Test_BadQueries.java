@@ -3,7 +3,6 @@ package dw.xmlrpc.itest;
 import java.net.MalformedURLException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.Assert.fail;
 
 import org.junit.Rule;
 

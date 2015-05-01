@@ -7,7 +7,6 @@ import com.martiansoftware.jsap.Switch;
 import com.martiansoftware.jsap.UnflaggedOption;
 
 import dw.xmlrpc.DokuJClient;
-import dw.xmlrpc.exception.DokuBadUrlException;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuUnauthorizedException;
 
