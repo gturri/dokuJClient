@@ -3,25 +3,48 @@ package dw.xmlrpc.itest;
 import java.net.MalformedURLException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.Assert.fail;
 
 import org.junit.Rule;
 
+import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
 import dw.xmlrpc.DokuJClient;
 import dw.xmlrpc.DokuJClientConfig;
 import dw.xmlrpc.exception.DokuException;
 import dw.xmlrpc.exception.DokuTimeoutException;
+import dw.xmlrpc.exception.DokuUnknownException;
 
-public class Test_Timeout {
+public class Test_BadQueries {
 
 	private final int port = 8080;
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(port);
 
-	@org.junit.Before
-	public void setTimeout(){
+	@org.junit.Test(expected=DokuTimeoutException.class)
+	public void iCanStopIfItTakesTooLongToRespond() throws MalformedURLException, DokuException{
+		setTimeout();
+		DokuJClient client = buildClientWithTimeOut(1);
+		makeADummyCall(client);
+	}
+
+	@org.junit.Test
+	public void iCanWaitEvenIfResponseTakesLong() throws MalformedURLException, DokuException{
+		setTimeout();
+		DokuJClient client = buildClientWithTimeOut(60);
+		makeADummyCall(client);
+	}
+
+	@org.junit.Test
+	public void timeoutOfZeroMeansWaitAsLongAsYouNeed() throws MalformedURLException, DokuException{
+		setTimeout();
+		DokuJClient client = buildClientWithTimeOut(0);
+		makeADummyCall(client);
+	}
+
+	private void setTimeout(){
 		addRequestProcessingDelay(5*1000);
 		stubFor(post(urlEqualTo("/lib/exe/xmlrpc.php"))
 				.willReturn(aResponse()
@@ -30,22 +53,17 @@ public class Test_Timeout {
 						));
 	}
 
-	@org.junit.Test(expected=DokuTimeoutException.class)
-	public void iCanStopIfItTakesTooLongToRespond() throws MalformedURLException, DokuException{
-		DokuJClient client = buildClientWithTimeOut(1);
-		makeADummyCall(client);
+	@org.junit.Test(expected=DokuUnknownException.class)
+	public void corruptedReply() throws Exception {
+		stubFor(post(urlEqualTo("/lib/exe/xmlrpc.php"))
+				.willReturn(aResponse()
+						.withStatus(200)
+						.withFault(Fault.MALFORMED_RESPONSE_CHUNK)));
+		makeADummyCall(buildClient());
 	}
 
-	@org.junit.Test
-	public void iCanWaitEvenIfResponseTakesLong() throws MalformedURLException, DokuException{
-		DokuJClient client = buildClientWithTimeOut(60);
-		makeADummyCall(client);
-	}
-
-	@org.junit.Test
-	public void timeoutOfZeroMeansWaitAsLongAsYouNeed() throws MalformedURLException, DokuException{
-		DokuJClient client = buildClientWithTimeOut(0);
-		makeADummyCall(client);
+	private DokuJClient buildClient() throws MalformedURLException, DokuException {
+		return buildClientWithTimeOut(0);
 	}
 
 	private DokuJClient buildClientWithTimeOut(int timeoutInSeconds) throws MalformedURLException, DokuException{
