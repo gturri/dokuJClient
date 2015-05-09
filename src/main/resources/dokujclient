@@ -1,3 +1,8 @@
 #!/bin/bash
-cpBase="$(dirname "$0")"
+if [ -L "$0" ] && [ -x $(which readlink) ]; then
+  thisFile="$(readlink -mn "$0")"
+else
+  thisFile="$0"
+fi
+cpBase="$(dirname "$thisFile")"
 java -cp "$cpBase/*" dw.cli.Program $@
