@@ -4,14 +4,14 @@
 =========================================================================
 
 DokuJClient
-Copyright 2012-2014 Guillaume Turri <guillaume.turri@gmail.com>
+Copyright 2012-2015 Guillaume Turri <guillaume.turri@gmail.com>
 
 #########################################################################
 ## DokuJClient DEPENDENCIES                                            ##
 #########################################################################
 
 A binary distribution of DokuJClient
-which is built from source, includes a number of dependent packages 
+which is built from source, includes a number of dependent packages
 with separate copyright notices and license terms. The following notices
 apply to these dependencies.
 
