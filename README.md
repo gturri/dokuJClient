@@ -185,3 +185,8 @@ There are however, some discrepancies:
 * getAttachmentInfo can't retrieve the page title with Angua (dokuwiki-2012-01-25b). It will set it to the page id instead
 * addAcl and delAcl are supported for dokuwiki-2013-12-08 (Binky) or newer
 * logoff will always clear the local cookies, but it will clear the server side ones only if you have dokuwiki-2014-05-05 (Ponder Stibbons) or a more recent one
+
+Donate
+======
+Dokujclient is a personal open source project started in 2012. I have put hundreds of hours to maintain and enhance it. Donations to Dokujclient will help support bugfix, keeping  up to date with the evolutions of Dokuwiki xmlrpc interface, and adding new features. If you have found this tool  useful, consider [donating](https://pledgie.com/campaigns/29371), to help for its development.
+
