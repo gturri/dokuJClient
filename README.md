@@ -186,6 +186,11 @@ There are however, some discrepancies:
 * addAcl and delAcl are supported for dokuwiki-2013-12-08 (Binky) or newer
 * logoff will always clear the local cookies, but it will clear the server side ones only if you have dokuwiki-2014-05-05 (Ponder Stibbons) or a more recent one
 
+Mailing list
+============
+The mailing list is oriented toward development and usage of DokuJClient. You can subscribe and unsubscribe from https://www.freelists.org/list/dokujclient
+After subscribing, messages can be sent to dokujclient@freelists.org
+
 Donate
 ======
 Dokujclient is a personal open source project started in 2012. I have put hundreds of hours to maintain and enhance it. Donations to Dokujclient will help support bugfix, keeping  up to date with the evolutions of Dokuwiki xmlrpc interface, and adding new features. If you have found this tool  useful, consider [donating](https://pledgie.com/campaigns/29371), to help for its development.
