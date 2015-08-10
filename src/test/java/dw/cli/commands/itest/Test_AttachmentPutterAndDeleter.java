@@ -2,6 +2,7 @@ package dw.cli.commands.itest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static junitx.framework.FileAssert.assertBinaryEquals;
 
 import java.io.File;
 
@@ -40,7 +41,7 @@ public class Test_AttachmentPutterAndDeleter extends TestHelper {
 		//Ensure we start in a clean state
 		runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
 		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
-		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
+		assertBinaryEquals(new File(TestParams.localFileToUpload), localFile);
 
 		//Try to override the distant file without providing the flag
 		Output output = runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFile2ToUpload);
@@ -48,7 +49,7 @@ public class Test_AttachmentPutterAndDeleter extends TestHelper {
 
 		//Assert the attachment hasn't been overrided
 		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
-		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
+		assertBinaryEquals(new File(TestParams.localFileToUpload), localFile);
 	}
 
 	@org.junit.Test
@@ -56,7 +57,7 @@ public class Test_AttachmentPutterAndDeleter extends TestHelper {
 		//Ensure we start in a clean state
 		runWithArguments("putAttachment", ns + ":toto.gif", TestParams.localFileToUpload);
 		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
-		assertFileEquals(new File(TestParams.localFileToUpload), localFile);
+		assertBinaryEquals(new File(TestParams.localFileToUpload), localFile);
 
 		//Try to override the distant file without providing the flag
 		Output output = runWithArguments("putAttachment", ns + ":toto.gif", "-f", TestParams.localFile2ToUpload);
@@ -64,7 +65,7 @@ public class Test_AttachmentPutterAndDeleter extends TestHelper {
 
 		//Assert the attachment hasn't been overrided
 		runWithArguments("getAttachment", ns + ":toto.gif", localFileName);
-		assertFileEquals(new File(TestParams.localFile2ToUpload), localFile);
+		assertBinaryEquals(new File(TestParams.localFile2ToUpload), localFile);
 	}
 
 	@org.junit.Test

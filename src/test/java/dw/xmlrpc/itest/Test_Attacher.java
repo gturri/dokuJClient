@@ -1,6 +1,7 @@
 package dw.xmlrpc.itest;
 
 import static org.junit.Assert.*;
+import static junitx.framework.FileAssert.assertBinaryEquals;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -203,7 +204,7 @@ public class Test_Attacher extends TestHelper {
 		}
 
 		assertTrue(expectedExceptionCaught);
-		assertFileEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
+		assertBinaryEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
 	}
 
 	@org.junit.Test
@@ -213,10 +214,10 @@ public class Test_Attacher extends TestHelper {
 		File file2 = new File(TestParams.localFile2ToUpload);
 
 		_client.putAttachment(fileId, file1, true);
-		assertFileEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
+		assertBinaryEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
 
 		_client.putAttachment(fileId, file2, true);
-		assertFileEquals(file2, _client.getAttachment(fileId, _localDownloadedFile));
+		assertBinaryEquals(file2, _client.getAttachment(fileId, _localDownloadedFile));
 	}
 
 	@org.junit.Test

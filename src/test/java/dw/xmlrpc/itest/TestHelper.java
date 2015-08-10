@@ -3,7 +3,6 @@ package dw.xmlrpc.itest;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -63,9 +62,5 @@ public class TestHelper {
 
 		//Clean page content
 		client.putPage(pageId, initialContent);
-	}
-
-	public void assertFileEquals(File expected, File actual){
-		junitx.framework.FileAssert.assertBinaryEquals(expected, actual);
 	}
 }

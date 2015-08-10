@@ -1,6 +1,7 @@
 package dw.cli.commands.itest;
 
 import static org.junit.Assert.*;
+import static junitx.framework.FileAssert.assertBinaryEquals;
 
 import java.io.File;
 
@@ -25,7 +26,7 @@ public class Test_getAttachment extends TestHelper {
 		Output output = runWithArguments("getAttachment", "ro_for_tests:img1.gif", "myFile.gif");
 		assertSuccess("", output);
 		assertTrue(localFile.exists());
-		assertFileEquals(new File(TestParams.localFileToUpload), new File("myFile.gif"));
+		assertBinaryEquals(new File(TestParams.localFileToUpload), new File("myFile.gif"));
 	}
 
 	@org.junit.Test
