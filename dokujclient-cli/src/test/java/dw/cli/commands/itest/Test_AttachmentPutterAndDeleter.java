@@ -8,7 +8,7 @@ import java.io.File;
 
 import dw.cli.Output;
 import dw.cli.itest.TestHelper;
-import dw.xmlrpc.itest.TestParams;
+import dw.cli.itest.TestParams;
 
 public class Test_AttachmentPutterAndDeleter extends TestHelper {
 

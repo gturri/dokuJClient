@@ -10,7 +10,6 @@ import java.util.List;
 
 import dw.cli.Output;
 import dw.cli.Program;
-import dw.xmlrpc.itest.TestParams;
 
 public class TestHelper {
 	protected final TestParams  params = new TestParams("dokuwiki-2013-12-08", "Release 2013-12-08 \"Binky\"", 8, 2);
