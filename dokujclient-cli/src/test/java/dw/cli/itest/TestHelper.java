@@ -12,7 +12,7 @@ import dw.cli.Output;
 import dw.cli.Program;
 
 public class TestHelper {
-	protected final TestParams  params = new TestParams("dokuwiki-2013-12-08", "Release 2013-12-08 \"Binky\"", 8, 2);
+	protected final TestParams  params = new TestParams("dokuwiki-2015-08-10", "Release 2015-08-10 \"Detritus\"", 9, 2);
 
 	protected final String dateRegex = "[A-Za-z]{3} [A-Za-z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} [A-Z]{3}? [0-9]{4}";
 
