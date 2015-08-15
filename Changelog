@@ -1,4 +1,5 @@
 
+* Split the lib and cli parts into different modules
 * login command returns a boolean to indicate whether it succeeded
 
 3.3.0

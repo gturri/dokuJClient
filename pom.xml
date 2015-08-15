@@ -4,7 +4,7 @@
   <groupId>fr.turri</groupId>
   <artifactId>dokujclient</artifactId>
   <packaging>pom</packaging>
-  <version>3.4.0-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Library to use the xmlrpc interface of Dokuwiki</description>
   <url>http://turri.fr/dokujclient</url>
