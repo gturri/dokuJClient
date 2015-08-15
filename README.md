@@ -2,6 +2,7 @@ Dokujclient is both a command line tool to interact with instances of Dokwiki,
 and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
 
 Currently tested with:
+* Detritus        (dokuwiki-2015-08-10)
 * Hrun            (dokuwiki-2014-09-29)
 * Ponder Stibbons (dokuwiki-2014-05-05)
 * Binky           (dokuwiki-2013-12-08)
@@ -101,16 +102,6 @@ allowed to use it (ie: "remote" and "remoteuser" entries in your configuration)
 
 Getting the binaries
 --------------------
-JAR files are available via [Maven Central](http://repo1.maven.org/maven2/fr/turri/):
-
-```xml
-<dependency>
-    <groupId>fr.turri</groupId>
-    <artifactId>dokujclient</artifactId>
-    <version>3.2.0</version>
-</dependency>
-```
-
 Binaries may alse be [downloaded](http://turri.fr/dokujclient) directly.
 
 To build them from the sources, see below.
@@ -124,9 +115,9 @@ On ubuntu, at the root of the project run:
     sudo apt-get install maven
 
     #Actually build
-    mvn package
+    mvn -Dmaven.test.skip=true install
 
-It will generate in the directory `target` a dokujclient-x.y.z-bin.zip which contains
+It will generate in the dokujclient-cli/target a dokujclient-x.y.z-bin.zip which contains
 both the .jar and the executable command line tool
 
 
@@ -141,7 +132,8 @@ This project uses Maven. To be able [to use Eclipse](http://maven.apache.org/gui
     # Set the M2_REPO classpath variable
     mvn -Declipse.workspace=<path-to-eclipse-workspace> eclipse:add-maven-repo
 
-    # Generate the Eclipe project files
+    # Generate the Eclipe project files for the project you're interested in. eg:
+    cd dokujclient-lib
     mvn eclipse:eclipse
 
 To use the Eclipse projet, you need to ensure every dependencies are available.
@@ -150,25 +142,18 @@ Just compile once from the command line (see above) to ensure it will be ok.
 
 Documentation
 ------------
-
-To build documentation you must have doxygen installed. Then, run at the root of the repo:
-
-    mvn javadoc:javadoc
-
-To browse the generated docs, point your browser to target/site/apidocs/index.html
-
-You may also directly [browse it](http://turri.fr/dokujclient/doc) online.
+You may build it it with maven, or [browse it](http://turri.fr/dokujclient/doc) online.
 
 
 Running integration tests
 --------------------------
 To run the tests you'll need to set up a fake wiki.
-Please see src/test/resources/README.md to know how to set it up.
+See dokujclient-lib/src/test/resources/README.md to know how to set it up.
 
 
 After that, to run the tests, just run, at the root of the repo:
 
-    mvn test
+    mvn package
 
 
 You can also run
