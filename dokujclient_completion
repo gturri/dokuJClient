@@ -8,7 +8,7 @@ _dokujclient ()
 
   cur=${COMP_WORDS[COMP_CWORD]}
 
-  COMPREPLY=($(compgen -W "$(dokujclient --help | grep -v "\[" | grep -v "To get help" | tr "\n" " " )" -- $cur))
+  COMPREPLY=($(compgen -W "$(dokujclient --help | grep -v "\[" | grep -v "To get help" | grep -v "Available commands" | tr "\n" " " )" -- $cur))
 }
 
 
