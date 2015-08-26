@@ -165,19 +165,30 @@
       </plugins>
     </pluginManagement>
     <plugins>
-  <plugin>
-    <groupId>org.pitest</groupId>
-    <artifactId>pitest-maven</artifactId>
-    <version>1.1.4</version>
-    <configuration>
-      <targetClasses>
-        <param>dw*</param>
-      </targetClasses>
-      <targetTests>
-        <param>dw*</param>
-      </targetTests>
-    </configuration>
-  </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.1.4</version>
+        <configuration>
+          <targetClasses>
+            <param>dw*</param>
+          </targetClasses>
+          <targetTests>
+            <param>dw*</param>
+          </targetTests>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
