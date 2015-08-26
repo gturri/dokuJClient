@@ -1,0 +1,48 @@
+
+.SH FILES
+To avoid typing your url, user, and password each time, you may create in your home a file .dokujclientrc,
+and put some or all of this info in it.
+
+ echo "url=http://myhost/mywiki/lib/exe/xmlrpc.php" > ~/.dokujclientrc
+ echo "user=toto" >> ~/.dokujclientrc
+ echo "password=myPassword" >> ~/.dokujclientrc
+
+.SH EXAMPLES
+
+ dokujclient --user myUser --password myPassword --url http://mywiki/lib/lib/exe/xmlrpc.php getTitle
+ > myWiki title
+
+ dokujclient help
+ > [(-u|--user) <user>] --url <url> [(-p|--password) <password>] [-h|--help] [--version] [--password-interactive] command
+ >
+ > Available commands:
+ > [...skipped...]
+
+ #put user, password, and url, in the config file
+ vim ~/.dokujclientrc
+
+ #get the list of pages of all the wiki
+ dokujclient getPagelist .
+ > [...skipped...]
+
+ dokujclient appendPage builds:synthesis "Build launched at 12:23 took 3'24"
+ dokujclient getPage builds:synthesis
+ > Build launched at 11:12 took 3'19
+ > Build launched at 12:23 took 3'24
+
+ #help command can give information about a given command
+ dokujclient help putAttachment
+ > Syntax for putAttachment: [-f|--force] <attachmentId> <localFile>
+
+ dokujclient putAttachment some:file.jpg ~/results.jpg
+
+.SH REPORTING BUGS
+You are welcome to report bugs to the bugtracker
+https://github.com/gturri/dokujclient/issues
+.br
+You may also ask questions on the mailing list dokujclient@freelists.org
+
+.SH SEE ALSO
+
+The documentation of the server  API is available at 
+https://www.dokuwiki.org/devel:xmlrpc

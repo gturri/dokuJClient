@@ -1,0 +1,54 @@
+.TH DOKUJCLIENT "1"
+.SH NAME
+dokujclient \- interact (read, write, ...) with an instance of Dokuwiki
+
+.SH SYNOPSIS
+.B dokujclient
+\fIGENERAL_OPTIONS COMMAND COMMAND_OPTIONS\fR
+
+.SH DESCRIPTION
+Dokuwiki is an open-source wiki engine.
+It's hence meant to be mainly used through a web browser.
+However, it also has an xmlrpc API.
+.br
+Dokujclient uses this xmlrpc API, so that it's possible to interact
+with an instance of Dokuwiki through a console or a shell script.
+
+.SH GENERAL OPTIONS
+.TP
+\fB\-\-url\fR \fIURL\fR
+The url to the xmlrpc interface. Should look like http[s]://server/mywiki\fI/lib/exe/xmlrpc.php\fR.
+.br
+Obviously, the wiki should be configured to accept incoming xmlrpc queries.
+See Dokuwiki's \fIremote\fR config.
+.br
+This parameter is mandatory.
+.TP
+\fB\-u\fR \fIUSER\fR, \fB\-\-user\fR \fIUSER\fR
+Specify the username \fIUSER\fR to use to connect to the server.
+.br
+Obviously, the \fIUSER\fR should be authorized to use the xmlrpc interface.
+See Dokuwiki's \fIremoteuser\fR config.
+.TP
+\fB\-p\fR \fIPASSWORD\fR, \fB\-\-password\fR \fIPASSWORD\fR
+The password of the \fIUSER\fR
+.TP
+\fB\-\-password-interactive\fR
+You will be prompted to enter the user's password interactively.
+Useful to avoid writting the password in clear text in the command line.
+.TP
+\fB\-\-version\fR
+Prints the version of dokujclient
+.TP
+\fB\-h\fR \fB\-\-help\fR
+Prints the general help
+
+.SH COMMANDS
+.TP
+\fBhelp\fR
+Prints the general help
+.TP
+\fBhelp\fR \fICOMMAND\fR
+Prints the help and the \fICOMMAND_OPTIONS\fR for \fICOMMAND\fR
+.TP
+Other commands are:
