@@ -1,3 +1,5 @@
+3.5.0
+* add man page
 
 3.4.0
 * Upgrade dependency on aXMLRPC (1.8.1) to fix compatibility with DW Detritus. Hence build depends on JCenter
