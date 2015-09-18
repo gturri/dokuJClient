@@ -205,7 +205,7 @@ Dokujclient is a personal open source project started in 2012. I have put hundre
 Working with DW Detritus
 ========================
 
-To work with this version of DW, we need aXMLRPC at least 1.8.1. The issue is that this version hasn't been released on JCenter, but not on maven central.
+To work with this version of DW, we need aXMLRPC at least 1.8.1. The issue is that this version has been released on JCenter, but not on maven central.
 
 If you downloaded the lastest version of dokujClient in order to use it as a command line tool, it should come with the correct version of aXMLRPC, so there shouldn't be any problem.
 If you want to use dokujClient has a library, you need to
