@@ -1,3 +1,5 @@
+* Use aXMLRPC from fr.turri instead of de.timroes to be able to publish to maven central again
+
 3.5.0
 * add man page
 
