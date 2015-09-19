@@ -1,6 +1,9 @@
 3.6.0
 * Use aXMLRPC from fr.turri instead of de.timroes to be able to publish to maven central again
 
+3.5.2
+* fix Java 6 compatibility
+
 3.5.1
 * fix man page
 

@@ -642,7 +642,7 @@ public class DokuJClient {
 	 */
 	public boolean addAcl(String scope, String username, int permission) throws DokuException{
 		try {
-			return (boolean) genericQuery("plugin.acl.addAcl", new Object[]{scope, username, permission});
+			return (Boolean) genericQuery("plugin.acl.addAcl", new Object[]{scope, username, permission});
 		} catch (DokuMethodDoesNotExistsException e){
 			throw new DokuIncompatibleVersionException("dokuwiki-2013-12-08 (Binky)");
 		}
@@ -653,7 +653,7 @@ public class DokuJClient {
 	 */
 	public boolean delAcl(String scope, String username) throws DokuException{
 		try {
-			return (boolean) genericQuery("plugin.acl.delAcl", new Object[]{scope, username});
+			return (Boolean) genericQuery("plugin.acl.delAcl", new Object[]{scope, username});
 		} catch (DokuMethodDoesNotExistsException e){
 			throw new DokuIncompatibleVersionException("dokuwiki-2013-12-08 (Binky)");
 		}
