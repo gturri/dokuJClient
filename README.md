@@ -12,12 +12,6 @@ Currently tested with:
 
 See the "Compatibility" section for more info
 
-If you use Dokuwiki Detritus, read this!
-=======================================
-
-If you're using Dokuwiki Detritus (2015-08-10), things are a little more complicated (but we're working on it).
-See at the bottom of this file to see the workaround.
-
 Command line tool
 =================
 
@@ -114,7 +108,7 @@ JAR files are available via [Maven Central](http://repo1.maven.org/maven2/fr/tur
 <dependency>
     <groupId>fr.turri</groupId>
     <artifactId>dokujclient</artifactId>
-    <version>3.2.0</version>
+    <version>3.6.0</version>
 </dependency>
 ```
 
@@ -201,43 +195,3 @@ After subscribing, messages can be sent to dokujclient@freelists.org
 Donate
 ======
 Dokujclient is a personal open source project started in 2012. I have put hundreds of hours to maintain and enhance it. Donations to Dokujclient will help support bugfix, keeping  up to date with the evolutions of Dokuwiki xmlrpc interface, and adding new features. If you have found this tool  useful, consider [donating](https://pledgie.com/campaigns/29371), to help for its development.
-
-Working with DW Detritus
-========================
-
-To work with this version of DW, we need aXMLRPC at least 1.8.1. The issue is that this version has been released on JCenter, but not on maven central.
-
-If you downloaded the lastest version of dokujClient in order to use it as a command line tool, it should come with the correct version of aXMLRPC, so there shouldn't be any problem.
-If you want to use dokujClient has a library, you need to
-
-* Configure your workstation so that it will look for aXMLRPC on JCenter
-* Compile dokujclient yourself in order to have it installed in your local maven repository
-* Include the version you just installed in the pom.xml of your project
-
-It's a bit cumbersome, and we're working to fix it all. For now, let's give some more details on the steps to take:
-
-Configure your workstation
---------------------------
-
-The instructions are available on https://bintray.com/timroes/maven/aXMLRPC/view, via the "Set me up" button. Currently it means:
-
-    # if you never used maven, this directory may not exist
-    mkdir -p ~/.m2
-
-    # if the settings file already exist, let's do a backup
-    cp ~/.m2/settings.xml ~/.m2/settings.xml.backup
-
-    # Let's retrieve and install a settings.xml which fits our needs
-    wget https://bintray.com/repo/downloadMavenRepoSettingsFile/downloadSettings?repoPath=%2Ftimroes%2Fmaven -O ~/.m2/settings.xml
-
-Install dokujclient in your local maven repository
--------------------------------------------------
-
-    git clone https://github.com/gturri/dokujclient.git
-    cd dokujclient
-    mvn -Dmaven.test.skip=true install
-
-Include the correct version in your pom.xml
--------------------------------------------
-
-Same as what is described in the section "Getting the binaries" above, but adapt the "version" line
