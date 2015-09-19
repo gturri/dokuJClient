@@ -9,11 +9,11 @@ and put some or all of this info in it.
 
 .SH EXAMPLES
 
- dokujclient --user myUser --password myPassword --url http://mywiki/lib/lib/exe/xmlrpc.php getTitle
+ dokujclient \-\-user myUser \-\-password myPassword \-\-url http://mywiki/lib/lib/exe/xmlrpc.php getTitle
  > myWiki title
 
  dokujclient help
- > [(-u|--user) <user>] --url <url> [(-p|--password) <password>] [-h|--help] [--version] [--password-interactive] command
+ > [(\-u|\-\-user) <user>] \-\-url <url> [(\-p|\-\-password) <password>] [\-h|\-\-help] [\-\-version] [\-\-password\-interactive] command
  >
  > Available commands:
  > [...skipped...]
@@ -32,7 +32,7 @@ and put some or all of this info in it.
 
  #help command can give information about a given command
  dokujclient help putAttachment
- > Syntax for putAttachment: [-f|--force] <attachmentId> <localFile>
+ > Syntax for putAttachment: [\-f|\-\-force] <attachmentId> <localFile>
 
  dokujclient putAttachment some:file.jpg ~/results.jpg
 
@@ -44,5 +44,5 @@ You may also ask questions on the mailing list dokujclient@freelists.org
 
 .SH SEE ALSO
 
-The documentation of the server  API is available at 
+The documentation of the server  API is available at
 https://www.dokuwiki.org/devel:xmlrpc

@@ -7,7 +7,7 @@ dokujclient \- interact (read, write, ...) with an instance of Dokuwiki
 \fIGENERAL_OPTIONS COMMAND COMMAND_OPTIONS\fR
 
 .SH DESCRIPTION
-Dokuwiki is an open-source wiki engine.
+Dokuwiki is an open source wiki engine.
 It's hence meant to be mainly used through a web browser.
 However, it also has an xmlrpc API.
 .br
@@ -35,7 +35,7 @@ The password of the \fIUSER\fR
 .TP
 \fB\-\-password-interactive\fR
 You will be prompted to enter the user's password interactively.
-Useful to avoid writting the password in clear text in the command line.
+Useful to avoid writing the password in clear text in the command line.
 .TP
 \fB\-\-version\fR
 Prints the version of dokujclient
