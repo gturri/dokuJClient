@@ -51,6 +51,11 @@ Just make sure that your wiki is configured so that the xmlrpc interface is enab
 
 Installation
 ------------
+It may be installed from the packages on debian testing:
+
+    sudo apt-get install dokujclient
+
+On other platforms you may:
 * Download the [binaries](http://turri.fr/dokujclient).
 * Extract it, and add the extracted directoy to your path
 * Ensure it's correctly installed, typing e.g.:
@@ -70,7 +75,7 @@ and put some or all of this info in it.
 dokuJClient.jar
 ==========
 
-If you want to build your own application, if you don't want to deal with xmlrpc request yourself,
+If you want to build your own application, if you don't want to deal with xmlrpc requests yourself,
 or if you don't want to handle the different versions of Dokuwiki, you may use this library.
 
 Getting started
