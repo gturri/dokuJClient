@@ -1,3 +1,5 @@
+* getAttachments also returns the filename and upload time
+
 3.6.0
 * Use aXMLRPC from fr.turri instead of de.timroes to be able to publish to maven central again
 

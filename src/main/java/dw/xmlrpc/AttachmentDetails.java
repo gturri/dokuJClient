@@ -60,13 +60,34 @@ public class AttachmentDetails {
 		return _lastModified;
 	}
 
-	public AttachmentDetails(String id, Integer size, Date lastModified, Boolean isImg, Boolean writable, Integer perms){
+	private final String _file;
+
+	/**
+	 * name of the file
+	 */
+	public final String file(){
+		return _file;
+	}
+
+	private final Integer _mtime;
+
+	/**
+	 * upload date
+	 */
+	public final Integer mtime(){
+		return _mtime;
+	}
+
+
+	public AttachmentDetails(String id, Integer size, Date lastModified, Boolean isImg, Boolean writable, Integer perms, String file, Integer mtime){
 		_id = id;
 		_size = size;
 		_lastModified = lastModified;
 		_isImg = isImg;
 		_writable = writable;
 		_perms = perms;
+		_file = file;
+		_mtime = mtime;
 	}
 
 	@Override
@@ -76,6 +97,8 @@ public class AttachmentDetails {
 				+ ", lastModified:" + (_lastModified == null ? "null" : _lastModified.toString())
 				+ ", isImg: " + _isImg
 				+ ", writable: " + _writable
-				+ ", perms:" + _perms;
+				+ ", perms:" + _perms
+				+ ", file: " + _file
+				+ ", mtime: " + _mtime;
 	}
 }

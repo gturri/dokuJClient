@@ -21,7 +21,7 @@ public class Test_LinkInfo {
 		assertFalse(link2.equals(link1bis));
 
 		assertFalse(link1.equals(null)); //case null
-		assertFalse(link1.equals(new AttachmentDetails(null, null, null, null, null, null))); //Other kind of object
+		assertFalse(link1.equals(new AttachmentDetails(null, null, null, null, null, null, null, null))); //Other kind of object
 	}
 
 	@org.junit.Test

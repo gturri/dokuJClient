@@ -110,6 +110,8 @@ public class Test_Attacher extends TestHelper {
 		assertEquals(true, details.isImg());
 		assertEquals(true, details.writable());
 		assertEquals((Integer) 255, details.perms());
+		assertEquals("img1.gif", details.file());
+		assertEquals((Integer) 1356379860, details.mtime());
 	}
 
 	@org.junit.Test
