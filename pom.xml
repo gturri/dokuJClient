@@ -187,6 +187,9 @@
           <targetTests>
             <param>dw*</param>
           </targetTests>
+          <excludedClasses>
+            <excludedClass>dw.cli.PasswordReader</excludedClass>
+          </excludedClasses>
         </configuration>
       </plugin>
       <plugin>
