@@ -10,8 +10,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
+
+import de.timroes.base64.Base64;
 import dw.xmlrpc.exception.DokuException;
 
 //! @cond
@@ -149,7 +151,7 @@ class Attacher {
 		} catch (ClassCastException e){
 			//for DW up to 2012-01-25b
 			String base64Encoded = (String) result;
-			return DatatypeConverter.parseBase64Binary(base64Encoded);
+			return Base64.decode(base64Encoded);
 		}
 	}
 //! @endcond

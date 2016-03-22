@@ -196,7 +196,7 @@ public class Test_Attacher extends TestHelper {
 		File file2 = new File(TestParams.localFile2ToUpload);
 
 		_client.putAttachment(fileId, file1, true);
-		assertEquals(file1.length(), _client.getAttachment(fileId, _localDownloadedFile).length());
+		assertBinaryEquals(file1, _client.getAttachment(fileId, _localDownloadedFile));
 
 		boolean expectedExceptionCaught = false;
 		try {
