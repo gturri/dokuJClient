@@ -1,5 +1,6 @@
 Dokujclient is both a command line tool to interact with instances of Dokwiki,
-and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc).
+and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc)
+which is also compatible with Android.
 
 Currently tested with:
 * Detritus        (dokuwiki-2015-08-10)
