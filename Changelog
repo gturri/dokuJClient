@@ -1,3 +1,4 @@
+3.7.0
 * Fix compatibility with android
 * getAttachments also returns the filename and upload time
 
