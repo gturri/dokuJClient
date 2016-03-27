@@ -236,7 +236,7 @@ public class DokuJClient {
 
 	/**
 	 * Wrapper around {@link #getRecentMediaChanges(Integer)}
-	 * @param date Do not return chances older than this date
+	 * @param date Do not return changes older than this date
 	 */
 	public List<MediaChange> getRecentMediaChanges(Date date) throws DokuException {
 		return getRecentMediaChanges((int)(date.getTime() / 1000));
