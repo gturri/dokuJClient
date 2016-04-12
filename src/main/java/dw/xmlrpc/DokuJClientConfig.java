@@ -64,4 +64,13 @@ public class DokuJClientConfig {
 	public int xmlRpcClientFlags(){
 		return _xmlRpcClientFlags;
 	}
+
+	private boolean _debug = false;
+	public void setDebug(boolean debug){
+		_debug = debug;
+	}
+
+	public boolean getDebug(){
+		return _debug;
+	}
 }

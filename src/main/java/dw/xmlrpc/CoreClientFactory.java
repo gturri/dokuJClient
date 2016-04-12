@@ -15,7 +15,10 @@ class CoreClientFactory {
 	}
 
 	public static CoreClient Build(DokuJClientConfig dokuConfig){
-		return Build(dokuConfig.url(), dokuConfig.userAgent(), dokuConfig.timeoutInSeconds(), dokuConfig.xmlRpcClientFlags());
+		int xmlRpcClientFlags = dokuConfig.getDebug()
+				? dokuConfig.xmlRpcClientFlags() | XMLRPCClient.FLAGS_DEBUG
+				: dokuConfig.xmlRpcClientFlags();
+		return Build(dokuConfig.url(), dokuConfig.userAgent(), dokuConfig.timeoutInSeconds(), xmlRpcClientFlags);
 	}
 
 	public static CoreClient Build(URL url, String userAgent) {
