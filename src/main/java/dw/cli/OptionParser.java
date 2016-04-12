@@ -26,6 +26,7 @@ public class OptionParser {
 
 	private static final String PASSWORD_OPTION = "password";
 	private static final String PASSWORD_INTERACTIVE_OPTION = "password-interactive";
+	private static final String DEBUG_OPTION = "debug";
 
 	private JSAP _genericOptionsJSAP = buildJsap();
 
@@ -67,6 +68,7 @@ public class OptionParser {
 			cliOptions.password = getPassword(config);
 			cliOptions.user = config.getString("user");
 			cliOptions.url = config.getURL("url");
+			cliOptions.debug = config.getBoolean("debug");
 			cliOptions.command = _command;
 			cliOptions.commandArguments = _commandArguments.toArray(new String[]{});
 		}
@@ -86,7 +88,7 @@ public class OptionParser {
 			} else {
 				if ( arg.startsWith("-") ){
 					_genericArguments.add(arg);
-					if ( ! arg.equals("--" + PASSWORD_INTERACTIVE_OPTION)){
+					if ( ! arg.equals("--" + PASSWORD_INTERACTIVE_OPTION) && !arg.equals("--" + DEBUG_OPTION)){
 						i++;
 						if ( i < args.length ){
 							_genericArguments.add(args[i]);
@@ -140,6 +142,9 @@ public class OptionParser {
 
 			jsap.registerParameter(new Switch(PASSWORD_INTERACTIVE_OPTION)
 			.setLongFlag(PASSWORD_INTERACTIVE_OPTION));
+
+			jsap.registerParameter(new Switch("debug")
+			.setLongFlag(DEBUG_OPTION));
 
 			registerHelpParameter(jsap);
 		} catch (JSAPException e){

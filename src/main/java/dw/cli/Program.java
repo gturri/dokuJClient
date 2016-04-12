@@ -60,6 +60,7 @@ public class Program {
 		if ( options.user != null ){
 			clientConfig.setUser(options.user, options.password);
 		}
+		clientConfig.setDebug(options.debug);
 		DokuJClient dokuClient = new DokuJClient(clientConfig);
 		dokuClient.setLogger(null);
 		return dokuClient;
