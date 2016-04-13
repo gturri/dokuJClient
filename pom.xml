@@ -4,7 +4,7 @@
   <groupId>fr.turri</groupId>
   <artifactId>dokujclient</artifactId>
   <packaging>jar</packaging>
-  <version>3.8.0</version>
+  <version>3.8.1</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Library to use the xmlrpc interface of Dokuwiki</description>
   <url>http://turri.fr/dokujclient</url>

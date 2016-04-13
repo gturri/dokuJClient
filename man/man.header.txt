@@ -42,6 +42,9 @@ Prints the version of dokujclient
 .TP
 \fB\-h\fR \fB\-\-help\fR
 Prints the general help
+.TP
+\fB\-\-debug\fR
+Enable debug mode, which will print more information
 
 .SH COMMANDS
 .TP
