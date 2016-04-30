@@ -101,6 +101,21 @@ public class Test_XmlRpcQueries extends TestHelper {
 	}
 
 	@org.junit.Test
+	public void getPageVersionsWithOffset() throws Exception{
+		String pageId = "rev:start";
+		List<PageVersion> versions = _client.getPageVersions(pageId, 1);
+		PageVersion version = versions.get(0);
+
+		assertEquals((Integer) 1356218400, version.version());
+		assertEquals(pageId, version.pageId());
+		assertEquals("127.0.0.1", version.ip());
+		assertEquals("C", version.type());
+		assertEquals("riri", version.author());
+		assertEquals("created", version.summary());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
+	}
+
+	@org.junit.Test
 	public void getPageVersion() throws Exception {
 		String pageId = "rev:start";
 		assertEquals("version 1", _client.getPageVersion(pageId, 1356218400));
