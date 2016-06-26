@@ -15,7 +15,7 @@ public class Test_LinksLister extends TestHelper{
 	public void listLinksWithLongFormat() throws Exception {
 		String expected = "extern http://dokuwiki.org http://dokuwiki.org"
 				+ "\nextern http://github.com/gturri http://github.com/gturri"
-				+ "\nlocal ns1:dummy /dokuwikiITestsForXmlRpcClient_dokuwiki-2015-08-10a/doku.php?id=ns1:dummy";
+				+ "\nlocal ns1:dummy /dokuwikiITestsForXmlRpcClient_dokuwiki-2016-06-26/doku.php?id=ns1:dummy";
 
 		assertSuccess(expected, runWithArguments("listLinks", "-l", "links:start"));
 	}
