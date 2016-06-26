@@ -103,16 +103,27 @@ public class Test_XmlRpcQueries extends TestHelper {
 	@org.junit.Test
 	public void getPageVersionsWithOffset() throws Exception{
 		String pageId = "rev:start";
-		List<PageVersion> versions = _client.getPageVersions(pageId, 1);
-		PageVersion version = versions.get(0);
+		List<PageVersion> versions1 = _client.getPageVersions(pageId, 1);
+		PageVersion version1 = versions1.get(0);
 
-		assertEquals((Integer) 1356218400, version.version());
-		assertEquals(pageId, version.pageId());
-		assertEquals("127.0.0.1", version.ip());
-		assertEquals("C", version.type());
-		assertEquals("riri", version.author());
-		assertEquals("created", version.summary());
-		assertDatesNear(2012, 11, 22, 23, 20, 19, version.modified());
+		assertEquals((Integer) 1356218411, version1.version());
+		assertEquals(pageId, version1.pageId());
+		assertEquals("127.0.0.1", version1.ip());
+		assertEquals("E", version1.type());
+		assertEquals("fifi", version1.author());
+		assertEquals("edit 1", version1.summary());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version1.modified());
+
+		List<PageVersion> versions2 = _client.getPageVersions(pageId, 2);
+		PageVersion version2 = versions2.get(0);
+
+		assertEquals((Integer) 1356218400, version2.version());
+		assertEquals(pageId, version2.pageId());
+		assertEquals("127.0.0.1", version2.ip());
+		assertEquals("C", version2.type());
+		assertEquals("riri", version2.author());
+		assertEquals("created", version2.summary());
+		assertDatesNear(2012, 11, 22, 23, 20, 19, version2.modified());
 	}
 
 	@org.junit.Test

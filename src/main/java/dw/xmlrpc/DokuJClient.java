@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -290,9 +291,19 @@ public class DokuJClient {
 	 * @throws DokuException
 	 */
 	public List<PageVersion> getPageVersions(String pageId, Integer offset) throws DokuException {
+		boolean useFixForLegacyWiki = false;
+		if ( offset > 0 ){
+			if ( getXMLRPCAPIVersion() < 10 ){
+				useFixForLegacyWiki = true;
+				offset--;
+			}
+		}
 		Object[] params = new Object[]{pageId, offset};
-		Object result = genericQuery("wiki.getPageVersions", params);
-		return ObjectConverter.toPageVersion((Object[]) result, pageId);
+		Object[] result = (Object[]) genericQuery("wiki.getPageVersions", params);
+		if ( useFixForLegacyWiki && result.length > 1 ){
+			result = Arrays.copyOfRange(result, 1, result.length);
+		}
+		return ObjectConverter.toPageVersion(result, pageId);
 	}
 
 	/**

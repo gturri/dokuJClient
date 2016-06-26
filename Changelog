@@ -1,3 +1,5 @@
+* Fix getPageVersions when a non 0 offset is provided
+
 3.8.1
 * Add --debug option in man page
 
