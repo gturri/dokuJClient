@@ -3,6 +3,7 @@ and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/deve
 which is also compatible with Android.
 
 Currently tested with:
+* Elenor of Tsort (dokuwiki-2016-06-26)
 * Detritus        (dokuwiki-2015-08-10)
 * Hrun            (dokuwiki-2014-09-29)
 * Ponder Stibbons (dokuwiki-2014-05-05)
