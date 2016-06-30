@@ -115,7 +115,7 @@ JAR files are available via [Maven Central](http://repo1.maven.org/maven2/fr/tur
 <dependency>
     <groupId>fr.turri</groupId>
     <artifactId>dokujclient</artifactId>
-    <version>3.8.0</version>
+    <version>3.9.0</version>
 </dependency>
 ```
 
