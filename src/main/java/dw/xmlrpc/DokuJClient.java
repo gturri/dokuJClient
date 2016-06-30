@@ -72,11 +72,11 @@ public class DokuJClient {
 	 * @throws MalformedURLException
 	 */
 	public DokuJClient(String url) throws MalformedURLException{
-		this(CoreClientFactory.Build(url));
+		this(CoreClientFactory.build(url));
 	}
 
     public DokuJClient(DokuJClientConfig dokuConfig) throws DokuException{
-    	this(CoreClientFactory.Build(dokuConfig));
+    	this(CoreClientFactory.build(dokuConfig));
     	if ( dokuConfig.user() != null){
     		loginWithRetry(dokuConfig.user(), dokuConfig.password(), 2);
     	}
