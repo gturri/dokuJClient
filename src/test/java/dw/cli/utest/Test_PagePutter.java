@@ -14,7 +14,6 @@ import dw.cli.commands.PagePutter;
 import dw.xmlrpc.DokuJClient;
 
 public class Test_PagePutter {
-	private StdinReader _mockStdinReader;
 	private DokuJClient _mockDokuJClient;
 	private PagePutter _sut;
 
@@ -24,11 +23,11 @@ public class Test_PagePutter {
 
 	@org.junit.Before
 	public void before() throws IOException{
-		_mockStdinReader = mock(StdinReader.class);
+		StdinReader mockStdinReader = mock(StdinReader.class);
 		_mockDokuJClient = mock(DokuJClient.class);
-		when(_mockStdinReader.readStdin()).thenReturn(TEXT_ON_STDIN);
+		when(mockStdinReader.readStdin()).thenReturn(TEXT_ON_STDIN);
 
-		_sut = new PagePutter(false, _mockStdinReader);
+		_sut = new PagePutter(false, mockStdinReader);
 	}
 
 	@org.junit.Test
