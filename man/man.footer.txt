@@ -9,7 +9,7 @@ and put some or all of this info in it.
 
 .SH EXAMPLES
 
- dokujclient \-\-user myUser \-\-password myPassword \-\-url http://mywiki/lib/lib/exe/xmlrpc.php getTitle
+ dokujclient \-\-user myUser \-\-password myPassword \-\-url http://mywiki/lib/exe/xmlrpc.php getTitle
  > myWiki title
 
  dokujclient help
