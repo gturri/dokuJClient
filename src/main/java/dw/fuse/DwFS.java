@@ -169,4 +169,19 @@ public class DwFS extends FuseFilesystemAdapterFull {
 			return handleDokuException(e);
 		}
 	}
+
+	@Override
+	public int unlink(final String path)
+	{
+		String pageId = path.replace('/', ':');
+		try {
+			if ( pageExist(pageId) ){
+				client.putPage(pageId, "");
+				return 0;
+			}
+		} catch(DokuException e){
+			return handleDokuException(e);
+		}
+		return 0;
+	}
 }
