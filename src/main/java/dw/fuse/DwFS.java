@@ -2,6 +2,7 @@ package dw.fuse;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import com.sun.jna.ptr.ByteByReference;
@@ -131,5 +132,41 @@ public class DwFS extends FuseFilesystemAdapterFull {
 			filler.add(remainingPath.split(":")[0]);
 		}
 		return 0;
+	}
+
+	@Override
+	public int write(final String path, final ByteBuffer buffer, final long bufSize, final long writeOffset, final FileInfoWrapper wrapper)
+	{
+		try {
+			String pageId = path.replace('/', ':');
+			if ( ! pageExist(pageId) ){
+				final byte[] bytesToWrite = new byte[(int) bufSize];
+				buffer.get(bytesToWrite, 0, (int) bufSize);
+				String newContent = new String( bytesToWrite, Charset.forName("UTF-8"));
+				client.putPage(pageId, newContent);
+			} else {
+				String currentContent = client.getPage(pageId);
+				byte[] currentBytes = currentContent.getBytes(Charset.forName("UTF-8"));
+				final int maxWriteIndex = (int) (writeOffset + bufSize);
+				final byte[] bytesToWrite = new byte[(int) bufSize];
+				buffer.get(bytesToWrite, 0, (int) bufSize);
+				if (maxWriteIndex > currentBytes.length) {
+					byte[] biggerBuffer = new byte[maxWriteIndex];
+					for ( int i=0 ; i < currentBytes.length ; i++ ){
+						biggerBuffer[i] = currentBytes[i];
+					}
+					currentBytes = biggerBuffer;
+				}
+				for ( int i=0 ; i < bufSize ; i++ ){
+					currentBytes[(int) (writeOffset + i)] = bytesToWrite[i];
+				}
+				String newContent = new String( bytesToWrite, Charset.forName("UTF-8"));
+				client.putPage(pageId, newContent);
+			}
+
+			return (int) bufSize;
+		} catch (DokuException e) {
+			return handleDokuException(e);
+		}
 	}
 }
