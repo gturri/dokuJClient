@@ -52,18 +52,17 @@ public class DwFS extends FuseFilesystemAdapterFull {
 	{
 		final String pageId = path.replace('/', ':');
 		try {
-			try {
-				client.getPageInfo(pageId);
+			if ( pageExist(pageId) ){
 				final String content = client.getPage(pageId);
 				stat.setMode(NodeType.FILE).size(content.length());
 				return 0;
-			} catch(DokuPageDoesNotExistException e){ }
+			}
 
-			try {
+			if ( namespaceExist(pageId) ){
 				client.getPagelist(pageId);
 				stat.setMode(NodeType.DIRECTORY);
 				return 0;
-			} catch(DokuPageDoesNotExistException e){ }
+			}
 		} catch(DokuException e){
 			return handleDokuException(e);
 		}
@@ -71,6 +70,19 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		return -ErrorCodes.ENOENT();
 	}
 	
+	private boolean pageExist(String pageId) throws DokuException {
+		try {
+			client.getPageInfo(pageId);
+			return true;
+		} catch(DokuPageDoesNotExistException e){
+			return false;
+		}
+	}
+
+	private boolean namespaceExist(String nsId) throws DokuException {
+		return client.getPagelist(nsId).size() > 0;
+	}
+
 	private int handleDokuException(DokuException e){
 		System.out.println(e);
 		return -ErrorCodes.EIO();
@@ -82,6 +94,10 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		final String pageId = path.replace('/', ':');
 		String content;
 		try {
+			if ( ! pageExist(pageId) ){
+				return -ErrorCodes.ENOENT();
+			}
+
 			content = client.getPage(pageId);
 		} catch (DokuException e) {
 			return handleDokuException(e);
@@ -99,13 +115,20 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		final String pageId = path.replace('/', ':');
 		List<PageDW> pages;
 		try {
+			if ( ! namespaceExist(pageId) ){
+				return -ErrorCodes.ENOENT();
+			}
 			pages = client.getPagelist(pageId);
 		} catch (DokuException e) {
 			return handleDokuException(e);
 		}
 
 		for(PageDW page : pages){
-			filler.add(page.id());
+			String remainingPath = page.id().substring(pageId.length()-1);
+			if ( remainingPath.charAt(0) == ':'){
+				remainingPath = remainingPath.substring(1);
+			}
+			filler.add(remainingPath.split(":")[0]);
 		}
 		return 0;
 	}
