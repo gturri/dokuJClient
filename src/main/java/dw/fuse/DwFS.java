@@ -184,4 +184,29 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		}
 		return 0;
 	}
+
+	@Override
+	public int truncate(final String path, final long offset)
+	{
+		String pageId = path.replace('/', ':');
+		try {
+			if ( ! pageExist(pageId) ){
+				return -ErrorCodes.ENOENT();
+			}
+
+			final String currentContent = client.getPage(pageId);
+			final byte[] currentBytes = currentContent.getBytes(Charset.forName("UTF-8"));
+			if ( offset < currentBytes.length ){
+				final byte[] truncatedBytes = new byte[(int) offset];
+				for ( int i=0 ; i < offset ; i++ ){
+					truncatedBytes[i] = currentBytes[i];
+				}
+				final String truncatedContent = new String( currentBytes, Charset.forName("UTF-8"));
+				client.putPage(pageId, truncatedContent);
+			}
+		} catch(DokuException e){
+			return handleDokuException(e);
+		}
+		return 0;
+	}
 }
