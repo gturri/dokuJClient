@@ -209,4 +209,16 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		}
 		return 0;
 	}
+
+	@Override
+	public int mkdir(final String path, final ModeWrapper mode)
+	{
+		String pageId = path.replace('/', ':');
+		try {
+			client.putPage(pageId + ":.keepme", "dummy to keep dir");
+		} catch(DokuException e){
+			return handleDokuException(e);
+		}
+		return 0;
+	}
 }
