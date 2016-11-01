@@ -221,4 +221,23 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		}
 		return 0;
 	}
+
+	@Override
+	public int rmdir(final String path)
+	{
+		String nsId = path.replace('/', ':');
+		try {
+			if ( ! namespaceExist(nsId) ){
+				return -ErrorCodes.ENOENT();
+			}
+
+			List<PageDW> pages = client.getPagelist(nsId);
+			for(PageDW page : pages){
+				client.putPage(page.id(), "");
+			}
+		} catch(DokuException e){
+			return handleDokuException(e);
+		}
+		return 0;
+	}
 }
