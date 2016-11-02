@@ -210,12 +210,14 @@ public class DwFS extends FuseFilesystemAdapterFull {
 		return 0;
 	}
 
+	private static String KEEP_FILE = "keepme";
+
 	@Override
 	public int mkdir(final String path, final ModeWrapper mode)
 	{
 		String pageId = path.replace('/', ':');
 		try {
-			client.putPage(pageId + ":.keepme", "dummy to keep dir");
+			client.putPage(pageId + ":" + KEEP_FILE, "dummy to keep dir");
 		} catch(DokuException e){
 			return handleDokuException(e);
 		}
@@ -230,7 +232,12 @@ public class DwFS extends FuseFilesystemAdapterFull {
 			if ( ! namespaceExist(nsId) ){
 				return -ErrorCodes.ENOENT();
 			}
+			if ( ! namespaceIsEmpty(nsId) ){
+				return -ErrorCodes.ENOTEMPTY();
+			}
 
+			// According to previous checks, it should mean there's only the KEEP_FILE left in this ns
+			// but just to not have to deal with limit cases, I delete everything
 			List<PageDW> pages = client.getPagelist(nsId);
 			for(PageDW page : pages){
 				client.putPage(page.id(), "");
@@ -239,5 +246,16 @@ public class DwFS extends FuseFilesystemAdapterFull {
 			return handleDokuException(e);
 		}
 		return 0;
+	}
+
+	private boolean namespaceIsEmpty(String nsId) throws DokuException {
+		List<PageDW> pages = client.getPagelist(nsId);
+		if ( pages.size() > 1 ){
+			return false;
+		}
+		if ( pages.isEmpty() ){
+			return true;
+		}
+		return pages.get(0).id().endsWith(KEEP_FILE);
 	}
 }
