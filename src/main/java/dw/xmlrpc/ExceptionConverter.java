@@ -91,7 +91,7 @@ class ExceptionConverter {
 			return new DokuAttachmentUploadException(message, e);
 		}
 
-		if ( e.getCause() != null && e.getCause().getClass() == SAXParseException.class){
+		if (message.contains("XML-RPC server not enabled") || (e.getCause() != null && e.getCause().getClass() == SAXParseException.class)){
 			return new DokuMisConfiguredWikiException("The wiki doesn't seem to be configured to accept incoming xmlrpc requests." +
 					" Check the 'remote' option in Dokuwiki's configuration manager.", e);
 		}

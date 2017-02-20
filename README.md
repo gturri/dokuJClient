@@ -3,14 +3,15 @@ and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/deve
 which is also compatible with Android.
 
 Currently tested with:
-* Elenor of Tsort (dokuwiki-2016-06-26)
-* Detritus        (dokuwiki-2015-08-10)
-* Hrun            (dokuwiki-2014-09-29)
-* Ponder Stibbons (dokuwiki-2014-05-05)
-* Binky           (dokuwiki-2013-12-08)
-* Weatherwax      (dokuwiki-2013-05-10)
-* Adora Belle     (dokuwiki-2012-10-03)
-* Angua           (dokuwiki-2012-01-25b)
+* Frusterick Manners (dokuwiki-2017-02-19)
+* Elenor of Tsort    (dokuwiki-2016-06-26)
+* Detritus           (dokuwiki-2015-08-10)
+* Hrun               (dokuwiki-2014-09-29)
+* Ponder Stibbons    (dokuwiki-2014-05-05)
+* Binky              (dokuwiki-2013-12-08)
+* Weatherwax         (dokuwiki-2013-05-10)
+* Adora Belle        (dokuwiki-2012-10-03)
+* Angua              (dokuwiki-2012-01-25b)
 
 See the "Compatibility" section for more info
 

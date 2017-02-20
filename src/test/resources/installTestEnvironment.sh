@@ -8,7 +8,7 @@ serverFileSystemOwner=www-data
 baseUrl=http://localhost
 dirNamePrefix=dokuwikiITestsForXmlRpcClient_
 
-dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a dokuwiki-2015-08-10a dokuwiki-2016-06-26"
+dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a dokuwiki-2015-08-10a dokuwiki-2016-06-26 dokuwiki-2017-02-19"
 installDir=tmpForInstallation
 relativeTestFileDir=testEnvironment
 

@@ -51,6 +51,7 @@ public class TestParams {
 		 result.add(new Object[]{new TestParams("dokuwiki-2014-09-29a", "Release 2014-09-29a \"Hrun\"", 9, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2015-08-10a", "Release 2015-08-10a \"Detritus\"", 9, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2016-06-26", "Release 2016-06-26 \"Elenor of Tsort\"", 10, 2)});
+		 result.add(new Object[]{new TestParams("dokuwiki-2017-02-19", "Release 2017-02-19 \"Frusterick Manners\"", 10, 2)});
 		 return result;
 	}
 }
