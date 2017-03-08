@@ -461,4 +461,11 @@ public class Test_XmlRpcQueries extends TestHelper {
 		}
 		assertTrue(actuallyLogoff);
 	}
+
+	@org.junit.Test
+	public void putCDataEndingTag() throws Exception {
+		String data = "<code> <![CDATA[ ]]> </code>";
+		_client.putPage("dummy", data);
+		assertEquals(data, _client.getPage("dummy"));
+	}
 }

@@ -1,3 +1,5 @@
+* Upgrade aXMLRPC to fix #27
+
 3.9.0
 * Fix getPageVersions when a non 0 offset is provided
 
