@@ -9,16 +9,20 @@ public class StdinReader {
 		StringBuilder result = new StringBuilder();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-		String input;
-		while((input=br.readLine())!=null){
-			result.append(input + "\n");
-		}
+		try {
+			String input;
+			while((input=br.readLine())!=null){
+				result.append(input + "\n");
+			}
 
-		if (result.length() > 0){
-			result.delete(result.length()-1, result.length());
-		}
+			if (result.length() > 0){
+				result.delete(result.length()-1, result.length());
+			}
 
-		return result.toString();
+			return result.toString();
+		} finally {
+			br.close();
+		}
 	}
 
 }

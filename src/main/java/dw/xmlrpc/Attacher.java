@@ -25,15 +25,21 @@ class Attacher {
 	byte[] serializeFile(File f) throws IOException{
 		byte[] b = new byte[(int)f.length()];
 		FileInputStream fileInputStream = new FileInputStream(f);
-		fileInputStream.read(b);
-		fileInputStream.close();
-		return b;
+		try {
+			fileInputStream.read(b);
+			return b;
+		} finally {
+			fileInputStream.close();
+		}
 	}
 
 	void deserializeFile(byte[] b, File f) throws IOException{
 		FileOutputStream fileOutputStream = new FileOutputStream(f);
-		fileOutputStream.write(b);
-		fileOutputStream.close();
+		try {
+			fileOutputStream.write(b);
+		} finally {
+			fileOutputStream.close();
+		}
 	}
 
 	public void putAttachment(String fileId, byte[] file, boolean overwrite) throws DokuException{
