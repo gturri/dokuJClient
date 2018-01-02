@@ -1,6 +1,8 @@
 package dw.xmlrpc.itest;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -17,7 +19,23 @@ import dw.xmlrpc.exception.DokuUnknownException;
 
 public class Test_BadQueries {
 
-	private final int port = 8080;
+	private static int port;
+	static {
+		ServerSocket ss = null;
+		try {
+			ss = new ServerSocket(0);
+			port = ss.getLocalPort();
+            System.out.println("Wiremock will use port " + port);
+		} catch (IOException e) {
+			System.err.println("Socket Exception while opening socket: " + e);
+		} finally {
+			try {
+				ss.close();
+			} catch (IOException e) {
+				System.err.println("Socket Exception while closing socket: " + e);
+			}
+		}
+	}
 
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(port);
