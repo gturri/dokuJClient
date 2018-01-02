@@ -9,3 +9,4 @@ maven-build.xml
 .classpath
 .project
 aXMLRPC/
+.idea
