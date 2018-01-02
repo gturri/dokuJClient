@@ -10,3 +10,5 @@ maven-build.xml
 .project
 aXMLRPC/
 .idea
+.settings/
+*.iml
