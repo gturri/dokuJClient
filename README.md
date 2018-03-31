@@ -200,6 +200,29 @@ Mailing list
 The mailing list is oriented toward development and usage of DokuJClient. You can subscribe and unsubscribe from https://www.freelists.org/list/dokujclient
 After subscribing, messages can be sent to dokujclient@freelists.org
 
-Donate
-======
-Dokujclient is a personal open source project started in 2012. I have put hundreds of hours to maintain and enhance it. Donations to Dokujclient will help support bugfix, keeping  up to date with the evolutions of Dokuwiki xmlrpc interface, and adding new features. If you have found this tool  useful, consider [donating](https://pledgie.com/campaigns/29371), to help for its development.
+Charityware
+===========
+Dokujclient is a personal open source project started in 2012. I have put hundreds of hours to maintain and enhance it.
+
+It is provided as a [charityware](https://en.wikipedia.org/wiki/Charityware). It can be downloaded and installed at no charge. If you found it useful and would like to support its development, you may make a donation to a non-profit charitable organization.
+
+To who
+------
+The preference goes to the [Wordl Wildlife Fund](https://support.worldwildlife.org/site/SPageServer?pagename=main_onetime) (WWF) because the are both protecting biodiversity and fighting climate change effectively.
+
+If it isn't possible, any association acting for the environment would do the trick.
+
+How
+---
+Forwarding me (address available e.g. in the git log) the confirmation email you send or receive will ensure your kind gesture will motivate me to continue developing this software.
+
+
+I can't give money
+-----------------
+Making sure you have a positive impact would already be awesome:
+* Volunteer to an NGO near you. Give some of your time
+* Ride you bike instead of taking your car
+* Buy local organic food
+* Use a reusable bag and stop using plastic straws
+* Plant trees
+* Take only what you need, not what you can
