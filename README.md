@@ -3,6 +3,7 @@ and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/deve
 which is also compatible with Android.
 
 Currently tested with:
+* Greebo             (dokuwiki-2018-04-22)
 * Frusterick Manners (dokuwiki-2017-02-19)
 * Elenor of Tsort    (dokuwiki-2016-06-26)
 * Detritus           (dokuwiki-2015-08-10)
