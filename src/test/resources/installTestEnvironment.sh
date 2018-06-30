@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Make sure we're in the directory where the script is
+if [ -L "$0" ] && [ -x $(which readlink) ]; then
+  thisFile="$(readlink -mn "$0")"
+else
+  thisFile="$0"
+fi
+cd "$(dirname "$thisFile")"
+
 #directory where Dokuwiki should be installed in order to be reachable at http://localhost
 serverFileSystemRoot=/var/www/html
 #Owner of the files (to make sure the instance of dokuwiki can ediable its pages)
@@ -14,6 +22,15 @@ relativeTestFileDir=testEnvironment
 
 mkdir -p $installDir
 cd $installDir
+
+function runIndexer {
+# Must be called from a directory where are all the pages (to find out all the names)
+# The required environment variables must be set beforehand
+  for f in $(find . -name "*txt"); do
+    f=$(echo $f | cut -d '.' -f 2 | tr / :)
+    wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f
+  done
+}
 
 function installFakeWiki {
 #Argument 1 is the name of the version of Dokuwiki to install
@@ -78,10 +95,13 @@ function installFakeWiki {
 
   echo " Running the indexer"
   cd ../$relativeTestFileDir/data/pages
-  for f in $(find . -name "*txt"); do
-    f=$(echo $f | cut -d '.' -f 2 | tr / :)
-    wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f
-  done
+  # run it several times (and sleep in between) because on some setups, one time only seems to not be enough
+  runIndexer
+  sleep 1
+  runIndexer
+  sleep 1
+  runIndexer
+
   echo " Installed $dwVersion"
   popd >/dev/null
 }
