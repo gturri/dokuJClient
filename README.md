@@ -55,11 +55,11 @@ Just make sure that your wiki is configured so that the xmlrpc interface is enab
 
 Installation
 ------------
-It may be installed from the packages on debian testing:
+It may be installed from the packages on several Linux distributions:
 
     sudo apt-get install dokujclient
 
-On other platforms you may:
+If it isn't available in the packages of your plateform you may:
 * Download the [binaries](http://turri.fr/dokujclient).
 * Extract it, and add the extracted directoy to your path
 * Ensure it's correctly installed, typing e.g.:
