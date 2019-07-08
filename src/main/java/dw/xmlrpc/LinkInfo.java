@@ -12,7 +12,7 @@ public class LinkInfo {
 	private final Type _type;
 
 	/**
-	 * Whether it is a local or extern link
+	 * @return Whether it is a local or extern link
 	 */
 	public Type type(){
 		return _type;
@@ -21,7 +21,7 @@ public class LinkInfo {
 	private final String _page;
 
 	/**
-	 * The wiki page (or the complete URL if extern link)
+	 * @return The wiki page (or the complete URL if extern link)
 	 */
 	public String page(){
 		return _page;
@@ -30,7 +30,7 @@ public class LinkInfo {
 	private final String _href;
 
 	/**
-	 * The complete URL
+	 * @return The complete URL
 	 */
 	public String href(){
 		return _href;

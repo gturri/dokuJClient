@@ -32,9 +32,9 @@ public class SearchResult {
 	private final Integer _score;
 
 	/**
-	 * Score of the result.
+	 * @return Score of the result.
+	 *    The higher, the more relevant this result is.
 	 *
-	 * The higher, the more relevant this result is.
 	 */
 	public Integer score(){
 		return _score;
@@ -43,7 +43,7 @@ public class SearchResult {
 	private final String _snippet;
 
 	/**
-	 * Snippet of the page matching the search.
+	 * @return The snippet of the page matching the search.
 	 */
 	public String snippet(){
 		return _snippet;

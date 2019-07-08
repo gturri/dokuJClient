@@ -9,7 +9,7 @@ public class MediaChange {
 	private final String _id;
 
 	/**
-	 * Id of the media (namespace + name)
+	 * @return The id of the media (namespace + name)
 	 */
 	public String id(){
 		return _id;
@@ -18,7 +18,7 @@ public class MediaChange {
 	private final Date _lastModified;
 
 	/**
-	 * Date of this modification of the media
+	 * @return The date of this modification of the media
 	 */
 	public Date lastModified(){
 		return _lastModified;
@@ -27,7 +27,7 @@ public class MediaChange {
 	private final String _author;
 
 	/**
-	 * Author of this modification of the media
+	 * @return The author of this modification of the media
 	 */
 	public String author(){
 		return _author;
@@ -39,6 +39,8 @@ public class MediaChange {
 	 * Version of the revision as a timestamp.
 	 *
 	 * Should correspond to {@link #lastModified()}
+	 *
+	 * @return The version of the revision as a timestamp
 	 */
 	public Integer version(){
 		return _version;
@@ -47,7 +49,7 @@ public class MediaChange {
 	private final Integer _perms;
 
 	/**
-	 * Permissions of the file
+	 * @return The permissions of the file
 	 */
 	public Integer perms(){
 		return _perms;
@@ -56,7 +58,7 @@ public class MediaChange {
 	private final Integer _size;
 
 	/**
-	 * Size of the file in bytes
+	 * @return The size of the file in bytes
 	 */
 	public Integer size(){
 		return _size;

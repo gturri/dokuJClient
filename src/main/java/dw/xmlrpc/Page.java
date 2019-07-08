@@ -9,7 +9,7 @@ public class Page {
 	private final String _id;
 
 	/**
-	 * id of the page, that is namespace + name
+	 * @return The id of the page, that is namespace + name
 	 */
 	public String id(){
 		return _id;
@@ -18,7 +18,7 @@ public class Page {
 	private final Integer _perms;
 
 	/**
-	 * Integer denoting the permissions on the page
+	 * @return An integer denoting the permissions on the page
 	 */
 	public Integer perms(){
 		return _perms;
@@ -27,7 +27,7 @@ public class Page {
 	private final Date _lastModified;
 
 	/**
-	 * Last modification date
+	 * @return The last modification date
 	 */
 	public Date lastModified(){
 		return _lastModified;
@@ -36,7 +36,7 @@ public class Page {
 	private final Integer _size;
 
 	/**
-	 * Size of the page
+	 * @return The size of the page
 	 */
 	public Integer size(){
 		return _size;

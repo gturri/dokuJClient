@@ -9,7 +9,7 @@ public class LockResult {
 	private final Set<String> _locked;
 
 	/**
-	 * Pages successfully locked
+	 * @return The pages successfully locked
 	 */
 	public Set<String> locked(){
 		return _locked;
@@ -18,7 +18,7 @@ public class LockResult {
 	private final Set<String> _lockfail;
 
 	/**
-	 * Pages we failed to lock
+	 * @return The pages we failed to lock
 	 */
 	public Set<String> lockfail(){
 		return _lockfail;
@@ -27,7 +27,7 @@ public class LockResult {
 	private final Set<String> _unlocked;
 
 	/**
-	 * Pages successfully unlocked
+	 * @return The pages successfully unlocked
 	 */
 	public Set<String> unlocked(){
 		return _unlocked;
@@ -36,12 +36,15 @@ public class LockResult {
 	private final Set<String> _unlockfail;
 
 	/**
-	 * Pages we failed to unlock
+	 * @return The pages we failed to unlock
 	 */
 	public Set<String> unlockfail(){
 		return _unlockfail;
 	}
 
+	/**
+	 * @return Whether at least a page failed to be locked or unlocked
+	 */
 	public boolean hasFailure(){
 		return !_unlockfail.isEmpty() || !_lockfail.isEmpty();
 	}

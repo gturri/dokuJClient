@@ -9,7 +9,7 @@ public class AttachmentInfo {
 	private final String _id;
 
 	/**
-	 * Media id (namespace + name)
+	 * @return the media id (namespace + name)
 	 */
 	public String id(){
 		return _id;
@@ -18,7 +18,7 @@ public class AttachmentInfo {
 	private final Integer _size;
 
 	/**
-	 * Size in bytes
+	 * @return the size in bytes
 	 */
 	public Integer size(){
 		return _size;
@@ -27,7 +27,7 @@ public class AttachmentInfo {
 	private final Date _lastModified;
 
 	/**
-	 * Date of last modification of the file
+	 * @return the date of last modification of the file
 	 */
 	public Date  lastModified(){
 		return _lastModified;

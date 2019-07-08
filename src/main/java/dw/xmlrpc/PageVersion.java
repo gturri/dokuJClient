@@ -14,7 +14,7 @@ public class PageVersion {
 	private final String _pageId;
 
 	/**
-	 * Page id (namespace + name)
+	 * @return The page id (namespace + name)
 	 */
 	public String pageId(){
 		return _pageId;
@@ -23,7 +23,7 @@ public class PageVersion {
 	private final String _author;
 
 	/**
-	 * Author of the revision
+	 * @return The author of the revision
 	 */
 	public String author(){
 		return _author;
@@ -33,6 +33,7 @@ public class PageVersion {
 	 * Alias of {@link #author()}
 	 *
 	 * Provided because this is how this fields is named by the xmlrpc query
+	 * @return The page id
 	 */
 	public String user(){
 		return _author;
@@ -41,7 +42,7 @@ public class PageVersion {
 	private final String _ip;
 
 	/**
-	 * Ip who made this revision
+	 * @return The ip who made this revision
 	 */
 	public String ip(){
 		return _ip;
@@ -50,7 +51,7 @@ public class PageVersion {
 	private final String _type;
 
 	/**
-	 * Type of revision (creation, edition, ...)
+	 * @return The type of revision (creation, edition, ...)
 	 */
 	public String type(){
 		return _type;
@@ -59,7 +60,7 @@ public class PageVersion {
 	private final String _summary;
 
 	/**
-	 * Summary of the revision
+	 * @return The summary of the revision
 	 */
 	public String summary(){
 		return _summary;
@@ -68,7 +69,7 @@ public class PageVersion {
 	private final Date _modified;
 
 	/**
-	 * Date of the revision
+	 * @return The date of the revision
 	 */
 	public Date lastModified(){
 		return _modified;
@@ -78,6 +79,8 @@ public class PageVersion {
 	 * Alias of lastModifie
 	 *
 	 * Provided because it's called this way by the xmlrpc query
+	 *
+	 * @return The date of the revision
 	 */
 	public Date modified(){
 		return _modified;
@@ -89,6 +92,8 @@ public class PageVersion {
 	 * Version of the revision, as a timestamp
 	 *
 	 * Should correspond to {@link #modified()}
+	 *
+	 * @return The version of the revision
 	 */
 	public Integer version(){
 		return _version;

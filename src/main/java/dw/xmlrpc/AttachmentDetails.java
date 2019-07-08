@@ -9,7 +9,7 @@ public class AttachmentDetails {
 	private final String _id;
 
 	/**
-	 * Media id (namespace + name)
+	 * @return Media id (namespace + name)
 	 */
 	public String id(){
 		return _id;
@@ -18,7 +18,7 @@ public class AttachmentDetails {
 	private final Boolean _isImg;
 
 	/**
-	 * Whether the file is an image or not
+	 * @return Whether the file is an image or not
 	 */
 	public final Boolean isImg(){
 		return _isImg;
@@ -27,7 +27,7 @@ public class AttachmentDetails {
 	private final Boolean _writable;
 
 	/**
-	 * Whether the file is writable or not
+	 * @return Whether the file is writable or not
 	 */
 	public Boolean writable(){
 		return _writable;
@@ -36,7 +36,7 @@ public class AttachmentDetails {
 	private final Integer _perms;
 
 	/**
-	 * Permissions of file
+	 * @return the permissions of the file
 	 */
 	public Integer perms(){
 		return _perms;
@@ -45,7 +45,7 @@ public class AttachmentDetails {
 	private final Integer _size;
 
 	/**
-	 * Size in bytes
+	 * @return the size in bytes
 	 */
 	public Integer size(){
 		return _size;
@@ -54,7 +54,7 @@ public class AttachmentDetails {
 	private final Date _lastModified;
 
 	/**
-	 * Date of last modification of the file
+	 * @return the date of last modification of the file
 	 */
 	public final Date lastModified(){
 		return _lastModified;
@@ -63,7 +63,7 @@ public class AttachmentDetails {
 	private final String _file;
 
 	/**
-	 * name of the file
+	 * @return the name of the file
 	 */
 	public final String file(){
 		return _file;
@@ -72,7 +72,7 @@ public class AttachmentDetails {
 	private final Integer _mtime;
 
 	/**
-	 * upload date
+	 * @return the date where the file was uploaded
 	 */
 	public final Integer mtime(){
 		return _mtime;

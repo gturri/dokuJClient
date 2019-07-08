@@ -10,7 +10,7 @@ public class PageChange {
 	private final String _pageId;
 
 	/**
-	 * Id of the page changed
+	 * @return The id of the page changed
 	 */
 	public String pageId(){
 		return _pageId;
@@ -20,6 +20,8 @@ public class PageChange {
 	 * Alias for {@link #pageId()}
 	 *
 	 * This alias is provided because it is the way it is called by the xmlrpc method
+	 *
+	 * @return The id of the page changed
 	 */
 	public String name(){
 		return _pageId;
@@ -28,7 +30,7 @@ public class PageChange {
 	private final Integer _perms;
 
 	/**
-	 * Integer representing the permissions on the file
+	 * @return An integer representing the permissions on the file
 	 */
 	public Integer perms(){
 		return _perms;
@@ -37,7 +39,7 @@ public class PageChange {
 	private final Date _lastModified;
 
 	/**
-	 * Date of the modification
+	 * @return The date of the modification
 	 */
 	public Date lastModified(){
 		return _lastModified;
@@ -51,7 +53,7 @@ public class PageChange {
 	private final String _author;
 
 	/**
-	 * Author of the page
+	 * @return The author of the page
 	 */
 	public String author(){
 		return _author;
@@ -60,7 +62,7 @@ public class PageChange {
 	private final Integer _version;
 
 	/**
-	 * Version of the page
+	 * @return The version of the page
 	 */
 	public Integer version(){
 		return _version;
