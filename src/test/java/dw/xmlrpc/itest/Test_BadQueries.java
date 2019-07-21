@@ -62,10 +62,10 @@ public class Test_BadQueries {
 	}
 
 	private void setTimeout(){
-		addRequestProcessingDelay(5*1000);
 		stubFor(post(urlEqualTo("/lib/exe/xmlrpc.php"))
 				.willReturn(aResponse()
 						.withStatus(200)
+						.withFixedDelay(5*1000)
 						.withBody("<methodResponse><params><param><value><array><data></data></array></value></param></params></methodResponse>")
 						));
 	}
