@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Make sure we're in the directory where the script is
 if [ -L "$0" ] && [ -x $(which readlink) ]; then
