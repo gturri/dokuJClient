@@ -16,7 +16,7 @@ serverFileSystemOwner=www-data
 baseUrl=http://localhost
 dirNamePrefix=dokuwikiITestsForXmlRpcClient_
 
-dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a dokuwiki-2015-08-10a dokuwiki-2016-06-26 dokuwiki-2017-02-19 dokuwiki-2018-04-22a"
+dwVersions="dokuwiki-2013-05-10 dokuwiki-2012-10-13 dokuwiki-2012-01-25b dokuwiki-2013-12-08 dokuwiki-2014-05-05 dokuwiki-2014-09-29a dokuwiki-2015-08-10a dokuwiki-2016-06-26 dokuwiki-2017-02-19 dokuwiki-2018-04-22a dokuwiki-2020-07-29"
 installDir=tmpForInstallation
 relativeTestFileDir=testEnvironment
 
@@ -28,7 +28,7 @@ function runIndexer {
 # The required environment variables must be set beforehand
   for f in $(find . -name "*txt"); do
     f=$(echo $f | cut -d '.' -f 2 | tr / :)
-    wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f
+    wget -O /dev/null -q $baseUrl/$dirName/lib/exe/indexer.php?id=$f || wget -O /dev/null -q $baseUrl/$dirName/lib/exe/taskrunner.php?id=$f
   done
 }
 

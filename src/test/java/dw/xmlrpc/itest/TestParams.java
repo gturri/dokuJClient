@@ -53,6 +53,7 @@ public class TestParams {
 		 result.add(new Object[]{new TestParams("dokuwiki-2016-06-26", "Release 2016-06-26 \"Elenor of Tsort\"", 10, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2017-02-19", "Release 2017-02-19 \"Frusterick Manners\"", 10, 2)});
 		 result.add(new Object[]{new TestParams("dokuwiki-2018-04-22a", "Release 2018-04-22a \"Greebo\"", 10, 2)});
+		 result.add(new Object[]{new TestParams("dokuwiki-2020-07-29", "Release 2020-07-29 \"Hogfather\"", 10, 2)});
 		 return result;
 	}
 }
