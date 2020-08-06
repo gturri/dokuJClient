@@ -32,6 +32,15 @@ function runIndexer {
   done
 }
 
+function runIndexerSeveralTimes {
+  # run it several times (and sleep in between) because on some setups, one time only seems to not be enough
+  runIndexer
+  for i in {1..10}; do
+    sleep 1
+    runIndexer
+  done
+}
+
 function installFakeWiki {
 #Argument 1 is the name of the version of Dokuwiki to install
 #Argument 2 is optional. It can be "norpc". It asks for the setup of a particular wiki
@@ -95,12 +104,8 @@ function installFakeWiki {
 
   echo " Running the indexer"
   cd ../$relativeTestFileDir/data/pages
-  # run it several times (and sleep in between) because on some setups, one time only seems to not be enough
-  runIndexer
-  sleep 1
-  runIndexer
-  sleep 1
-  runIndexer
+
+  runIndexerSeveralTimes
 
   echo " Installed $dwVersion"
   popd >/dev/null
