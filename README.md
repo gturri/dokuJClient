@@ -12,8 +12,6 @@ Currently tested with:
 * Ponder Stibbons    (dokuwiki-2014-05-05)
 * Binky              (dokuwiki-2013-12-08)
 * Weatherwax         (dokuwiki-2013-05-10)
-* Adora Belle        (dokuwiki-2012-10-03)
-* Angua              (dokuwiki-2012-01-25b)
 
 See the "Compatibility" section for more info
 
