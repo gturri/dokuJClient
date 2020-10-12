@@ -11,7 +11,6 @@ Currently tested with:
 * Hrun               (dokuwiki-2014-09-29)
 * Ponder Stibbons    (dokuwiki-2014-05-05)
 * Binky              (dokuwiki-2013-12-08)
-* Weatherwax         (dokuwiki-2013-05-10)
 
 See the "Compatibility" section for more info
 
