@@ -36,6 +36,7 @@ function runIndexerSeveralTimes {
   # run it several times (and sleep in between) because on some setups, one time only seems to not be enough
   runIndexer
   for i in {1..10}; do
+    echo Indexer: $i/10
     sleep 1
     runIndexer
   done
