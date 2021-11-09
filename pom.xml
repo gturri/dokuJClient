@@ -147,7 +147,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.6.6</version>
+        <version>1.7.3</version>
         <configuration>
           <targetClasses>
             <param>dw*</param>
