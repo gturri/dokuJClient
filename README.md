@@ -207,9 +207,7 @@ It is provided as a [charityware](https://en.wikipedia.org/wiki/Charityware). It
 
 To who
 ------
-The preference goes to the [Wordl Wildlife Fund](https://support.worldwildlife.org/site/SPageServer?pagename=main_onetime) (WWF) because the are both protecting biodiversity and fighting climate change effectively.
-
-If it isn't possible, any association acting for the environment would do the trick.
+Any association acting for the environment 
 
 How
 ---
