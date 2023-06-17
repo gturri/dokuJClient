@@ -1,3 +1,8 @@
+This repo is not maintained anymore. (You can get in touch with me if you would like to take ownership of it).
+
+Since the 2022 release of Dokuwiki (perhaps even the 2020 release, I don't remember exactly) the handling of xml-rpc by dokuwiki seems a bit flaky. Subsequently testing dokujclient became pretty tedious (and it's also not clear how many people are still using this xml-rpc interface). That's why I'm reallocating my time to other projects.
+
+---
 Dokujclient is both a command line tool to interact with instances of Dokwiki,
 and a Java library for [Dokuwiki xmlrpc interface](https://www.dokuwiki.org/devel:xmlrpc)
 which is also compatible with Android.
