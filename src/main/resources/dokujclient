@@ -1,5 +1,7 @@
 #!/bin/bash
-if [ -L "$0" ] && [ -x $(which readlink) ]; then
+if [ -L "$0" ] && [ -x $(which greadlink) ]; then
+  thisFile="$(greadlink -mn "$0")"
+elif [ -L "$0" ] && [ -x $(which readlink) ]; then
   thisFile="$(readlink -mn "$0")"
 else
   thisFile="$0"
